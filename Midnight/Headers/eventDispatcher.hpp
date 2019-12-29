@@ -4,39 +4,35 @@
 #include <functional>
 #include <vector>
 #include <queue>
-#include <memory>
+
 #include <event.hpp>
 
+namespace MN{
 
+	//For now all events are dispatched to all listenes (build a map later?) 
+	class eventDispatcher{
 
- // store a call to a member function and object ptr
-//	using std::placeholders::_1;
-   // f_add_display3(3);
+		public:
+			using memberPtr = std::function<void(Event::ptr)>;
 
+			void addListener(memberPtr pointer);
 
-//For now all events are dispatched to all listenes (build a map later?) 
-class eventDispatcher{
+			//Yet to implement
+			void removeListener(memberPtr pointer);
+			void update();
 
-	public:
-		using memberPtr = std::function<void(Event::ptr)>;
+			void fastEvent(Event::ptr& event);
+			void queueEvent(Event::ptr& event);
 
-		void addListener(memberPtr pointer);
+		private:
 
-		//Yet to implement
-		void removeListener(memberPtr pointer);
-		void update();
+			//could be std::map<  , memberPtr>
+			// // store a call to a member functions
+			std::vector<memberPtr> callbacks;	
 
-		void fastEvent(Event::ptr& event);
-		void queueEvent(Event::ptr& event);
+			std::queue<Event::ptr> eventQueue;
 
-	private:
-
-		//could be std::map<  , memberPtr>
-		std::vector<memberPtr> callbacks;
-
-		std::queue<Event::ptr> eventQueue;
-
-};
-
+	};
+}
 
 #endif

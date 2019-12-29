@@ -11,7 +11,7 @@ workspace "Midnight"
 
 
 	filter {"configurations:Debug"}
-		defines {"Debug"}
+		defines {"debug"}
 		symbols "On"
 
 	filter {"configurations:Release"}
@@ -25,9 +25,9 @@ workspace "Midnight"
 project "MNCore"
 	--just for now a console app (dynamic lib after?)
 	kind "ConsoleApp"
-	files{"Midnight/Headers/**" , "Midnight/Sources/**"}
+	files{"Midnight/Headers/**" , "Midnight/Sources/**" }
 	includedirs {"Midnight/Headers"}
-	--includedirs {"Midnight/Headers/**"}
+	includedirs {"Midnight/Headers/**"}
 
 
 

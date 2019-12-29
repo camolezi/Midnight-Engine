@@ -1,36 +1,47 @@
 
 #include <iostream>
-#include <memory>
 #include <event.hpp>
 #include <eventDispatcher.hpp>
+#include <terminalLog.hpp>
 
+namespace MN{
 
-//Just for testing for now
-class audioSystem{
+	//Just for testing right now
+	class audioSystem{
 
-public:
-	audioSystem(eventDispatcher& disp){
+	public:
+		audioSystem(eventDispatcher& disp){
 
-		std::function<void(Event::ptr)> handle_Ptr = std::bind( &audioSystem::handleEvent, this , std::placeholders::_1);
-		disp.addListener(handle_Ptr);
-	}
+			std::function<void(Event::ptr)> handle_Ptr = std::bind( &audioSystem::handleEvent, this , std::placeholders::_1);
+			disp.addListener(handle_Ptr);
+		}
 
-	void handleEvent(Event::ptr event){
-		
-		std::unique_ptr<MessageEvent> teste = downcast_event_ptr<MessageEvent>(event);
-		std::cout << teste->getMessage() << std::endl;
-	}
+		void handleEvent(Event::ptr event){
+			
+			std::unique_ptr<MessageEvent> test = downcast_event_ptr<MessageEvent>(event);
+			std::cout << test->getMessage() << std::endl;
+		}
 
+	};
 
-};
-
+}
 
 
 
 
 int main(){
 
-	std::cout << "Hello midNight" << std::endl;
+
+	using namespace MN;
+
+	#ifdef debug
+		std::cout << "Hello Debug Mode" << std::endl;
+	#endif
+
+	Debug::TerminalLog logTest;
+
+	logTest.write() << "My first Log";
+	logTest.write() << "My second Log";
 
 
 	eventDispatcher eventBus;
@@ -46,9 +57,10 @@ int main(){
 	eventBus.queueEvent(event);
 
 
-
-	while(true){
+	bool run = true;
+	while(run){
 		eventBus.update();
+		logTest.flush();
 	}
 
 	return 0;
