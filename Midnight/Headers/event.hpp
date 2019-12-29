@@ -1,0 +1,83 @@
+#ifndef EVENT
+#define EVENT
+
+#include <string>
+
+//Define time here but change later
+using timeStamp = float;
+
+//Event interface
+class Event{
+
+	public:
+		using ptr = std::unique_ptr<Event>;
+		//Check another solution later
+		enum class eventType{
+			tipo1,
+			tipo2,
+			message
+		};
+
+		virtual ~Event(){};
+
+		virtual eventType type() const = 0; 
+		virtual timeStamp getTimeStamp() const = 0;
+		virtual std::string getName() const = 0;
+
+	private:
+
+};
+
+//Base Event class
+class EventBase : public Event{
+
+	public:
+
+		virtual ~EventBase(){}
+		virtual timeStamp getTimeStamp() const override{
+			return _eventTime;
+		}
+
+	protected:
+
+		EventBase(timeStamp eventTime) : _eventTime{eventTime}{}
+
+	private:
+		timeStamp _eventTime;
+};
+
+
+
+//Message event, send a string message to another subsystem(used for tests(for now))
+class MessageEvent : public EventBase{
+
+	public:
+
+		MessageEvent( std::string message, timeStamp time = 0) : EventBase{time}, _message{message}{};
+
+		eventType type() const override{
+			return eventType::message;
+		}
+
+		std::string getName() const override{
+			return "MessageEvent";
+		}
+
+		std::string getMessage() {
+			return _message;
+		}
+
+	private:
+
+		std::string _message;
+};
+
+
+//Release the event pointer and convert to a specific child event pointer
+template <class T>
+inline std::unique_ptr<T> downcast_event_ptr(Event::ptr& ptr){
+	return std::move(std::unique_ptr<T>(std::move(static_cast<T*>(ptr.release()))) );
+}
+
+
+#endif
