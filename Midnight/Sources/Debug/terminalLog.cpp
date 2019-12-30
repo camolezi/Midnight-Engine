@@ -14,4 +14,10 @@ TerminalLog::~TerminalLog(){
 	flush();
 }
 
+TerminalLog& TerminalLog::instance(){
+	static TerminalLog logInstance;
+	return logInstance;
+}
+
+
 

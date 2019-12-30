@@ -1,9 +1,7 @@
 
-
 --Premake5 lua Script
-
 workspace "Midnight"
-	configurations{"Debug" , "Release"}
+	configurations{"Debug" , "Release" , "Deploy"}
 	platforms { "Linux", "Win"}
 	location "Build"
 	architecture "x86_64"
@@ -15,6 +13,11 @@ workspace "Midnight"
 		symbols "On"
 
 	filter {"configurations:Release"}
+		defines {"release"}
+		optimize "On"
+
+	filter {"configurations:Deploy"}
+		defines {"deploy"}
 		optimize "On"
 
 	filter {}

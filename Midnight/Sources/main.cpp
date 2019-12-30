@@ -6,7 +6,7 @@
 
 namespace MN{
 
-	//Just for testing right now
+	//Just for testing events right now
 	class audioSystem{
 
 	public:
@@ -19,7 +19,7 @@ namespace MN{
 		void handleEvent(Event::ptr event){
 			
 			std::unique_ptr<MessageEvent> test = downcast_event_ptr<MessageEvent>(event);
-			std::cout << test->getMessage() << std::endl;
+			TERMINAL_DEBUG(test->getMessage());
 		}
 
 	};
@@ -38,10 +38,17 @@ int main(){
 		std::cout << "Hello Debug Mode" << std::endl;
 	#endif
 
-	Debug::TerminalLog logTest;
+	#ifdef deploy
+		std::cout << "Hello deploy Mode" << std::endl;
+	#endif
 
-	logTest.write() << "My first Log";
-	logTest.write() << "My second Log";
+
+
+	int k = 20;
+
+	TERMINAL_LOG_LEVEL(Log::Debug);
+	TERMINAL_LOG(Log::Debug,"My first log " << " A varible K :" << k);
+
 
 
 	eventDispatcher eventBus;
@@ -58,9 +65,16 @@ int main(){
 
 
 	bool run = true;
+	int x = 10000;
 	while(run){
 		eventBus.update();
-		logTest.flush();
+
+		if(x < 0){
+			run = false;
+		}
+
+		x--;
+		//logTest.flush();
 	}
 
 	return 0;
