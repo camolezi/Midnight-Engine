@@ -12,18 +12,25 @@ namespace MN{
 	public:
 		audioSystem(eventDispatcher& disp){
 
-			std::function<void(Event::ptr)> handle_Ptr = std::bind( &audioSystem::handleEvent, this , std::placeholders::_1);
-			disp.addListener(handle_Ptr);
+			std::function<void(Event::shared_ptr&)> handle_Ptr = std::bind( &audioSystem::handleEvent, this , std::placeholders::_1);
+			std::function<void(Event::shared_ptr&)> handle_Ptr2 = std::bind( &audioSystem::handleEvent2, this , std::placeholders::_1);
+			disp.addListener(Event::EventType::message,handle_Ptr);
+			disp.addListener(Event::EventType::message,handle_Ptr2);
 		}
 
-		void handleEvent(Event::ptr event){
+		void handleEvent(Event::shared_ptr& event){
 			
-			std::unique_ptr<MessageEvent> test = downcast_event_ptr<MessageEvent>(event);
-			TERMINAL_DEBUG(test->getMessage());
+			std::shared_ptr<MessageEvent> test = downcast_event_ptr<MessageEvent>(event);
+			TERMINAL_DEBUG(test->getMessage() << " In function 1");
+		}
+
+		void handleEvent2(Event::shared_ptr& event){
+
+			std::shared_ptr<MessageEvent> test = downcast_event_ptr<MessageEvent>(event);
+			TERMINAL_DEBUG(test->getMessage() << " In function 2");
 		}
 
 	};
-
 }
 
 
@@ -43,11 +50,8 @@ int main(){
 	#endif
 
 
-
-	int k = 20;
-
 	TERMINAL_LOG_LEVEL(Log::Debug);
-	TERMINAL_LOG(Log::Debug,"My first log " << " A varible K :" << k);
+	TERMINAL_LOG(Log::Debug,"MidNight Engine - " << " :) ");
 
 
 

@@ -15,8 +15,9 @@ namespace MN{
 
 		public:
 			using ptr = std::unique_ptr<Event>;
+			using shared_ptr = std::shared_ptr<Event>;
 			//Check another solution later
-			enum class eventType{
+			enum class EventType{
 				tipo1,
 				tipo2,
 				message
@@ -24,7 +25,7 @@ namespace MN{
 
 			virtual ~Event(){};
 
-			virtual eventType type() const = 0; 
+			virtual EventType type() const = 0; 
 			virtual timeStamp getTimeStamp() const = 0;
 			virtual std::string getName() const = 0;
 
@@ -58,8 +59,8 @@ namespace MN{
 
 			MessageEvent( std::string message, timeStamp time = 0) : EventBase{time}, _message{message}{};
 
-			eventType type() const override{
-				return eventType::message;
+			EventType type() const override{
+				return EventType::message;
 			}
 
 			std::string getName() const override{
@@ -78,10 +79,11 @@ namespace MN{
 
 	//Release the event pointer and convert to a specific child event pointer
 	template <class T>
-	inline std::unique_ptr<T> downcast_event_ptr(Event::ptr& ptr){
+	inline std::shared_ptr<T> downcast_event_ptr(Event::shared_ptr& ptr){
+		//return std::move(std::unique_ptr<T>(std::move(static_cast<T*>(ptr.release()))) );
 
 		//Maybe change to static_cast in release mode
-		return std::move(std::unique_ptr<T>(std::move(static_cast<T*>(ptr.release()))) );
+		return std::dynamic_pointer_cast<T>(ptr);
 	}
 
 

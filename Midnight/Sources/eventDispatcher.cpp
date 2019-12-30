@@ -1,14 +1,27 @@
 #include <eventDispatcher.hpp>
+#include <terminalLog.hpp>
+#include <algorithm>
 
 namespace MN{
+
 	//Needs to check if the listener is alredy in the list( or map)
-	void eventDispatcher::addListener(memberPtr pointer){
-		callbacks.push_back(pointer);
+	void eventDispatcher::addListener(const Event::EventType type,memberPtr pointer){
+
+		//Pointer not in the list, not working for now (std::function does not have a == operator)
+		//auto test = std::find(callbacksMap[type].begin(), callbacksMap[type].end(), pointer);
+		if(true){
+			callbacksMap[type].push_back(pointer);	
+		}
+		//Pointer already in the queue
+		else{
+			TERMINAL_LOG(Log::Error, "Function already subscribed for type of event");
+		}
+		
 	}
 
 	void eventDispatcher::fastEvent(Event::ptr& event){
-		for (auto& ptrAux : callbacks){
-			ptrAux(std::move(event));
+		for (auto& ptrAux : callbacksMap[event->type()]){
+				//ptrAux(std::move(event));
 		}
 	}
 
@@ -17,14 +30,19 @@ namespace MN{
 	}
 
 
-	//Dispatche one event of de queue for now
+	//Dispatche the next event of the queue
 	void eventDispatcher::update(){
 		if(!eventQueue.empty()){
-			for (auto& ptrAux : callbacks){
-				ptrAux(std::move(eventQueue.front()));
+
+			Event::shared_ptr sharedPointer = std::move(eventQueue.front());
+
+			for (auto& ptrAux : callbacksMap[sharedPointer->type()]){
+				ptrAux(sharedPointer);
 			}
+
 			eventQueue.pop();
 		}
 	}
+
 
 }

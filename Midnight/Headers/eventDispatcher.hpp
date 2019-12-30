@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <vector>
+#include <unordered_map>
 #include <queue>
 
 #include <event.hpp>
@@ -13,9 +14,9 @@ namespace MN{
 	class eventDispatcher{
 
 		public:
-			using memberPtr = std::function<void(Event::ptr)>;
+			using memberPtr = std::function<void(Event::shared_ptr&)>;
 
-			void addListener(memberPtr pointer);
+			void addListener(const Event::EventType type, memberPtr pointer);
 
 			//Yet to implement
 			void removeListener(memberPtr pointer);
@@ -26,9 +27,8 @@ namespace MN{
 
 		private:
 
-			//could be std::map<  , memberPtr>
-			// // store a call to a member functions
-			std::vector<memberPtr> callbacks;	
+			// store a list of calls to member functions, for every type of event 
+			std::unordered_map<Event::EventType , std::vector<memberPtr> > callbacksMap;
 
 			std::queue<Event::ptr> eventQueue;
 
