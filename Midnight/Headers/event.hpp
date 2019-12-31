@@ -14,8 +14,12 @@ namespace MN{
 	class Event{
 
 		public:
-			using ptr = std::unique_ptr<Event>;
+			using unique_ptr = std::unique_ptr<Event>;
 			using shared_ptr = std::shared_ptr<Event>;
+
+			//Definition for use in definition of callbacks functions
+			using pointer = std::shared_ptr<Event>&;
+
 			//Check another solution later
 			enum class EventType{
 				tipo1,
@@ -28,6 +32,7 @@ namespace MN{
 			virtual EventType type() const = 0; 
 			virtual timeStamp getTimeStamp() const = 0;
 			virtual std::string getName() const = 0;
+
 
 		private:
 
@@ -43,6 +48,7 @@ namespace MN{
 				return _eventTime;
 			}
 
+
 		protected:
 			EventBase(timeStamp eventTime) : _eventTime{eventTime}{}
 
@@ -57,7 +63,7 @@ namespace MN{
 
 		public:
 
-			MessageEvent( std::string message, timeStamp time = 0) : EventBase{time}, _message{message}{};
+			MessageEvent( std::string message = "Empty message", timeStamp time = 0) : EventBase{time}, _message{message}{};
 
 			EventType type() const override{
 				return EventType::message;
@@ -78,13 +84,21 @@ namespace MN{
 
 
 	//Release the event pointer and convert to a specific child event pointer
-	template <class T>
+	template <typename T>
 	inline std::shared_ptr<T> downcast_event_ptr(Event::shared_ptr& ptr){
 		//return std::move(std::unique_ptr<T>(std::move(static_cast<T*>(ptr.release()))) );
 
 		//Maybe change to static_cast in release mode
 		return std::dynamic_pointer_cast<T>(ptr);
 	}
+
+
+	//used to create new events
+	template <typename Type, typename... Args> 
+	inline auto newEvent(Args... var2) { 
+	    return std::move( std::make_unique<Type>(var2...) );
+	} 
+  
 
 
 }
