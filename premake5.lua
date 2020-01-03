@@ -2,11 +2,19 @@
 --Premake5 lua Script
 workspace "Midnight"
 	configurations{"Debug" , "Release" , "Deploy"}
-	platforms { "Linux", "Win"}
 	location "Build"
 	architecture "x86_64"
-	language "C++"
+	startproject "MNCore"
 
+
+	--GlFW
+	include "Midnight/Vendor/Libraries/GLFW"
+
+project "MNCore"
+	--just for now a console app (dynamic lib after?)
+	kind "ConsoleApp"
+	language "C++"
+	systemversion "latest"
 
 	filter {"configurations:Debug"}
 		defines {"debug"}
@@ -20,17 +28,26 @@ workspace "Midnight"
 		defines {"deploy"}
 		optimize "On"
 
+	filter{"system:linux"}
+		links{ "X11", "dl", "pthread", "m", "z", "GL", "Xext", "Xfixes"}
+		--buildoptions { "-lX11" }
+
 	filter {}
 
 	targetdir ("Build/Bin/%{prj.name}/%{cfg.longname}")
 	objdir ("Build/Obj/%{prj.name}/%{cfg.longname}")
 
-project "MNCore"
-	--just for now a console app (dynamic lib after?)
-	kind "ConsoleApp"
 	files{"Midnight/Headers/**" , "Midnight/Sources/**" }
-	includedirs {"Midnight/Headers"}
-	includedirs {"Midnight/Headers/**"}
+
+	libdirs "Midnight/Vendor/Libraries/GLFW/Build/Bin/GLFW/Debug/linux"
+
+	includedirs {"Midnight/Headers/**", 
+				 "Midnight/Vendor/Libraries/GLFW/include"}
+
+	links{"GLFW", "GL"}
+	
+
+
 
 
 

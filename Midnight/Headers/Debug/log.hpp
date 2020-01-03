@@ -21,7 +21,7 @@ namespace MN{
 				virtual ~ILog(){}
 
 				virtual std::ostringstream& write(LogLevel writeLevel) = 0;
-				virtual LogLevel getLevel() = 0;
+				virtual LogLevel getLevel() const= 0;
 				virtual void setLevel(LogLevel level) = 0;
 
 				virtual void flush() = 0;
@@ -33,10 +33,10 @@ namespace MN{
 			public:
 
 				virtual ~BaseLog(){}
-				virtual LogLevel getLevel(){return _level;}
-				virtual void setLevel(LogLevel level){ _level = level;}
+				virtual LogLevel getLevel() const override {return _level;}
+				virtual void setLevel(LogLevel level) override { _level = level;}
 
-				virtual std::ostringstream& write(LogLevel writeLevel = LogLevel::Debug);
+				virtual std::ostringstream& write(LogLevel writeLevel = LogLevel::Debug) override;
 
 			protected:
 

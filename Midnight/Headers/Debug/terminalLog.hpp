@@ -38,7 +38,7 @@ namespace MN{
 
 			public:
 
-				void flush();
+				void flush() override;
 				static TerminalLog& instance();
 
 				~TerminalLog();

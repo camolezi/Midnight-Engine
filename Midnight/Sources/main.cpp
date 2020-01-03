@@ -1,8 +1,13 @@
 
 #include <iostream>
+
+#include <GLFW/glfw3.h>
+
+
 #include <event.hpp>
 #include <eventDispatcher.hpp>
 #include <terminalLog.hpp>
+
 
 namespace MN{
 
@@ -10,7 +15,7 @@ namespace MN{
 	class audioSystem{
 
 	public:
-		audioSystem(eventDispatcher& disp){
+		audioSystem(EventDispatcher& disp){
 
 			disp.subscribe(Event::EventType::message,&audioSystem::handleEvent,this);
 			disp.subscribe(Event::EventType::message,&audioSystem::handleEvent2,this);
@@ -49,17 +54,36 @@ int main(){
 	#endif
 
 
+	GLFWwindow* window;
+
+    /* Initialize the library */
+    if (!glfwInit())
+        return -1;
+
+    /* Create a windowed mode window and its OpenGL context */
+    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    if (!window)
+    {
+        glfwTerminate();
+        return -1;
+    }
+	
+
+
+
+
 	TERMINAL_LOG_LEVEL(Log::Debug);
 	TERMINAL_LOG(Log::Debug,"MidNight Engine - " << " :) ");
 
 
+	
 
-	eventDispatcher eventBus;
+	EventDispatcher eventBus;
 	audioSystem audio{eventBus};
 
 
 	//Testing event API
-	Event::unique_ptr event = newEvent<MessageEvent>("My first message");
+	auto event = newEvent<MessageEvent>("My first message");
 	eventBus.queueEvent(event);
 
 
@@ -76,9 +100,10 @@ int main(){
 			run = false;
 		}
 
-		x--;
+		//x--;
 		//logTest.flush();
 	}
 
+	glfwTerminate();
 	return 0;
 }
