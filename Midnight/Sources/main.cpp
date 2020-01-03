@@ -81,12 +81,6 @@ int main(){
 	while(run){
 		EventDispatcher::dispatcher().update();
 		windowPtr->update();
-
-		if(x < 0){
-			run = false;
-		}
-
-		//x--;
 		Debug::TerminalLog::instance().flush();
 	}
 

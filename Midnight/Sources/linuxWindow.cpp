@@ -1,6 +1,6 @@
 #include <linuxWindow.hpp>
-#include <terminalLog.hpp>
 #include <eventDispatcher.hpp>
+#include <debug.hpp>
 
 using namespace MN;
 
@@ -17,9 +17,11 @@ Window::pointer Window::create(const WindowData& data){
 	
 
 void LinuxWindow::init(){
-	if (!glfwInit()){
+	int init = glfwInit();
+	if (!init){
     // Initialization failed
 		TERMINAL_LOG(Log::Error, "Failed to Initialize GLFW");
+		ASSERT(init);
 	}
 
 	//Mininum open GL version required 
@@ -31,6 +33,7 @@ void LinuxWindow::init(){
 	if (!glfwWindow){
     // Window or OpenGL context creation failed
 		TERMINAL_LOG(Log::Error, "Failed to Initialize GLFW window or OpenGL context");
+		ASSERT(glfwWindow);
 	}
 
 	glfwMakeContextCurrent(glfwWindow);

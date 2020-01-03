@@ -13,7 +13,7 @@ namespace MN{
 		}
 		//Pointer already in the queue
 		else{
-			TERMINAL_LOG(Log::Error, "Function already subscribed for type of event");
+			TERMINAL_LOG(Log::Warning, "Function already subscribed for type of event");
 		}	
 	}
 
@@ -42,7 +42,7 @@ namespace MN{
 		}
 	}
 
-
+	//Singleton
 	EventDispatcher& EventDispatcher::dispatcher(){
 		static EventDispatcher dispatcherInstance;
 		return dispatcherInstance;
