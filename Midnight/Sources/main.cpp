@@ -1,9 +1,6 @@
 
 #include <iostream>
 
-
-
-
 #include <event.hpp>
 #include <eventDispatcher.hpp>
 #include <terminalLog.hpp>
@@ -15,10 +12,10 @@ namespace MN{
 	class audioSystem{
 
 	public:
-		audioSystem(EventDispatcher& disp){
+		audioSystem(){
 
-			disp.subscribe(Event::EventType::message,&audioSystem::handleEvent,this);
-			disp.subscribe(Event::EventType::message,&audioSystem::handleEvent2,this);
+			EventDispatcher::dispatcher().subscribe(Event::EventType::message,&audioSystem::handleEvent,this);
+			EventDispatcher::dispatcher().subscribe(Event::EventType::message,&audioSystem::handleEvent2,this);
 		}
 
 		void handleEvent(Event::pointer event){
@@ -38,6 +35,13 @@ namespace MN{
 }
 
 
+//Just for testing Window closing event
+bool run = true;
+void windowShouldClose(MN::Event::pointer event){
+
+	TERMINAL_DEBUG(event->getName());
+	run = false;
+}
 
 
 int main(){
@@ -60,23 +64,22 @@ int main(){
 
 	Window::pointer windowPtr= Window::create();
 
-	EventDispatcher eventBus;
-	audioSystem audio{eventBus};
+	audioSystem audio;
+	EventDispatcher::dispatcher().subscribe(Event::EventType::WindowCloseEvent,windowShouldClose);
 
 
 	//Testing event API
 	auto event = newEvent<MessageEvent>("My first message");
-	eventBus.queueEvent(event);
+	EventDispatcher::dispatcher().queueEvent(event);
 
 
 	event = newEvent<MessageEvent>();
-	eventBus.queueEvent(event);
+	EventDispatcher::dispatcher().queueEvent(event);
 
 
-	bool run = true;
 	int x = 10000;
 	while(run){
-		eventBus.update();
+		EventDispatcher::dispatcher().update();
 		windowPtr->update();
 
 		if(x < 0){
@@ -84,7 +87,7 @@ int main(){
 		}
 
 		//x--;
-		//logTest.flush();
+		Debug::TerminalLog::instance().flush();
 	}
 
 	return 0;

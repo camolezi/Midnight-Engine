@@ -1,8 +1,12 @@
 #include <linuxWindow.hpp>
 #include <terminalLog.hpp>
-
+#include <eventDispatcher.hpp>
 
 using namespace MN;
+
+//Callbacks
+static void window_close_callback(GLFWwindow* window);
+
 
 // window Factory
 Window::pointer Window::create(const WindowData& data){
@@ -31,9 +35,11 @@ void LinuxWindow::init(){
 
 	glfwMakeContextCurrent(glfwWindow);
 
+	//Set callBacks
+	glfwSetWindowCloseCallback(glfwWindow, window_close_callback);
+
 
 }
-
 
 
 LinuxWindow::LinuxWindow(const WindowData& data){
@@ -58,4 +64,14 @@ void LinuxWindow::update(){
 
 void LinuxWindow::setVSync(const bool vsy){ 
 
-};
+}
+
+
+
+//GLFW callbacks
+
+static void window_close_callback(GLFWwindow* window){
+	auto event = newEvent<WindowCloseEvent>();
+	EventDispatcher::dispatcher().queueEvent(event);
+}
+

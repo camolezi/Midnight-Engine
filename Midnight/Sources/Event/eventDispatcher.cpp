@@ -43,4 +43,12 @@ namespace MN{
 	}
 
 
+	EventDispatcher& EventDispatcher::dispatcher(){
+		static EventDispatcher dispatcherInstance;
+		return dispatcherInstance;
+	};
+
+			
+
+
 }
