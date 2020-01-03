@@ -29,7 +29,7 @@ project "MNCore"
 		optimize "On"
 
 	filter{"system:linux"}
-		links{ "X11", "dl", "pthread", "m", "z", "GL", "Xext", "Xfixes"}
+		links{ "X11", "dl", "pthread", "Xrandr", "m", "z", "GL", "Xext", "Xfixes"}
 		--buildoptions { "-lX11" }
 
 	filter {}
@@ -41,7 +41,8 @@ project "MNCore"
 
 	libdirs "Midnight/Vendor/Libraries/GLFW/Build/Bin/GLFW/Debug/linux"
 
-	includedirs {"Midnight/Headers/**", 
+	includedirs {"Midnight/Headers/**",
+				 "Midnight/Headers",	 
 				 "Midnight/Vendor/Libraries/GLFW/include"}
 
 	links{"GLFW", "GL"}

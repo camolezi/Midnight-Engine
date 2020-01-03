@@ -1,13 +1,13 @@
 
 #include <iostream>
 
-#include <GLFW/glfw3.h>
+
 
 
 #include <event.hpp>
 #include <eventDispatcher.hpp>
 #include <terminalLog.hpp>
-
+#include <linuxWindow.hpp>
 
 namespace MN{
 
@@ -54,29 +54,11 @@ int main(){
 	#endif
 
 
-	GLFWwindow* window;
-
-    /* Initialize the library */
-    if (!glfwInit())
-        return -1;
-
-    /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-        return -1;
-    }
-	
-
-
-
-
 	TERMINAL_LOG_LEVEL(Log::Debug);
 	TERMINAL_LOG(Log::Debug,"MidNight Engine - " << " :) ");
 
 
-	
+	Window::pointer windowPtr= Window::create();
 
 	EventDispatcher eventBus;
 	audioSystem audio{eventBus};
@@ -95,6 +77,7 @@ int main(){
 	int x = 10000;
 	while(run){
 		eventBus.update();
+		windowPtr->update();
 
 		if(x < 0){
 			run = false;
@@ -104,6 +87,5 @@ int main(){
 		//logTest.flush();
 	}
 
-	glfwTerminate();
 	return 0;
 }
