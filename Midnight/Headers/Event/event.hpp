@@ -23,7 +23,8 @@ namespace MN{
 			//Check another solution later
 			enum class EventType{
 				message,
-				WindowCloseEvent
+				WindowCloseEvent,
+				WindowResizedEvent
 			};
 
 			virtual ~Event(){};
@@ -79,14 +80,6 @@ namespace MN{
 		private:
 
 			std::string _message;
-	};
-
-	class WindowCloseEvent : public EventBase{
-		public:
-			WindowCloseEvent(timeStamp time = 0) : EventBase{time}{};
-
-			EventType type() const override{ return EventType::WindowCloseEvent; } 
-			std::string getName() const override{ return "WindowCloseEvent";}
 	};
 
 

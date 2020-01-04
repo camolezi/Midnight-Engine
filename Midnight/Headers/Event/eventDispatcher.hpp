@@ -10,7 +10,6 @@
 
 namespace MN{
 
-	//For now all events are dispatched to all listenes (build a map later?) 
 	class EventDispatcher{
 		public:
 			using memberPtr = std::function<void(Event::shared_ptr&)>;
@@ -38,7 +37,7 @@ namespace MN{
 
 			void addListener(const Event::EventType type, memberPtr pointer);
 
-			// store a list of calls to member functions, for every type of event 
+			// store a list of calls to functions, for every type of event 
 			std::unordered_map<Event::EventType , std::vector<memberPtr> > callbacksMap;
 			std::queue<Event::unique_ptr> eventQueue;
 

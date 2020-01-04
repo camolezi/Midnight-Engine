@@ -5,6 +5,7 @@
 #include <eventDispatcher.hpp>
 #include <terminalLog.hpp>
 #include <linuxWindow.hpp>
+#include <windowEvent.hpp>
 
 namespace MN{
 
@@ -43,6 +44,14 @@ void windowShouldClose(MN::Event::pointer event){
 	run = false;
 }
 
+void windowResized(MN::Event::pointer event){
+
+	using namespace MN;
+	auto eventDownCast = downcast_event_ptr<WindowResizedEvent>(event);
+	TERMINAL_DEBUG(eventDownCast->getName() << " Width" << 
+			eventDownCast->getWidth() << " height" << eventDownCast->getHeight());
+}
+
 
 int main(){
 
@@ -66,6 +75,7 @@ int main(){
 
 	audioSystem audio;
 	EventDispatcher::dispatcher().subscribe(Event::EventType::WindowCloseEvent,windowShouldClose);
+	EventDispatcher::dispatcher().subscribe(Event::EventType::WindowResizedEvent,windowResized);
 
 
 	//Testing event API
@@ -76,8 +86,6 @@ int main(){
 	event = newEvent<MessageEvent>();
 	EventDispatcher::dispatcher().queueEvent(event);
 
-
-	int x = 10000;
 	while(run){
 		EventDispatcher::dispatcher().update();
 		windowPtr->update();

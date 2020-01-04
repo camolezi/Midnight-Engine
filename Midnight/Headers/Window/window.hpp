@@ -14,7 +14,7 @@ namespace MN{
 			bool vsync;
 
 			WindowData(unsigned int width = 1280,
-					   unsigned int heigth = 720,
+					   unsigned int height = 720,
 					   std::string title = "Midnight Engine",
 					   bool vsync = false):
 					   		width{width}, 
