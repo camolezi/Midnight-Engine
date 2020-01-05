@@ -24,6 +24,8 @@ namespace MN{
 
 			//Yet to implement
 			void queueEvent(Event::unique_ptr& event);
+			void queueEvent(Event::unique_ptr&& event);
+
 			void fastEvent(Event::unique_ptr& event);
 
 			static EventDispatcher& dispatcher();
@@ -34,7 +36,6 @@ namespace MN{
 		private:
 
 			EventDispatcher(){};
-
 			void addListener(const Event::EventType type, memberPtr pointer);
 
 			// store a list of calls to functions, for every type of event 

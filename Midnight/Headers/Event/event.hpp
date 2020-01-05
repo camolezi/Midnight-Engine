@@ -14,25 +14,27 @@ namespace MN{
 	class Event{
 
 		public:
+
+			//Check another solution later
+			enum class EventType{
+				message,
+				WindowCloseEvent,
+				WindowResizedEvent,
+				KeyPressedEvent,
+				KeyReleasedEvent
+			};
+
 			using unique_ptr = std::unique_ptr<Event>;
 			using shared_ptr = std::shared_ptr<Event>;
 
 			//Definition for use in definition of callbacks functions
 			using pointer = std::shared_ptr<Event>&;
 
-			//Check another solution later
-			enum class EventType{
-				message,
-				WindowCloseEvent,
-				WindowResizedEvent
-			};
-
 			virtual ~Event(){};
 
 			virtual EventType type() const = 0; 
 			virtual timeStamp getTimeStamp() const = 0;
 			virtual std::string getName() const = 0;
-
 
 		private:
 

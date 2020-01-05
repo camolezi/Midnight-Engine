@@ -2,6 +2,7 @@
 #include <eventDispatcher.hpp>
 #include <debug.hpp>
 #include <windowEvent.hpp>
+#include <inputEvent.hpp>
 
 using namespace MN;
 
@@ -12,7 +13,7 @@ Window::pointer Window::create(const WindowData& data){
 }
 
 	
-
+//Initi glfw and setup callbacks
 void LinuxWindow::init(){
 	int init = glfwInit();
 	if (!init){
@@ -46,10 +47,28 @@ void LinuxWindow::init(){
 		EventDispatcher::dispatcher().queueEvent(event);
 	});
 
+	//Window resize event
 	glfwSetWindowSizeCallback(glfwWindow, [](GLFWwindow* window, int width, int height){
-		//Generate a window rezise envent
 		auto event = newEvent<WindowResizedEvent>(width, height);
 		EventDispatcher::dispatcher().queueEvent(event);
+	});
+
+    //input Key press and release events
+	glfwSetKeyCallback(glfwWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods){
+
+		switch(action){
+			case(GLFW_PRESS):
+				EventDispatcher::dispatcher().queueEvent(newEvent<KeyPressedEvent>(key));
+				break;
+
+			case(GLFW_RELEASE):
+				EventDispatcher::dispatcher().queueEvent(newEvent<KeyReleasedEvent>(key));
+				break;
+
+			default:
+				break;
+		};
+		
 	});
 
 }

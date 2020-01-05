@@ -81,13 +81,14 @@ int main(){
 	EventDispatcher::dispatcher().subscribe(Event::EventType::WindowResizedEvent,windowResized);
 
 
-	//Testing event API
-	auto event = newEvent<MessageEvent>("My first message");
-	EventDispatcher::dispatcher().queueEvent(event);
+	EventDispatcher::dispatcher().subscribe(Event::EventType::KeyPressedEvent,[](Event::pointer event){
+		TERMINAL_DEBUG("Key pressed");
+	});
 
+	EventDispatcher::dispatcher().subscribe(Event::EventType::KeyReleasedEvent,[](Event::pointer event){
+		TERMINAL_DEBUG("Key released");
+	});
 
-	event = newEvent<MessageEvent>();
-	EventDispatcher::dispatcher().queueEvent(event);
 
 	while(run){
 		EventDispatcher::dispatcher().update();

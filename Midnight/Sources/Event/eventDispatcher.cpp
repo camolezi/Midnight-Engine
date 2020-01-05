@@ -28,6 +28,10 @@ namespace MN{
 		eventQueue.push(std::move(event));
 	}
 
+	void EventDispatcher::queueEvent(Event::unique_ptr&& event){
+		eventQueue.push(std::move(event));
+	}
+
 
 	//Dispatche the next event of the queue
 	void EventDispatcher::update(){
