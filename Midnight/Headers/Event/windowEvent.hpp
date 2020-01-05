@@ -13,6 +13,7 @@ namespace MN{
 
 			EventType type() const override{ return EventType::WindowCloseEvent; } 
 			std::string getName() const override{ return "WindowCloseEvent";}
+			std::string to_string() const override { return "Window Close Event";}
 	};
 
 	class WindowResizedEvent : public EventBase{
@@ -24,6 +25,8 @@ namespace MN{
 
 			EventType type() const override{ return EventType::WindowResizedEvent; } 
 			std::string getName() const override{ return "WindowResizedEvent";}
+			std::string to_string() const override { 
+				return "WindowResizedEvent: Width{" + std::to_string(width) + "} Height{" +  std::to_string(height) +"}";}
 
 			unsigned int getWidth() const {return width;}
 			unsigned int getHeight() const {return height;}

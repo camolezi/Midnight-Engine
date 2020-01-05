@@ -15,7 +15,15 @@ Window::pointer Window::create(const WindowData& data){
 	
 //Initi glfw and setup callbacks
 void LinuxWindow::init(){
-	int init = glfwInit();
+	
+	auto init = glfwInit();
+
+	//Glfw Error callback
+	glfwSetErrorCallback([](int error, const char* description){
+		TERMINAL_LOG(Log::Error,description);
+	});
+
+
 	if (!init){
     // Initialization failed
 		TERMINAL_LOG(Log::Error, "Failed to Initialize GLFW");
@@ -53,6 +61,12 @@ void LinuxWindow::init(){
 		EventDispatcher::dispatcher().queueEvent(event);
 	});
 
+
+	glfwSetCursorPosCallback(glfwWindow, [](GLFWwindow* window, double xpos, double ypos){
+		EventDispatcher::dispatcher().queueEvent(newEvent<MouseMovedEvent>(xpos,ypos));
+	});
+
+
     //input Key press and release events
 	glfwSetKeyCallback(glfwWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods){
 
@@ -88,7 +102,6 @@ void LinuxWindow::init(){
 		};
 
 	});
-
 
 }
 

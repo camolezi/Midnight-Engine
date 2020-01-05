@@ -12,7 +12,7 @@
 
 namespace MN{
 
-	//Just for testing events right now
+	//Just for testing events in member functions right now
 	class audioSystem{
 
 	public:
@@ -81,21 +81,18 @@ int main(){
 	EventDispatcher::dispatcher().subscribe(Event::EventType::WindowResizedEvent,windowResized);
 
 
-	EventDispatcher::dispatcher().subscribe(Event::EventType::KeyPressedEvent,[](Event::pointer event){
-		TERMINAL_DEBUG("Key pressed");
-	});
+	//Can subscribe with lambda expression
+	auto printEvent = [](Event::pointer event){
+		TERMINAL_DEBUG(event->to_string());
+	};
 
-	EventDispatcher::dispatcher().subscribe(Event::EventType::KeyReleasedEvent,[](Event::pointer event){
-		TERMINAL_DEBUG("Key released");
-	});
+	EventDispatcher::dispatcher().subscribe(Event::EventType::KeyPressedEvent,printEvent);
+	EventDispatcher::dispatcher().subscribe(Event::EventType::KeyReleasedEvent,printEvent);
+	EventDispatcher::dispatcher().subscribe(Event::EventType::MouseButtonPressedEvent,printEvent);
+	EventDispatcher::dispatcher().subscribe(Event::EventType::MouseButtonReleasedEvent,printEvent);
 
-	EventDispatcher::dispatcher().subscribe(Event::EventType::MouseButtonPressedEvent,[](Event::pointer event){
-		TERMINAL_DEBUG("Mouse pressed");
-	});
+	//EventDispatcher::dispatcher().subscribe(Event::EventType::MouseMovedEvent,printEvent);
 
-	EventDispatcher::dispatcher().subscribe(Event::EventType::MouseButtonReleasedEvent,[](Event::pointer event){
-		TERMINAL_DEBUG("Mouse released");
-	});
 
 
 	while(run){

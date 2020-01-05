@@ -20,6 +20,7 @@ namespace MN{
 				message,
 				WindowCloseEvent,
 				WindowResizedEvent,
+				MouseMovedEvent,
 				KeyPressedEvent,
 				KeyReleasedEvent,
 				MouseButtonPressedEvent,
@@ -37,6 +38,7 @@ namespace MN{
 			virtual EventType type() const = 0; 
 			virtual timeStamp getTimeStamp() const = 0;
 			virtual std::string getName() const = 0;
+			virtual std::string to_string() const = 0;
 
 		private:
 
@@ -77,7 +79,11 @@ namespace MN{
 				return "MessageEvent";
 			}
 
-			std::string getMessage() const {
+			std::string getMessage() const{
+				return _message;
+			}
+
+			std::string to_string() const override{
 				return _message;
 			}
 
