@@ -5,11 +5,6 @@
 
 using namespace MN;
 
-//Callbacks
-static void window_close_callback(GLFWwindow* window);
-static void window_size_callback(GLFWwindow* window, int width, int height);
-
-
 // window Factory
 Window::pointer Window::create(const WindowData& data){
 	//For now just return a linux window
@@ -45,9 +40,17 @@ void LinuxWindow::init(){
 	glfwMakeContextCurrent(glfwWindow);
 
 	//Set callBacks
-	glfwSetWindowCloseCallback(glfwWindow, window_close_callback);
-	glfwSetWindowSizeCallback(glfwWindow, window_size_callback);
+	glfwSetWindowCloseCallback(glfwWindow, [](GLFWwindow* window){
+		//Generate a window close Event
+		auto event = newEvent<WindowCloseEvent>();
+		EventDispatcher::dispatcher().queueEvent(event);
+	});
 
+	glfwSetWindowSizeCallback(glfwWindow, [](GLFWwindow* window, int width, int height){
+		//Generate a window rezise envent
+		auto event = newEvent<WindowResizedEvent>(width, height);
+		EventDispatcher::dispatcher().queueEvent(event);
+	});
 
 }
 
@@ -76,20 +79,4 @@ void LinuxWindow::update(){
 void LinuxWindow::setVSync(const bool vsy){ 
 
 }
-
-
-
-//GLFW callbacks
-static void window_close_callback(GLFWwindow* window){
-	//Generate a window close Event
-	auto event = newEvent<WindowCloseEvent>();
-	EventDispatcher::dispatcher().queueEvent(event);
-}
-
-static void window_size_callback(GLFWwindow* window, int width, int height){
-	//Generate a window rezise envent
-	auto event = newEvent<WindowResizedEvent>(width, height);
-	EventDispatcher::dispatcher().queueEvent(event);
-}
-
 

@@ -7,6 +7,9 @@
 #include <linuxWindow.hpp>
 #include <windowEvent.hpp>
 
+#include <thread>         // std::this_thread::sleep_for
+#include <chrono>         // std::chrono::seconds
+
 namespace MN{
 
 	//Just for testing events right now
@@ -90,6 +93,7 @@ int main(){
 		EventDispatcher::dispatcher().update();
 		windowPtr->update();
 		Debug::TerminalLog::instance().flush();
+		std::this_thread::sleep_for (std::chrono::milliseconds(50));
 	}
 
 	return 0;
