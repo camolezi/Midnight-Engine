@@ -71,6 +71,25 @@ void LinuxWindow::init(){
 		
 	});
 
+	//Mouse	button event
+	glfwSetMouseButtonCallback(glfwWindow, [](GLFWwindow* window, int button, int action, int mods){
+
+		switch(action){
+			case(GLFW_PRESS):
+				EventDispatcher::dispatcher().queueEvent(newEvent<MouseButtonPressedEvent>(button));
+				break;
+
+			case(GLFW_RELEASE):
+				EventDispatcher::dispatcher().queueEvent(newEvent<MouseButtonReleasedEvent>(button));
+				break;
+
+			default:
+				break;
+		};
+
+	});
+
+
 }
 
 

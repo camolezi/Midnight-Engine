@@ -35,7 +35,7 @@ namespace MN{
 
 	//Dispatche the next event of the queue
 	void EventDispatcher::update(){
-		if(!eventQueue.empty()){
+		while(!eventQueue.empty()){
 			Event::shared_ptr sharedPointer = std::move(eventQueue.front());
 
 			for (auto& ptrAux : callbacksMap[sharedPointer->type()]){

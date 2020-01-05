@@ -21,7 +21,9 @@ namespace MN{
 				WindowCloseEvent,
 				WindowResizedEvent,
 				KeyPressedEvent,
-				KeyReleasedEvent
+				KeyReleasedEvent,
+				MouseButtonPressedEvent,
+				MouseButtonReleasedEvent
 			};
 
 			using unique_ptr = std::unique_ptr<Event>;

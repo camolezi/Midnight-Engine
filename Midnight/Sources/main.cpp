@@ -89,6 +89,14 @@ int main(){
 		TERMINAL_DEBUG("Key released");
 	});
 
+	EventDispatcher::dispatcher().subscribe(Event::EventType::MouseButtonPressedEvent,[](Event::pointer event){
+		TERMINAL_DEBUG("Mouse pressed");
+	});
+
+	EventDispatcher::dispatcher().subscribe(Event::EventType::MouseButtonReleasedEvent,[](Event::pointer event){
+		TERMINAL_DEBUG("Mouse released");
+	});
+
 
 	while(run){
 		EventDispatcher::dispatcher().update();

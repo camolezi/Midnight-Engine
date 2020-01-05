@@ -6,35 +6,51 @@
 
 namespace MN{
 
-
-	class KeyEvent : public EventBase{
+	template<typename T>
+	class PressableEvent : public EventBase{
 		public:
-			KeyEvent(Key key,timeStamp time = 0) : EventBase{time} ,key{key}{};
-
-			Key getKey(){ return key;}
+			PressableEvent(T key,timeStamp time = 0) : EventBase{time} ,key{key}{};
+			T getPressed(){ return key;}
 
 		protected:
-			Key key;
+			T key;
 	};
 
 
-	class KeyPressedEvent : public KeyEvent{
+	class KeyPressedEvent : public PressableEvent<Key>{
 		public:
-			KeyPressedEvent(Key key,timeStamp time = 0) : KeyEvent{key,time}{};
+			KeyPressedEvent(Key key,timeStamp time = 0) : PressableEvent{key,time}{};
 
 			EventType type() const override{ return EventType::KeyPressedEvent; } 
 			std::string getName() const override{ return "Key Pressed Event";}
 	};
 
 
-	class KeyReleasedEvent : public KeyEvent{
+	class KeyReleasedEvent : public PressableEvent<Key>{
 		public:
-			KeyReleasedEvent(Key key,timeStamp time = 0) : KeyEvent{key,time}{};
+			KeyReleasedEvent(Key key,timeStamp time = 0) : PressableEvent{key,time}{};
 
 			EventType type() const override{ return EventType::KeyReleasedEvent; } 
 			std::string getName() const override{ return "Key Released Event";}
 	};
 
+
+	class MouseButtonPressedEvent : public PressableEvent<MouseButton>{
+		public:
+			MouseButtonPressedEvent(Key key,timeStamp time = 0) : PressableEvent{key,time}{};
+
+			EventType type() const override{ return EventType::MouseButtonPressedEvent; } 
+			std::string getName() const override{ return "Mouse Button Pressed Event";}
+	};
+
+
+	class MouseButtonReleasedEvent : public PressableEvent<MouseButton>{
+		public:
+			MouseButtonReleasedEvent(Key key,timeStamp time = 0) : PressableEvent{key,time}{};
+
+			EventType type() const override{ return EventType::MouseButtonReleasedEvent; } 
+			std::string getName() const override{ return "Mouse Button Released Event";}
+	};
 
 
 }
