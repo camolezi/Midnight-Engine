@@ -93,8 +93,6 @@ int main(){
 
 	//EventDispatcher::dispatcher().subscribe(Event::EventType::MouseMovedEvent,printEvent);
 
-
-
 	while(run){
 		EventDispatcher::dispatcher().update();
 		windowPtr->update();

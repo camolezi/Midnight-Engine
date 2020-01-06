@@ -22,10 +22,10 @@ namespace MN{
 			template<typename Function>
 			void subscribe(Event::EventType type,Function pointer);
 
-			//Yet to implement
 			void queueEvent(Event::unique_ptr& event);
 			void queueEvent(Event::unique_ptr&& event);
 
+			//Yet to implement
 			void fastEvent(Event::unique_ptr& event);
 
 			static EventDispatcher& dispatcher();

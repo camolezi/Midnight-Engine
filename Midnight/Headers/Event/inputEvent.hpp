@@ -3,6 +3,7 @@
 	
 #include <event.hpp>
 #include <key.hpp>
+#include <mouseButton.hpp>
 
 namespace MN{
 

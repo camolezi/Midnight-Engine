@@ -15,7 +15,7 @@ Window::pointer Window::create(const WindowData& data){
 	
 //Initi glfw and setup callbacks
 void LinuxWindow::init(){
-	
+
 	auto init = glfwInit();
 
 	//Glfw Error callback
@@ -69,7 +69,6 @@ void LinuxWindow::init(){
 
     //input Key press and release events
 	glfwSetKeyCallback(glfwWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods){
-
 		switch(action){
 			case(GLFW_PRESS):
 				EventDispatcher::dispatcher().queueEvent(newEvent<KeyPressedEvent>(key));
@@ -87,7 +86,6 @@ void LinuxWindow::init(){
 
 	//Mouse	button event
 	glfwSetMouseButtonCallback(glfwWindow, [](GLFWwindow* window, int button, int action, int mods){
-
 		switch(action){
 			case(GLFW_PRESS):
 				EventDispatcher::dispatcher().queueEvent(newEvent<MouseButtonPressedEvent>(button));
