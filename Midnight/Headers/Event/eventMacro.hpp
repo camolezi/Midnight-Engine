@@ -3,6 +3,8 @@
 
 #include <eventDispatcher.hpp>
 #include <event.hpp>
+#include <inputEvent.hpp>
+#include <windowEvent.hpp>
 //Macros for facilitating using the event API
 
 //Subscribe

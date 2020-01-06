@@ -4,10 +4,6 @@
 //For client application to include
 
 //Events
-#include <event.hpp>
-#include <inputEvent.hpp>
-#include <windowEvent.hpp>
-#include <eventDispatcher.hpp>
 #include <eventMacro.hpp>
 
 //Debug
