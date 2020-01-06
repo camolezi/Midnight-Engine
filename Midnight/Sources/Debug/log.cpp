@@ -4,7 +4,7 @@
 using namespace MN::Debug;
 
 
-std::string enum_to_string(LogLevel writeLevel){
+static std::string enum_to_string(LogLevel writeLevel){
 	switch(writeLevel){
 		default:
 		case (LogLevel::Debug):

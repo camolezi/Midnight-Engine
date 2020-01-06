@@ -7,6 +7,8 @@
 #include <linuxWindow.hpp>
 #include <windowEvent.hpp>
 
+#include <coreMath.hpp>
+
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
 

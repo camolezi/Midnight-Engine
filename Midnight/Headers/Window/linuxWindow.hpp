@@ -1,4 +1,4 @@
-#ifndef LinuxWindow
+#ifndef LINUXWINDOW
 #define LINUXWINDOW
 
 #include <window.hpp>
