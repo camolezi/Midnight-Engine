@@ -26,6 +26,7 @@ void LinuxWindow::initialize(){
 
 	auto initGLFW = glfwInit();
 	ASSERT(initGLFW, "Failed to Initialize GLFW");
+	TERMINAL_DEBUG("Using GLFW");
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -44,7 +45,7 @@ void LinuxWindow::initialize(){
 	auto gladInit = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
     ASSERT(gladInit, "Failed to Initialize GLAD");
 
-    TERMINAL_DEBUG("OpenGL Version: " << glGetString(GL_VERSION));
+    TERMINAL_DEBUG("Using Glad-OpenGL Version: " << glGetString(GL_VERSION));
 
 	//Set callBacks
 	glfwSetWindowCloseCallback(glfwWindow, [](GLFWwindow* window){
