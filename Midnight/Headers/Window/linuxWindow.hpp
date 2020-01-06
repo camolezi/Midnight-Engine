@@ -10,6 +10,7 @@
 
 namespace MN{
 
+	//Window using GLFW and OpenGL
 	class LinuxWindow : public Window{
 
 		public:

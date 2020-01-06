@@ -10,6 +10,7 @@ namespace MN{
 
 		public:
 			virtual void run() = 0;
+			virtual void start() = 0;
 			virtual ~MidnightApp(){};
 
 			//Define in client

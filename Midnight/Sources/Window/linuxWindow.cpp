@@ -46,6 +46,7 @@ void LinuxWindow::initialize(){
     ASSERT(gladInit, "Failed to Initialize GLAD");
 
     TERMINAL_DEBUG("Using Glad-OpenGL Version: " << glGetString(GL_VERSION));
+    TERMINAL_DEBUG("OpenGL Driver: " << glGetString(GL_RENDERER));
 
 	//Set callBacks
 	glfwSetWindowCloseCallback(glfwWindow, [](GLFWwindow* window){
@@ -115,8 +116,6 @@ LinuxWindow::~LinuxWindow(){
 
 
 void LinuxWindow::update(){
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
 	glfwSwapBuffers(glfwWindow);
     glfwPollEvents();
 }
