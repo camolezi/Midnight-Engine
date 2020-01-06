@@ -17,7 +17,7 @@ int main(){
 	using namespace MN;
 
 	#ifdef debug
-		TERMINAL_LOG(Log::Debug,"MidNight Engine - Debug Mode  :) " );
+		TERMINAL_LOG(Log::Debug,"Midnight Engine - Debug Mode  :) " );
 	#endif
 
 	#ifdef deploy
@@ -35,7 +35,7 @@ int main(){
 	});
 
 	//Create application
-	MidNightApp * app = MidNightApp::createApp();
+	MidnightApp * app = MidnightApp::createApp();
 	ASSERT(app, "Failed to initialize application");
 	app->run();
 

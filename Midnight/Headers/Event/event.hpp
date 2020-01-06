@@ -17,7 +17,6 @@ namespace MN{
 
 			//Check another solution later
 			enum class EventType{
-				message,
 				WindowCloseEvent,
 				WindowResizedEvent,
 				MouseMovedEvent,
@@ -61,37 +60,6 @@ namespace MN{
 		private:
 			timeStamp _eventTime;
 	};
-
-
-
-	//Message event, send a string message to another subsystem (used for tests(for now))
-	class MessageEvent : public EventBase{
-
-		public:
-
-			MessageEvent( std::string message = "Empty message", timeStamp time = 0) : EventBase{time}, _message{message}{};
-
-			EventType type() const override{
-				return EventType::message;
-			}
-
-			std::string getName() const override{
-				return "MessageEvent";
-			}
-
-			std::string getMessage() const{
-				return _message;
-			}
-
-			std::string to_string() const override{
-				return _message;
-			}
-
-		private:
-
-			std::string _message;
-	};
-
 
 	//Release the event pointer and convert to a specific child event pointer
 	template <typename T>

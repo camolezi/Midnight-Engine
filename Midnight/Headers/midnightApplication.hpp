@@ -6,14 +6,14 @@
 namespace MN{
 
 
-	class MidNightApp{
+	class MidnightApp{
 
 		public:
 			virtual void run() = 0;
-			virtual ~MidNightApp(){};
+			virtual ~MidnightApp(){};
 
 			//Define in client
-			static MidNightApp * createApp();
+			static MidnightApp * createApp();
 	};
 
 }

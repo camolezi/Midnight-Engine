@@ -1,8 +1,8 @@
-#include <MidNight.hpp>
+#include <Midnight.hpp>
 
 //Testing client application side
 
-class clientApp : public MN::MidNightApp{
+class clientApp : public MN::MidnightApp{
 
 	public:	
 		void run() override;
@@ -10,21 +10,31 @@ class clientApp : public MN::MidNightApp{
 	private:
 };
 
-MN::MidNightApp * MN::MidNightApp::createApp(){
+MN::MidnightApp * MN::MidnightApp::createApp(){
 	return new clientApp;
 }
 
 void clientApp::run(){
-
 	using namespace MN;
-	//Can subscribe with lambda expression
-	auto printEvent = [](Event::pointer event){
-		TERMINAL_DEBUG(event->to_string());
+
+	//Testing client side API
+
+	//Can subscribe with lambda expression or functions
+	auto printEvent = [](MidnightEvent event){
+	 	TERMINAL_DEBUG(event->to_string());
 	};
-	EventDispatcher::dispatcher().subscribe(Event::EventType::KeyPressedEvent,printEvent);
-	EventDispatcher::dispatcher().subscribe(Event::EventType::KeyReleasedEvent,printEvent);
-	EventDispatcher::dispatcher().subscribe(Event::EventType::MouseButtonPressedEvent,printEvent);
-	EventDispatcher::dispatcher().subscribe(Event::EventType::MouseButtonReleasedEvent,printEvent);
+	EventSubscribe(KeyPressedEvent,printEvent);
+	EventSubscribe(KeyReleasedEvent,printEvent);
+
+
+	//When ESC is pressed close the app
+	EventSubscribe(KeyPressedEvent,[](MidnightEvent event){
+		auto pressEvent = downcast_event_ptr<KeyPressedEvent>(event);
+		if(pressEvent->pressed() == MN_KEY_ESCAPE){
+			EventDispatche(newEvent<WindowCloseEvent>());
+		} 
+	});
+
 
 }
 

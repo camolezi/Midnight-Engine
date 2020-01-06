@@ -8,6 +8,7 @@
 #include <inputEvent.hpp>
 #include <windowEvent.hpp>
 #include <eventDispatcher.hpp>
+#include <eventMacro.hpp>
 
 //Debug
 #include <debug.hpp>
@@ -15,11 +16,11 @@
 //Math
 #include <coreMath.hpp>
 
-//Window
-#include <window.hpp>
-
 //Application
 #include <midnightApplication.hpp>
 
+//input
+#include <key.hpp>
+#include <mouseButton.hpp>
 
 #endif

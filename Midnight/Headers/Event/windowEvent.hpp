@@ -2,7 +2,7 @@
 #define WINDOWEVENT
 
 
-#include "event.hpp"
+#include <event.hpp>
 
 
 namespace MN{

@@ -34,7 +34,7 @@ namespace MN{
 	class PressableEvent : public EventBase{
 		public:
 			PressableEvent(T key,timeStamp time = 0) : EventBase{time} ,key{key}{};
-			T getPressed(){ return key;}
+			T pressed(){ return key;}
 
 		protected:
 			T key;
