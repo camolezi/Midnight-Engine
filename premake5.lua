@@ -9,6 +9,7 @@ workspace "Midnight"
 
 	--GlFW
 	include "Midnight/Vendor/Libraries/GLFW"
+	include "Midnight/Vendor/Libraries/GLAD"
 
 project "MNCore"
 	--just for now a console app (dynamic lib after?)
@@ -43,9 +44,10 @@ project "MNCore"
 
 	includedirs {"Midnight/Headers/**",
 				 "Midnight/Headers",	 
-				 "Midnight/Vendor/Libraries/GLFW/include"}
+				 "Midnight/Vendor/Libraries/GLFW/include",
+				 "Midnight/Vendor/Libraries/GLAD/include/**"}
 
-	links{"GLFW", "GL"}
+	links{"GLFW","GLAD", "GL"}
 	
 
 

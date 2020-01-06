@@ -1,7 +1,10 @@
-#ifndef LINUXWINDOW
+#ifndef LinuxWindow
 #define LINUXWINDOW
 
 #include <window.hpp>
+
+
+#include <glad.h>
 #include <GLFW/glfw3.h>
 	
 
@@ -23,11 +26,9 @@ namespace MN{
 			unsigned int getHeight() const override{return data.height;}	
 
 		private:
-
-			void init();
+			void initialize();
 
 			WindowData data;
-
 			//GLFWwindow
 			GLFWwindow * glfwWindow;
 			

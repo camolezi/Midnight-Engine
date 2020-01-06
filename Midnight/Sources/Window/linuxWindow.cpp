@@ -4,6 +4,8 @@
 #include <windowEvent.hpp>
 #include <inputEvent.hpp>
 
+
+
 using namespace MN;
 
 // window Factory
@@ -13,10 +15,8 @@ Window::pointer Window::create(const WindowData& data){
 }
 
 	
-//Initi glfw and setup callbacks
-void LinuxWindow::init(){
-
-	auto init = glfwInit();
+//Initi glfw, glad and setup callbacks
+void LinuxWindow::initialize(){
 
 	//Glfw Error callback
 	glfwSetErrorCallback([](int error, const char* description){
@@ -24,29 +24,27 @@ void LinuxWindow::init(){
 	});
 
 
-	if (!init){
-    // Initialization failed
-		TERMINAL_LOG(Log::Error, "Failed to Initialize GLFW");
-		ASSERT(init);
-	}
+	auto initGLFW = glfwInit();
+	ASSERT(initGLFW, "Failed to Initialize GLFW");
 
-	//Mininum open GL version required 
-	// glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-	// glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	
+
+	glfwWindow = glfwCreateWindow(data.width, data.height, data.title.c_str(), nullptr, nullptr);
+	ASSERT(glfwWindow, "Failed to Initialize GLFW window or OpenGL context");
 
 	TERMINAL_DEBUG("Window width: " << data.width);
 	TERMINAL_DEBUG("Window height: " << data.height);
 	TERMINAL_DEBUG("Vsync: " << data.vsync);
 
-
-	glfwWindow = glfwCreateWindow(data.width, data.height, data.title.c_str(), nullptr, nullptr);
-	if (!glfwWindow){
-    // Window or OpenGL context creation failed
-		TERMINAL_LOG(Log::Error, "Failed to Initialize GLFW window or OpenGL context");
-		ASSERT(glfwWindow);
-	}
-
 	glfwMakeContextCurrent(glfwWindow);
+
+	auto gladInit = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+    ASSERT(gladInit, "Failed to Initialize GLAD");
+
+    TERMINAL_DEBUG("OpenGL Version: " << glGetString(GL_VERSION));
 
 	//Set callBacks
 	glfwSetWindowCloseCallback(glfwWindow, [](GLFWwindow* window){
@@ -61,7 +59,7 @@ void LinuxWindow::init(){
 		EventDispatcher::dispatcher().queueEvent(event);
 	});
 
-
+	//Mouse moved envent
 	glfwSetCursorPosCallback(glfwWindow, [](GLFWwindow* window, double xpos, double ypos){
 		EventDispatcher::dispatcher().queueEvent(newEvent<MouseMovedEvent>(xpos,ypos));
 	});
@@ -106,7 +104,7 @@ void LinuxWindow::init(){
 
 LinuxWindow::LinuxWindow(const WindowData& data){
 	this->data = data;
-	init();
+	initialize();
 }
 
 LinuxWindow::~LinuxWindow(){
@@ -120,7 +118,6 @@ void LinuxWindow::update(){
     glClear(GL_COLOR_BUFFER_BIT);
 	glfwSwapBuffers(glfwWindow);
     glfwPollEvents();
-
 }
 
 
