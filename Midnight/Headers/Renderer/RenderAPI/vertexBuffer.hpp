@@ -31,6 +31,8 @@ namespace MN{
 		std::string getName(){return name;}
 		bool getNormalize(){return normalize;}
 		int getCount(){return count;}
+		ShaderDataType getType(){return type;}
+		
 		int offset;
 
 	private:

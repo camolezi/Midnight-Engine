@@ -21,11 +21,6 @@
 std::unique_ptr<MN::Shader> shaderProgram;
 std::unique_ptr<MN::VertexArray> VAO;
 
-namespace MN{
-	
-
-}
-
 //Just for testing draw a rectangule
 static void renderTriangleTest(){
 	using namespace MN;
@@ -33,25 +28,32 @@ static void renderTriangleTest(){
 	std::string vertexShaderSource = R"(
 		#version 330 core
 		layout (location = 0) in vec3 aPos;
+		layout (location = 1) in vec4 color;
+
+		out vec4 fragColor;
 		void main(){
+			fragColor = color;
 			gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
 		}
 	)";
 
 	std::string fragmentShaderSource = R"(
 		#version 330 core
-		out vec4 FragColor;
+		out vec4 finalColor;
+		in vec4 fragColor;
+
 		void main(){
-			FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+			finalColor = fragColor;
 		}
 	)";
 
 	shaderProgram = Shader::create(vertexShaderSource,fragmentShaderSource);
     float vertices[] = {
-         0.5f,  0.5f, 0.0f,  // top right
-         0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-        -0.5f,  0.5f, 0.0f   // top left 
+    	//Position  - color
+         0.5f,  0.5f, 0.0f, 0.5f, 0.0f, 0.0f, 1.0f,  // top right
+         0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f, 1.0f, // bottom right
+        -0.5f, -0.5f, 0.0f, 0.5f, 0.0f, 0.5f, 1.0f, // bottom left
+        -0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 0.5f, 1.0f // top left 
     };
     unsigned int indices[] = {  // note that we start from 0!
         0, 1, 3,  // first Triangle
@@ -67,7 +69,8 @@ static void renderTriangleTest(){
     EBO->bind();
 
     BufferLayout layout{
-    	{ShaderDataType::FLOAT3, "Position"}
+    	{ShaderDataType::FLOAT3, "Position"},
+    	{ShaderDataType::FLOAT4, "Cor"}
     };
 
     VBO->setLayout(layout);

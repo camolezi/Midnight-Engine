@@ -49,15 +49,29 @@ namespace MN{
 
 		BufferLayout layout = buffer->getLayout();
 
+		ASSERT(layout.getElements().size() != 0, "Vertex Buffer layout invalido");
+		TERMINAL_DEBUG(layout.getElements().size());
+
 		int position = 0;
 		for(auto& element : (layout) ){
 			glEnableVertexAttribArray(position);  
 	    	glVertexAttribPointer(position, element.getCount(),
-		    	ShaderDataTypeToOpenGL(ShaderDataType::FLOAT3),
+		    	ShaderDataTypeToOpenGL(element.getType()),
 		    	element.getNormalize(), 
 		    	layout.getStride(), 
 		    	(void*)element.getOffset());
+
+	    	TERMINAL_DEBUG( "Attrib:" << position <<
+	    					" Count:" << element.getCount() <<
+	    					" Type:" << (int)element.getType() <<
+	    					" Normalize:" << element.getNormalize()<<
+	    					" Stride: " << layout.getStride() <<
+	    					" Offset: " << element.getOffset());
+
+	    	position++;
     	}
+
+    	TERMINAL_DEBUG("SIZOF" << sizeof (float));
 		
 	}
 
