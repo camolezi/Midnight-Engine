@@ -1,6 +1,5 @@
 #include <vertexBufferOpenGL.hpp>
 
-#include <glad.h>
 
 namespace MN{
 
@@ -22,6 +21,8 @@ namespace MN{
 	VertexBufferOpenGL::~VertexBufferOpenGL(){
 		glDeleteBuffers(1,&id);
 	}
+
+
 
 }
 

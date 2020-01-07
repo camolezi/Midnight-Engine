@@ -19,6 +19,22 @@
 int shaderProgram;
 unsigned int VAO;
 
+
+namespace MN{
+	static GLenum ShaderDataTypeToOpenGL(ShaderDataType type){
+		switch(type){
+			case ShaderDataType::FLOAT2: 
+			case ShaderDataType::FLOAT3: 
+			case ShaderDataType::FLOAT4: 
+				return GL_FLOAT;
+			default:
+				ASSERT(false, "Invalid shader data type");
+				return -1;
+		};
+	}
+
+}
+
 //Just for testing draw a rectangule
 static void renderTriangleTest(){
 
@@ -95,9 +111,22 @@ static void renderTriangleTest(){
     std::unique_ptr<IndexBuffer> EBO = IndexBuffer::create(sizeof(indices), indices);
     EBO->bind();
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    
+    BufferLayout layout = {
+    	{ShaderDataType::FLOAT3, "Position"}
+    };
+
+
+    for(auto& element : layout){
+    	glVertexAttribPointer(0, element.getCount(),
+	    	ShaderDataTypeToOpenGL(ShaderDataType::FLOAT3),
+	    	element.getNormalize(), 
+	    	layout.getStride(), 
+	    	(void*)element.getOffset());
+    }
+
+
+    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);  
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
     glBindVertexArray(0); 
