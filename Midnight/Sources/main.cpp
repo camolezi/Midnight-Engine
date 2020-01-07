@@ -8,6 +8,8 @@
 #include <midnightApplication.hpp>
 #include <coreMath.hpp>
 
+#include <vertexBuffer.hpp>
+
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
 
@@ -18,6 +20,8 @@ unsigned int VAO;
 
 //Just for testing draw a rectangule
 static void renderTriangleTest(){
+
+	using namespace MN;
 
 	const char *vertexShaderSource = "#version 330 core\n"
 	    "layout (location = 0) in vec3 aPos;\n"
@@ -79,15 +83,15 @@ static void renderTriangleTest(){
         0, 1, 3,  // first Triangle
         1, 2, 3   // second Triangle
     };
-    unsigned int VBO, EBO;
+    unsigned int EBO;
     glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
     glBindVertexArray(VAO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    std::unique_ptr<VertexBuffer> VBO = VertexBuffer::create(sizeof(vertices), vertices);
+    VBO->bind();
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
@@ -104,6 +108,7 @@ static void renderTriangleTest(){
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
     glBindVertexArray(0); 
+
 
  }
 
