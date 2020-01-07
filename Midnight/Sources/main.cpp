@@ -10,15 +10,15 @@
 
 #include <vertexBuffer.hpp>
 #include <indexBuffer.hpp>
-
+#include <shaderOpenGL.hpp>
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
 
 
 
-int shaderProgram;
 unsigned int VAO;
 
+std::unique_ptr<MN::Shader> shaderProgram;
 
 namespace MN{
 	static GLenum ShaderDataTypeToOpenGL(ShaderDataType type){
@@ -37,59 +37,25 @@ namespace MN{
 
 //Just for testing draw a rectangule
 static void renderTriangleTest(){
-
 	using namespace MN;
 
-	const char *vertexShaderSource = "#version 330 core\n"
-	    "layout (location = 0) in vec3 aPos;\n"
-	    "void main()\n"
-	    "{\n"
-	    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-	    "}\0";
-	const char *fragmentShaderSource = "#version 330 core\n"
-	    "out vec4 FragColor;\n"
-	    "void main()\n"
-	    "{\n"
-	    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-	    "}\n\0";
+	std::string vertexShaderSource = R"(
+		#version 330 core
+		layout (location = 0) in vec3 aPos;
+		void main(){
+			gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+		}
+	)";
 
-	int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
-    // check for shader compile errors
-    int success;
-    char infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-    }
-    // fragment shader
-    int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
-    // check for shader compile errors
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-    if (!success)
-    {
-        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-    }
-    // link shaders
-    shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-    // check for linking errors
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if (!success) {
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-    }
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
+	std::string fragmentShaderSource = R"(
+		#version 330 core
+		out vec4 FragColor;
+		void main(){
+			FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+		}
+	)";
 
+	shaderProgram = Shader::create(vertexShaderSource,fragmentShaderSource);
     float vertices[] = {
          0.5f,  0.5f, 0.0f,  // top right
          0.5f, -0.5f, 0.0f,  // bottom right
@@ -111,16 +77,16 @@ static void renderTriangleTest(){
     std::unique_ptr<IndexBuffer> EBO = IndexBuffer::create(sizeof(indices), indices);
     EBO->bind();
 
-    BufferLayout layout = {
+    std::unique_ptr<BufferLayout> layout (new BufferLayout {
     	{ShaderDataType::FLOAT3, "Position"}
-    };
+    });
 
 
-    for(auto& element : layout){
+    for(auto& element : (*layout) ){
     	glVertexAttribPointer(0, element.getCount(),
 	    	ShaderDataTypeToOpenGL(ShaderDataType::FLOAT3),
 	    	element.getNormalize(), 
-	    	layout.getStride(), 
+	    	layout->getStride(), 
 	    	(void*)element.getOffset());
     }
 
@@ -140,7 +106,7 @@ static void render(){
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glUseProgram(shaderProgram);
+    shaderProgram->bind();
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

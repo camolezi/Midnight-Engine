@@ -20,7 +20,7 @@ namespace MN{
 
 	class LayoutElement{
 	public:
-		
+
 		LayoutElement(ShaderDataType type,std::string name, bool normalize = false):
 			type{type}, 
 			name{name},
@@ -77,6 +77,7 @@ namespace MN{
 
 			virtual void bind() const= 0;
 			virtual void unbind() const = 0;
+			//virtual void setLayout(BufferLayout& layout) = 0;
 
 			static std::unique_ptr<VertexBuffer> create(uint32_t size, float * data);
 

@@ -21,8 +21,5 @@ namespace MN{
 	VertexBufferOpenGL::~VertexBufferOpenGL(){
 		glDeleteBuffers(1,&id);
 	}
-
-
-
 }
 
