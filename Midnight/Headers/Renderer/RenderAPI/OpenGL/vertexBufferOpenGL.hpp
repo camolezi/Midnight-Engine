@@ -15,12 +15,15 @@ namespace MN{
 			void unbind() const override;
 			//void setLayout(BufferLayout& layout) override{this->layout = layout;}
 
+			void setLayout(BufferLayout layout) override{this->layout = layout;};
+			const BufferLayout& getLayout() const override{return layout;};	
 
 			VertexBufferOpenGL(uint32_t size, float * data);
 			~VertexBufferOpenGL();
 
 		private:
 			unsigned int id;
+			BufferLayout layout;
 			//BufferLayout& layout;
 	};
 

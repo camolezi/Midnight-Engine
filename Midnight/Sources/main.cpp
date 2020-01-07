@@ -11,27 +11,18 @@
 #include <vertexBuffer.hpp>
 #include <indexBuffer.hpp>
 #include <shaderOpenGL.hpp>
+#include <vertexArray.hpp>
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
 
 
 
-unsigned int VAO;
 
 std::unique_ptr<MN::Shader> shaderProgram;
+std::unique_ptr<MN::VertexArray> VAO;
 
 namespace MN{
-	static GLenum ShaderDataTypeToOpenGL(ShaderDataType type){
-		switch(type){
-			case ShaderDataType::FLOAT2: 
-			case ShaderDataType::FLOAT3: 
-			case ShaderDataType::FLOAT4: 
-				return GL_FLOAT;
-			default:
-				ASSERT(false, "Invalid shader data type");
-				return -1;
-		};
-	}
+	
 
 }
 
@@ -66,37 +57,24 @@ static void renderTriangleTest(){
         0, 1, 3,  // first Triangle
         1, 2, 3   // second Triangle
     };
-    glGenVertexArrays(1, &VAO);
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    glBindVertexArray(VAO);
 
 
-    std::unique_ptr<VertexBuffer> VBO = VertexBuffer::create(sizeof(vertices), vertices);
+
+    std::shared_ptr<VertexBuffer> VBO = VertexBuffer::create(sizeof(vertices), vertices);
     VBO->bind();
 
-    std::unique_ptr<IndexBuffer> EBO = IndexBuffer::create(sizeof(indices), indices);
+    std::shared_ptr<IndexBuffer> EBO = IndexBuffer::create(sizeof(indices), indices);
     EBO->bind();
 
-    std::unique_ptr<BufferLayout> layout (new BufferLayout {
+    BufferLayout layout{
     	{ShaderDataType::FLOAT3, "Position"}
-    });
+    };
 
+    VBO->setLayout(layout);
 
-    for(auto& element : (*layout) ){
-    	glVertexAttribPointer(0, element.getCount(),
-	    	ShaderDataTypeToOpenGL(ShaderDataType::FLOAT3),
-	    	element.getNormalize(), 
-	    	layout->getStride(), 
-	    	(void*)element.getOffset());
-    }
-
-
-    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);  
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    glBindVertexArray(0); 
-
+    VAO = VertexArray::create();
+    VAO->setVertexBuffer(VBO);
+    VAO->setIndexBuffer(EBO);
 
  }
 
@@ -107,7 +85,7 @@ static void render(){
     glClear(GL_COLOR_BUFFER_BIT);
 
     shaderProgram->bind();
-    glBindVertexArray(VAO);
+  	VAO->bind();
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 

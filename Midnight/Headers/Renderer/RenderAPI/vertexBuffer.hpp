@@ -57,11 +57,14 @@ namespace MN{
 		BufferLayout(std::initializer_list<LayoutElement> elements):elements{elements}
 			{calculateStride();}
 
+		BufferLayout(){};
+
 		//Iterators
 		std::vector<LayoutElement>::iterator begin() { return elements.begin(); }
 		std::vector<LayoutElement>::iterator end() { return elements.end(); }
 
 		int getStride(){return stride;}
+		std::vector<LayoutElement>& getElements(){return elements;}
 	private:
 		void calculateStride();
 		//How many bytes one vertex has
@@ -77,7 +80,9 @@ namespace MN{
 
 			virtual void bind() const= 0;
 			virtual void unbind() const = 0;
-			//virtual void setLayout(BufferLayout& layout) = 0;
+
+			virtual void setLayout(BufferLayout layout) = 0;
+			virtual const BufferLayout& getLayout() const = 0;	
 
 			static std::unique_ptr<VertexBuffer> create(uint32_t size, float * data);
 
