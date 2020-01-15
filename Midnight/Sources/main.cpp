@@ -89,7 +89,7 @@ static void render(){
 
     shaderProgram->bind();
   	VAO->bind();
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, VAO->getIndexNumber(), GL_UNSIGNED_INT, 0);
 }
 
 int main(){

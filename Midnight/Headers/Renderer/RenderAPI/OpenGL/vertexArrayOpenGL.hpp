@@ -15,6 +15,9 @@ namespace MN{
 		void setVertexBuffer(const std::shared_ptr<VertexBuffer>& buffer ) override;
 		void setIndexBuffer(const std::shared_ptr<IndexBuffer>& buffer ) override;
 
+		uint32_t getIndexNumber() const override;
+
+
 		 ~VertexArrayOpenGL();
 		 VertexArrayOpenGL();
 	private:

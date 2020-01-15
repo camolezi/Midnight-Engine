@@ -23,6 +23,9 @@ namespace MN{
 		return std::make_unique<VertexArrayOpenGL>();
 	}
 
+	uint32_t VertexArrayOpenGL::getIndexNumber() const{
+		return indexBuffer->getIndexNumber();
+	}
 
 	void VertexArrayOpenGL::bind() const{
 		glBindVertexArray(id);
@@ -70,8 +73,6 @@ namespace MN{
 
 	    	position++;
     	}
-
-    	TERMINAL_DEBUG("SIZOF" << sizeof (float));
 		
 	}
 

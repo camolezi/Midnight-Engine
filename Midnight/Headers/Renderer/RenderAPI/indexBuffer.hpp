@@ -12,9 +12,9 @@ namespace MN{
 
 			static std::unique_ptr<IndexBuffer> create(uint32_t size, uint32_t * indices);
 
+			virtual uint32_t getIndexNumber() const = 0;
+
 			virtual ~IndexBuffer(){}
-
-
 	};
 }
 

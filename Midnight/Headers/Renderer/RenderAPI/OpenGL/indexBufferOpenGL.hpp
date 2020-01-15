@@ -16,8 +16,11 @@ namespace MN{
 		IndexBufferOpenGL(uint32_t size, uint32_t * indices);
 		~IndexBufferOpenGL();
 
+		uint32_t getIndexNumber() const override;
+
 	private:
 		unsigned int id;
+		uint32_t size;
 
 	};
 

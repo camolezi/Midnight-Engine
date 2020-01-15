@@ -19,6 +19,8 @@ namespace MN{
 		virtual void setVertexBuffer(const std::shared_ptr<VertexBuffer>& buffer ) = 0;
 		virtual void setIndexBuffer(const std::shared_ptr<IndexBuffer>& buffer ) = 0;
 
+		virtual uint32_t getIndexNumber() const = 0;
+
 		virtual ~VertexArray(){};
 
 		static std::unique_ptr<VertexArray> create();
