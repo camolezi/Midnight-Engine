@@ -15,11 +15,11 @@
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
 
-
+#include <renderer2D.hpp>
 
 
 std::unique_ptr<MN::Shader> shaderProgram;
-std::unique_ptr<MN::VertexArray> VAO;
+std::shared_ptr<MN::VertexArray> VAO;
 
 //Just for testing draw a rectangule
 static void renderTriangleTest(){
@@ -83,13 +83,14 @@ static void renderTriangleTest(){
 
 //Just for testing open gl
 static void render(){
-		//Just for now
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+	
+
+    MN::Renderer2D::setClearColor({0.2f,0.3f,0.3f});
+    MN::Renderer2D::clear();
 
     shaderProgram->bind();
-  	VAO->bind();
-    glDrawElements(GL_TRIANGLES, VAO->getIndexNumber(), GL_UNSIGNED_INT, 0);
+    //glDrawElements(GL_TRIANGLES, VAO->getIndexNumber(), GL_UNSIGNED_INT, 0);
+    MN::Renderer2D::drawQuad(VAO);
 }
 
 int main(){
@@ -107,6 +108,7 @@ int main(){
 	#endif
 
 	Window::pointer windowPtr= Window::create();
+	MN::Renderer2D::start();
 
 	bool run = true;
 	//Close window and end game engine
@@ -121,6 +123,7 @@ int main(){
 	MidnightApp * app = MidnightApp::createApp();
 	ASSERT(app, "Failed to initialize application");
 	app->start();
+
 
 	while(run){
 		EventDispatcher::dispatcher().update();

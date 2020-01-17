@@ -3,7 +3,6 @@
 
 
 namespace MN{
-
 	using MouseButton = int;
 }
 
