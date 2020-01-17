@@ -8,7 +8,7 @@
 		
 	using vec2 = MN::Math::Vector2<float>;
 	using vec3 = MN::Math::Vector3<float>;
-	using vec4 = MN::Math::Vector<float,4>;
+	using vec4 = MN::Math::Vector4<float>;
 
 	using mat4 = MN::Math::Matrix<float,4>;
 	using mat3 = MN::Math::Matrix<float,3>;

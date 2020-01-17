@@ -3,14 +3,15 @@
 #include <event.hpp>
 #include <eventDispatcher.hpp>
 #include <terminalLog.hpp>
-#include <linuxWindow.hpp>
+//#include <linuxWindow.hpp>
+#include <window.hpp>
 #include <windowEvent.hpp>
 #include <midnightApplication.hpp>
 #include <coreMath.hpp>
 
 #include <vertexBuffer.hpp>
 #include <indexBuffer.hpp>
-#include <shaderOpenGL.hpp>
+#include <shader.hpp>
 #include <vertexArray.hpp>
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
@@ -42,8 +43,9 @@ static void renderTriangleTest(){
 		out vec4 finalColor;
 		in vec4 fragColor;
 
+		uniform vec4 uniformColor;
 		void main(){
-			finalColor = fragColor;
+			finalColor = uniformColor;
 		}
 	)";
 
@@ -87,9 +89,10 @@ static void render(){
 
     MN::Renderer2D::setClearColor({0.2f,0.3f,0.3f});
     MN::Renderer2D::clear();
+    
 
     shaderProgram->bind();
-    //glDrawElements(GL_TRIANGLES, VAO->getIndexNumber(), GL_UNSIGNED_INT, 0);
+  	shaderProgram->uniformVec4("uniformColor",{1.0f,1.0f,0,1.0f});
     MN::Renderer2D::drawQuad(VAO);
 }
 

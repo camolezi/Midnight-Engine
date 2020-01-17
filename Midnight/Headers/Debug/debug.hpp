@@ -10,10 +10,10 @@
 #include <assert.h>
 
 #ifdef deploy
-	#define ASSERT(condition , text)
+	#define ASSERT( condition , text)
 #else
 	#define ASSERT( condition , text) \
-	if(!condition){ \
+	if(! (condition) ){ \
 		TERMINAL_LOG(Log::Error, text); \
 		Debug::TerminalLog::instance().flush(); \
 		assert(condition); \

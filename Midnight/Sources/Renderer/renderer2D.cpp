@@ -16,7 +16,7 @@ namespace MN{
 		renderCommand->clear();
 	}
 
-	void Renderer2D::setClearColor(vec3 color){
+	void Renderer2D::setClearColor(const vec3& color){
 		renderCommand->setClearColor(color);
 	}
 
@@ -26,8 +26,6 @@ namespace MN{
 	}
 
 	void Renderer2D::drawQuad(std::shared_ptr<VertexArray> VAO){
-		//This bind may be unnecessary
-		VAO->bind();
 		renderCommand->drawIndexed(VAO);
 	}
 

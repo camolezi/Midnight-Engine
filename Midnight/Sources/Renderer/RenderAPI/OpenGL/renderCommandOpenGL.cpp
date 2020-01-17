@@ -9,8 +9,8 @@ namespace MN{
 		return std::make_unique<RenderCommandOpenGL>();
 	}
 
-	void RenderCommandOpenGL::setClearColor(vec3 color) {
-		glClearColor(color.x(), color.y(), color.z(), 1.0f);
+	void RenderCommandOpenGL::setClearColor(const vec3& color) {
+		glClearColor(color.at(0), color.at(1), color.at(2), 1.0f);
 	}
 
 
@@ -19,6 +19,8 @@ namespace MN{
 	}
 
 	void RenderCommandOpenGL::drawIndexed(std::shared_ptr<VertexArray> VAO){
+		//This bind may be unnecessary
+		VAO->bind();
 		glDrawElements(GL_TRIANGLES, VAO->getIndexNumber(), GL_UNSIGNED_INT, 0);
 	}
 

@@ -4,6 +4,7 @@
 #include <array>
 #include <algorithm>
 #include <debug.hpp>
+#include <initializer_list>
 
 						  
 namespace MN{							
@@ -18,6 +19,8 @@ namespace MN{
 				Vector(const T& init){
 					std::fill(data.begin(),data.end(),init);
 				}
+
+				//Vector(std::initializer_list<T> elements) : data{elements}{}
 
 				T& operator[](const std::size_t index){
 					//Debug only
@@ -81,6 +84,35 @@ namespace MN{
                 T& x(){return this->data[0];}
                 T& y(){return this->data[1];}
                 T& z(){return this->data[2];}
+
+			private:
+				
+		};
+
+
+		template<typename T>
+		class Vector4 : public Vector<T,4>{
+			public:
+				using Vector<T,4>::Vector;
+
+				Vector4(const T& x, const T& y, const T& z, const T& w){
+					this->data[0] = x;
+					this->data[1] = y;
+					this->data[2] = z;
+					this->data[3] = w;
+				}	
+
+				Vector4(const Vector<T,3> vec){
+					this->data[0] = vec.at(0);
+					this->data[1] = vec.at(1);
+					this->data[2] = vec.at(2);
+					this->data[3] = vec.at(3);
+				}
+
+                T& x(){return this->data[0];}
+                T& y(){return this->data[1];}
+                T& z(){return this->data[2];}
+                T& w(){return this->data[3];}
 
 			private:
 				

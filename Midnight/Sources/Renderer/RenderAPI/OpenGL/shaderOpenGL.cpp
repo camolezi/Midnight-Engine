@@ -66,4 +66,23 @@ namespace MN{
 	ShaderOpenGL::~ShaderOpenGL(){
 		glDeleteProgram(shaderProgram);
 	}
+
+
+	void ShaderOpenGL::uniformVec3( std::string name,const  vec3& data){
+		int uniformLocation = glGetUniformLocation(shaderProgram, name.c_str());
+		ASSERT( uniformLocation != -1, "Shader Uniform not found Vec3: " << name);
+		glUniform3f(uniformLocation, data.at(0), data.at(1), data.at(2));
+	}
+
+	void ShaderOpenGL::uniformVec4( std::string name,const vec4& data){
+		int uniformLocation = glGetUniformLocation(shaderProgram, name.c_str());
+		ASSERT( uniformLocation != -1, "Shader Uniform not found Vec4: " << name);
+		glUniform4f(uniformLocation, data.at(0), data.at(1), data.at(2), data.at(3));
+	}
+
+	void ShaderOpenGL::uniformMat4( std::string name,const mat4& data){
+
+	}
+
+
 }

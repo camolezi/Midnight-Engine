@@ -8,7 +8,7 @@
 namespace MN{
 
 
-	//Renderer is a static class that contenteins commands
+	//Renderer is a static class that contains commands
 	class Renderer2D{
 
 	public:
@@ -17,7 +17,7 @@ namespace MN{
 		//static void end();
 
 		static void clear();
-		static void setClearColor(vec3 color);
+		static void setClearColor(const vec3& color);
 
 		static void beginScene();
 		static void endScene();

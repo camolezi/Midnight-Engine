@@ -13,7 +13,7 @@ namespace MN{
 	public:
 
 		//Commands
-		virtual void setClearColor(vec3 color) = 0;
+		virtual void setClearColor(const vec3& color) = 0;
 		virtual void clear() = 0;
 		virtual void drawIndexed(std::shared_ptr<VertexArray> VAO) =0 ;
 
@@ -28,7 +28,7 @@ namespace MN{
 
 	class RenderCommandOpenGL : public RenderCommand{
 	public:
-		void setClearColor(vec3 color) override;
+		void setClearColor(const vec3& color) override;
 		void clear() override;
 		RenderApi getApi() const override{return RenderApi::OpenGL;}
 		void drawIndexed(std::shared_ptr<VertexArray> VAO) override;
