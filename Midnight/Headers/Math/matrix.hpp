@@ -19,8 +19,8 @@ namespace MN{
 				Matrix(){zero();}
 
 				T at(const std::size_t index1,const std::size_t index2) const{
-					//assert(index1 >= 0 && index1 < N);
-					//assert(index2 >= 0 && index2 < N);
+					ASSERT(index1 >= 0 && index1 < N,"Index of Matrix out of range: " << index1 << " " << index2);
+					ASSERT(index2 >= 0 && index2 < N,"Index of Matrix out of range: " << index1 << " " << index2);
 					
 					return data[index1][index2];
 				}
@@ -48,6 +48,8 @@ namespace MN{
 				std::size_t size() const{
 					return _size;
 				}
+
+				const void * getData() const{return data;}
 
 			private:
 				std::size_t _size = N;

@@ -14,6 +14,6 @@
 	using mat3 = MN::Math::Matrix<float,3>;
 
 
-	//namespace transform = MN::Math::Transformation3D;
+	namespace transform3D = MN::Math::Transformation3D;
 
 #endif

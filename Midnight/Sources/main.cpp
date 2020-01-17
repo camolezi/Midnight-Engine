@@ -31,10 +31,12 @@ static void renderTriangleTest(){
 		layout (location = 0) in vec3 aPos;
 		layout (location = 1) in vec4 color;
 
+		uniform mat4 scale = mat4(1);
+
 		out vec4 fragColor;
 		void main(){
 			fragColor = color;
-			gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+			gl_Position = scale * vec4(aPos.x, aPos.y, aPos.z, 1.0);
 		}
 	)";
 
@@ -89,10 +91,16 @@ static void render(){
 
     MN::Renderer2D::setClearColor({0.2f,0.3f,0.3f});
     MN::Renderer2D::clear();
-    
+
+    mat4 scale = transform3D::scale(vec3{1.5f,0.1f,1.0f});
+
+
 
     shaderProgram->bind();
   	shaderProgram->uniformVec4("uniformColor",{1.0f,1.0f,0,1.0f});
+  	shaderProgram->uniformMat4("scale", scale);
+
+
     MN::Renderer2D::drawQuad(VAO);
 }
 
