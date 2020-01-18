@@ -13,7 +13,7 @@ namespace MN{
 		namespace Transformation3D{
 
 			template<typename T>
-			MN::Math::Matrix<T,4> translation(const MN::Math::Vector3<T>& tr){
+			MN::Math::Matrix<T,4> translate(const MN::Math::Vector3<T>& tr){
 				MN::Math::Matrix<T,4> ret;
 				ret.clear();
 
@@ -99,6 +99,32 @@ namespace MN{
 
 				return ret;
 			}
+
+
+
+			//Camera Matrix
+			template<typename T>
+			MN::Math::Matrix<T,4> orthographic(const T& left,
+											   const T& right, 
+											   const T& top,
+											   const T& bottom,
+											   const T& near,
+											   const T& far)
+			{
+				MN::Math::Matrix<T,4> ret;
+
+				ret.data[0][0] = static_cast<T>(2)/(right-left);
+				ret.data[1][1] = static_cast<T>(2)/(top - bottom);
+				ret.data[2][2] = static_cast<T>(-2)/(far-near);
+				ret.data[0][3] = -(right + left)/(right - left);	
+				ret.data[1][3] = -(top + bottom)/(top - bottom);
+				ret.data[2][3] = -(far + near)/(far - near);
+				ret.data[3][3] = static_cast<T>(1);
+
+				return ret;
+			}
+
+
 
 
 

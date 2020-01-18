@@ -3,6 +3,7 @@
 
 #include <array>
 #include <algorithm>
+#include <string>
 
 #include <vector.hpp>
 #include <debug.hpp>
@@ -43,6 +44,17 @@ namespace MN{
 								data[x][y] = static_cast<T>(0);
 						}
 					}
+				}
+
+				std::string to_string(){
+					std::string ret = "";
+					for(std::size_t x =0; x < N; x++){
+						for(std::size_t y = 0; y < N; y++){
+							ret += std::to_string(data[x][y]) + " ";
+						}
+						ret += "\n";
+					}
+					return ret;
 				}
 
 				std::size_t size() const{

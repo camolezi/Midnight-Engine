@@ -24,13 +24,13 @@ namespace MN{
 
 				T& operator[](const std::size_t index){
 					//Debug only
-					//assert(index >= 0 && index < N);
+					ASSERT(index >= 0 && index < N, "Index in vector out of range: " << index);
 					return data[index];
 				}
 
 				T at(const std::size_t index) const{
 					//Debug only
-					//assert(index >= 0 && index < N);
+					ASSERT(index >= 0 && index < N, "Index in vector out of range: " << index);
 					return data[index];
 				}
 

@@ -8,6 +8,7 @@
 #include <windowEvent.hpp>
 #include <midnightApplication.hpp>
 #include <coreMath.hpp>
+#include <camera.hpp>
 
 #include <vertexBuffer.hpp>
 #include <indexBuffer.hpp>
@@ -33,10 +34,12 @@ static void renderTriangleTest(){
 
 		uniform mat4 scale = mat4(1);
 
+		uniform mat4 viewProj = mat4(1);
+
 		out vec4 fragColor;
 		void main(){
 			fragColor = color;
-			gl_Position = scale * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+			gl_Position = viewProj * scale * vec4(aPos.x, aPos.y, aPos.z, 1.0);
 		}
 	)";
 
@@ -85,20 +88,22 @@ static void renderTriangleTest(){
 
  }
 
-//Just for testing open gl
+//Just for testing the renderer
+MN::OrthographicCamera camera(-10.0f,10.0f,10.0f,-10.0f,0.1f,20.0f);
+
 static void render(){
 	
 
     MN::Renderer2D::setClearColor({0.2f,0.3f,0.3f});
     MN::Renderer2D::clear();
+    camera.setPosition({0,0,2.0f});
 
-    mat4 scale = transform3D::scale(vec3{1.5f,0.1f,1.0f});
-
-
+    mat4 scale = transform3D::translate(vec3{0.5f,0.1f,0.0f});
 
     shaderProgram->bind();
   	shaderProgram->uniformVec4("uniformColor",{1.0f,1.0f,0,1.0f});
   	shaderProgram->uniformMat4("scale", scale);
+  	shaderProgram->uniformMat4("viewProj",camera.viewProjMatrix());
 
 
     MN::Renderer2D::drawQuad(VAO);

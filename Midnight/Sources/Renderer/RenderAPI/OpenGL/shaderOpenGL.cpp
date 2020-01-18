@@ -84,7 +84,7 @@ namespace MN{
 	void ShaderOpenGL::uniformMat4( std::string name,const mat4& data){
 		int uniformLocation = glGetUniformLocation(shaderProgram, name.c_str());
 		ASSERT( uniformLocation != -1, "Shader Uniform not found Vec4: " << name);
-		glUniformMatrix4fv(uniformLocation,1,true,(float *)data.getData());
+		glUniformMatrix4fv(uniformLocation,1,true,static_cast<const float *>(data.getData()) );
 	}
 
 
