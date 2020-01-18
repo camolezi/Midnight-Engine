@@ -19,8 +19,6 @@ namespace MN{
 	}
 
 	void RenderCommandOpenGL::drawIndexed(std::shared_ptr<VertexArray> VAO){
-		//This bind may be unnecessary
-		VAO->bind();
 		glDrawElements(GL_TRIANGLES, VAO->getIndexNumber(), GL_UNSIGNED_INT, 0);
 	}
 

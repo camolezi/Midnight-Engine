@@ -4,8 +4,23 @@
 #include <coreMath.hpp>
 #include <renderCommand.hpp>
 #include <memory>
+#include <shader.hpp>
+#include <vertexArray.hpp>
+#include <vertexBuffer.hpp>
+#include <indexBuffer.hpp>
+#include <camera.hpp>
+
+
+
 
 namespace MN{
+
+
+	class Render2DInfo{
+	public:
+		std::unique_ptr<Shader> shader;
+		std::shared_ptr<VertexArray> vertexArray;
+	};
 
 
 	//Renderer is a static class that contains commands
@@ -19,15 +34,19 @@ namespace MN{
 		static void clear();
 		static void setClearColor(const vec3& color);
 
-		static void beginScene();
+		static void beginScene(std::shared_ptr<Camera> camera);
 		static void endScene();
 
-		static void drawQuad(std::shared_ptr<VertexArray> VAO);
+		static void drawQuad();
 
 
 	private:
 
+		static Render2DInfo renderInfo;
+
+		static std::shared_ptr<Camera> camera;
 		static std::unique_ptr<RenderCommand> renderCommand;
+
 		Renderer2D();
 
 	};

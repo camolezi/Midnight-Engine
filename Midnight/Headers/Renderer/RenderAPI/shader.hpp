@@ -14,9 +14,9 @@ namespace MN{
 		virtual void unbind() const = 0;
 
 		//Uniforms (temporary)
-	    virtual void uniformVec3( std::string name, const vec3& data) = 0;
-		virtual void uniformVec4( std::string name, const vec4& data) = 0;
-		virtual void uniformMat4( std::string name, const mat4& data) = 0;
+	    virtual void uniformVec3( const std::string& name, const vec3& data) = 0;
+		virtual void uniformVec4( const std::string& name, const vec4& data) = 0;
+		virtual void uniformMat4( const std::string& name, const mat4& data) = 0;
 
 		virtual ~Shader(){}
 		static std::unique_ptr<Shader> create(const std::string& vertexShaderSource, 

@@ -12,9 +12,9 @@ namespace MN{
 		void bind() const override;
 		void unbind() const override;
 
-		void uniformVec3( std::string name,const vec3& data) override;
-		void uniformVec4( std::string name,const vec4& data) override;
-		void uniformMat4( std::string name,const mat4& data) override;
+		void uniformVec3(const std::string& name,const vec3& data) override;
+		void uniformVec4(const std::string& name,const vec4& data) override;
+		void uniformMat4(const std::string& name,const mat4& data) override;
 
 
 		~ShaderOpenGL();
