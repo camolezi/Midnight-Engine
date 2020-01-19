@@ -1,19 +1,17 @@
 #include <iostream>
 
-#include <event.hpp>
 #include <eventDispatcher.hpp>
-#include <terminalLog.hpp>
-//#include <linuxWindow.hpp>
+#include <debug.hpp>
 #include <window.hpp>
-#include <windowEvent.hpp>
 #include <midnightApplication.hpp>
 #include <coreMath.hpp>
 #include <camera.hpp>
+#include <input.hpp>
+#include <renderer2D.hpp>
 
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
 
-#include <renderer2D.hpp>
 
 
 int main(){
@@ -32,6 +30,7 @@ int main(){
 
 	Window::pointer windowPtr= Window::create();
 	MN::Renderer2D::start();
+	MN::Input::start();
 
 	bool run = true;
 	//Close window and end game engine

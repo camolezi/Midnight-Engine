@@ -1,0 +1,32 @@
+#ifndef INPUT_HPP
+#define INPUT_HPP
+
+#include <unordered_map>
+#include <key.hpp>
+#include <mouseButton.hpp>
+
+namespace MN{
+
+	//Plataform Independent input class
+	//Uses Midnight event system to verify the input status
+
+	class Input{
+	public:
+		
+		static bool isKeyPressed (Key code);
+		static bool isMousePressed (MouseButton code);
+
+		static void update();
+		static void start();
+
+
+	private:
+		Input();
+		static std::unordered_map<Key,bool> keyStatus;
+	};
+}
+
+
+
+
+#endif

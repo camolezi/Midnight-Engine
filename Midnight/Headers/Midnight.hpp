@@ -18,6 +18,7 @@
 //input
 #include <key.hpp>
 #include <mouseButton.hpp>
+#include <input.hpp>
 
 //Render
 #include <renderer2D.hpp>
