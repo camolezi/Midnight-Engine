@@ -48,8 +48,7 @@ int main(){
 	while(run){
 		EventDispatcher::dispatcher().update();
 		windowPtr->update();
-
-	//	render();
+		
 	    app->run();
 
 		Debug::TerminalLog::instance().flush();

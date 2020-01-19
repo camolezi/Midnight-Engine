@@ -41,6 +41,9 @@ namespace MN{
  	void Renderer2D::start(){
  		renderCommand = RenderCommand::create();
 
+ 		//Configs
+ 		renderCommand->enableDepthTest();
+
 		renderInfo.shader = Shader::create(vertexShaderSource,fragmentShaderSource);
 	    float vertices[] = {
 	    	//Position  
@@ -86,6 +89,7 @@ namespace MN{
 		camera = cam;
 	}
 
+	//Imediate render for now.
 	void Renderer2D::drawQuad(const Transform2D& tr,const vec4& color){
 		//This bind may be unnecessary
 

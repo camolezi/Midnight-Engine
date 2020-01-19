@@ -15,8 +15,8 @@ namespace MN{
 		//Commands
 		virtual void setClearColor(const vec3& color) = 0;
 		virtual void clear() = 0;
-		virtual void drawIndexed(std::shared_ptr<VertexArray> VAO) =0 ;
-
+		virtual void drawIndexed(std::shared_ptr<VertexArray> VAO) =0;
+		virtual void enableDepthTest() = 0;
 		//utility
 		virtual RenderApi getApi() const = 0;
 		virtual ~RenderCommand(){}
@@ -32,7 +32,7 @@ namespace MN{
 		void clear() override;
 		RenderApi getApi() const override{return RenderApi::OpenGL;}
 		void drawIndexed(std::shared_ptr<VertexArray> VAO) override;
-
+		void enableDepthTest() override;
 
 		~RenderCommandOpenGL(){}
 

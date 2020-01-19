@@ -2,6 +2,7 @@
 
 //Testing client application side
 
+
 class clientApp : public MN::MidnightApp{
 
 	public:	
@@ -15,15 +16,8 @@ class clientApp : public MN::MidnightApp{
 void clientApp::start(){
 	//Testing client side API
 	using namespace MN;
-	
+
 	//Can subscribe with lambda expression or functions
-	auto printEvent = [](MidnightEvent event){
-	 	TERMINAL_DEBUG(event->to_string());
-	};
-
-	EventSubscribe(KeyPressedEvent,printEvent);
-	EventSubscribe(KeyReleasedEvent,printEvent);
-
 	//When ESC is pressed close the app
 	EventSubscribe(KeyPressedEvent,[](MidnightEvent event){
 		auto pressEvent = downcast_event_ptr<KeyPressedEvent>(event);
@@ -39,9 +33,25 @@ void clientApp::start(){
 
 void clientApp::run(){
 
+	static float x = 0;
+	static float y = 0;
+	static float velocity = 0.3f;
 
-	if(MN::Input::isKeyPressed(MN_MOUSE_BUTTON_1)){
-		TERMINAL_DEBUG("KeyPressed");
+	//Testing quad movment 
+	if(MN::Input::isKeyPressed(MN_KEY_W)){
+		y = y + velocity;
+	}
+
+	if(MN::Input::isKeyPressed(MN_KEY_S)){
+		y = y - velocity;
+	}
+
+	if(MN::Input::isKeyPressed(MN_KEY_A)){
+		x = x - velocity;
+	}
+
+	if(MN::Input::isKeyPressed(MN_KEY_D)){
+		x = x + velocity;
 	}
 
 	camera->setPosition({0,4.0f,2.0f});
@@ -53,8 +63,8 @@ void clientApp::run(){
     //MN::Renderer2D::drawQuad(MN::Transform2D{vec3{0,0,0}, 0, vec2{0,0} });
     
     MN::Renderer2D::drawQuad({ {5,5,0} , 30 , {1,6} } , {1.0f,0,0,1.0f}); //Red
-    MN::Renderer2D::drawQuad({ {0,0,0} , -67 , {5,3} } , {0,1.0f,0,1.0f}); //Green
-    MN::Renderer2D::drawQuad({ {-5,-5,0} , 0 , {2,1} } , {0,0,1.0f,1.0f});	//Blue
+    MN::Renderer2D::drawQuad({ {-2,-3,0} , -67 , {5,3} } , {0,1.0f,0,1.0f}); //Green
+    MN::Renderer2D::drawQuad({ {x,y,-1.0f} , 0 , {2,1} } , {0,0,1.0f,1.0f});	//Blue
 
     MN::Renderer2D::endScene();
 

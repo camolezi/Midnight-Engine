@@ -9,13 +9,15 @@ namespace MN{
 		return std::make_unique<RenderCommandOpenGL>();
 	}
 
+	void RenderCommandOpenGL::enableDepthTest(){ glEnable(GL_DEPTH_TEST); }
+
 	void RenderCommandOpenGL::setClearColor(const vec3& color) {
 		glClearColor(color.at(0), color.at(1), color.at(2), 1.0f);
 	}
 
 
 	void RenderCommandOpenGL::clear(){
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void RenderCommandOpenGL::drawIndexed(std::shared_ptr<VertexArray> VAO){
