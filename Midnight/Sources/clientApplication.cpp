@@ -44,7 +44,14 @@ void clientApp::run(){
 
 	MN::Renderer2D::beginScene(camera);
     MN::Renderer2D::clear();
-    MN::Renderer2D::drawQuad();
+    //Render
+    //MN::Renderer2D::drawQuad(MN::Transform2D{vec3{0,0,0}, 0, vec2{0,0} });
+
+    MN::Renderer2D::drawQuad({ {5,5,0} , 30 , {1,6} } , {1.0f,0,0,1.0f}); //Red
+    MN::Renderer2D::drawQuad({ {0,0,0} , -67 , {5,3} } , {0,1.0f,0,1.0f}); //Green
+    MN::Renderer2D::drawQuad({ {-5,-5,0} , 0 , {2,1} } , {0,0,1.0f,1.0f});	//Blue
+
+
     MN::Renderer2D::endScene();
 
 }

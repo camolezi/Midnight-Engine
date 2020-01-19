@@ -9,6 +9,7 @@
 #include <vertexBuffer.hpp>
 #include <indexBuffer.hpp>
 #include <camera.hpp>
+#include <transform.hpp>
 
 
 
@@ -37,7 +38,7 @@ namespace MN{
 		static void beginScene(std::shared_ptr<Camera> camera);
 		static void endScene();
 
-		static void drawQuad();
+		static void drawQuad(const Transform2D& transform, const vec4& color = {1.0f,0.0f,0.0f,1.0f});
 
 
 	private:

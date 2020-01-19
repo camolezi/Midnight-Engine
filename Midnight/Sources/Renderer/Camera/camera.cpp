@@ -9,12 +9,12 @@ namespace MN{
 
 
 	void OrthographicCamera::calculateViewMatrix(){
-		_viewMatrix = transform3D::translate(vec3{-position});
+		_viewMatrix = transformation3D::translate(vec3{-position});
 		_viewProjMatrix = _projMatrix * _viewMatrix;
 	}
 	
 	OrthographicCamera::OrthographicCamera(float left, float right, float top, float bottom, float near, float far){
-		_projMatrix = transform3D::orthographic(left,right,top,bottom,near,far);
+		_projMatrix = transformation3D::orthographic(left,right,top,bottom,near,far);
 		position = vec3{0,0,5.0f};
 		calculateViewMatrix();
 

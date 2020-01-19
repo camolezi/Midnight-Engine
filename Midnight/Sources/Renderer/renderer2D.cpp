@@ -9,11 +9,11 @@ static std::string vertexShaderSource = R"(
 	#version 330 core
 	layout (location = 0) in vec3 aPos;
 
-	uniform mat4 scale = mat4(1);
+	uniform mat4 model = mat4(1);
 	uniform mat4 viewProj = mat4(1);
 
 	void main(){
-		gl_Position = viewProj * scale * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+		gl_Position = viewProj * model * vec4(aPos.x, aPos.y, aPos.z, 1.0);
 	}
 )";
 
@@ -86,13 +86,14 @@ namespace MN{
 		camera = cam;
 	}
 
-	void Renderer2D::drawQuad(){
+	void Renderer2D::drawQuad(const Transform2D& tr,const vec4& color){
 		//This bind may be unnecessary
 
 		renderInfo.shader->bind();
-  		renderInfo.shader->uniformVec4("uniformColor",{1.0f,1.0f,0,1.0f});
+  		renderInfo.shader->uniformVec4("uniformColor",color);
   		renderInfo.shader->uniformMat4("viewProj",camera->viewProjMatrix());
-  		
+  		renderInfo.shader->uniformMat4("model",tr.modelMatrix());
+
 		renderInfo.vertexArray->bind();
 		renderCommand->drawIndexed(renderInfo.vertexArray);
 	}
