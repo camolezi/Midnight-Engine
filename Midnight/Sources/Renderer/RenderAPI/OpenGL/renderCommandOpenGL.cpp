@@ -24,5 +24,14 @@ namespace MN{
 		glDrawElements(GL_TRIANGLES, VAO->getIndexNumber(), GL_UNSIGNED_INT, 0);
 	}
 
+	void RenderCommandOpenGL::setViewPort(
+	 unsigned int x, 
+	 unsigned int y, 
+	 unsigned int width, 
+	 unsigned int height)
+	{
+		glViewport(x,y,width,height);
+	}
+
 
 }

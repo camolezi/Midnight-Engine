@@ -73,6 +73,13 @@ namespace MN{
 	    renderInfo.vertexArray = VertexArray::create();
 	    renderInfo.vertexArray->setVertexBuffer(VBO);
 	    renderInfo.vertexArray->setIndexBuffer(EBO);
+
+
+
+
+	    //Events subscription
+	    EventSubscribe(WindowResizedEvent,Renderer2D::windowResizeUpdate);
+
  	}
 
 
@@ -105,6 +112,12 @@ namespace MN{
 
 	void Renderer2D::endScene(){
 
+	}
+
+	void Renderer2D::windowResizeUpdate(MidnightEvent event){
+		auto resizedEvent = downcast_event_ptr<WindowResizedEvent>(event);
+		//Fow now (only one view port)
+		renderCommand->setViewPort(0,0,resizedEvent->getWidth(),resizedEvent->getHeight());
 	}
 
 

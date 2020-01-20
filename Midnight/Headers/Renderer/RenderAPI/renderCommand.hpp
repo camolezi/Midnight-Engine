@@ -17,6 +17,8 @@ namespace MN{
 		virtual void clear() = 0;
 		virtual void drawIndexed(std::shared_ptr<VertexArray> VAO) =0;
 		virtual void enableDepthTest() = 0;
+		virtual void setViewPort( unsigned int x,  unsigned int y, unsigned int width,  unsigned int height) = 0;
+
 		//utility
 		virtual RenderApi getApi() const = 0;
 		virtual ~RenderCommand(){}
@@ -33,6 +35,7 @@ namespace MN{
 		RenderApi getApi() const override{return RenderApi::OpenGL;}
 		void drawIndexed(std::shared_ptr<VertexArray> VAO) override;
 		void enableDepthTest() override;
+		void setViewPort( unsigned int x,  unsigned int y,  unsigned int width,  unsigned int height) override;
 
 		~RenderCommandOpenGL(){}
 

@@ -26,7 +26,7 @@ void clientApp::start(){
 		} 
 	});
 	//Camera
-	camera = std::make_shared<OrthographicCamera>(-10.0f,10.0f,10.0f,-10.0f,0.1f,20.0f);
+	camera = std::make_shared<OrthographicCamera>( -16.0f,16.0f,9.0f,-9.0f,0.1f,20.0f);
 	MN::Renderer2D::setClearColor({0.2f,0.3f,0.3f});
 }
 
@@ -64,7 +64,7 @@ void clientApp::run(){
     
     MN::Renderer2D::drawQuad({ {5,5,0} , 30 , {1,6} } , {1.0f,0,0,1.0f}); //Red
     MN::Renderer2D::drawQuad({ {-2,-3,0} , -67 , {5,3} } , {0,1.0f,0,1.0f}); //Green
-    MN::Renderer2D::drawQuad({ {x,y,-1.0f} , 0 , {2,1} } , {0,0,1.0f,1.0f});	//Blue
+    MN::Renderer2D::drawQuad({ {x,y,-1.0f} , 0 , {3,3} } , {0,0,1.0f,1.0f});	//Blue
 
     MN::Renderer2D::endScene();
 

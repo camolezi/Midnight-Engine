@@ -3,7 +3,7 @@
 
 #include <string>
 #include <memory>
-
+#include <debug.hpp>
 
 namespace MN{
 
@@ -67,7 +67,9 @@ namespace MN{
 		//return std::move(std::unique_ptr<T>(std::move(static_cast<T*>(ptr.release()))) );
 
 		//Maybe change to static_cast in release mode
-		return std::dynamic_pointer_cast<T>(ptr);
+		auto ret= std::dynamic_pointer_cast<T>(ptr);
+		ASSERT(ret,"Down Cast Event Error");
+		return ret;
 	}
 
 
