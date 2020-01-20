@@ -19,6 +19,8 @@ namespace MN{
 			enum class EventType{
 				WindowCloseEvent,
 				WindowResizedEvent,
+				WindowMinimizedEvent,
+				WindowRestoredEvent,
 				MouseMovedEvent,
 				KeyPressedEvent,
 				KeyReleasedEvent,

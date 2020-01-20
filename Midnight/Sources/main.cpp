@@ -8,6 +8,7 @@
 #include <camera.hpp>
 #include <input.hpp>
 #include <renderer2D.hpp>
+#include <eventMacro.hpp>
 
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
@@ -33,11 +34,24 @@ int main(){
 	MN::Input::start();
 
 	bool run = true;
+	bool minimized = false;
 	//Close window and end game engine
 	EventDispatcher::dispatcher().subscribe(Event::EventType::WindowCloseEvent,[&run](Event::pointer event){
 		TERMINAL_DEBUG("Closing Midnight");
 		run = false;
 	});
+
+	EventSubscribe(WindowMinimizedEvent,[&minimized](MidnightEvent event){
+		TERMINAL_DEBUG("Window Minimized");
+		minimized = true;
+	});
+
+	EventSubscribe(WindowRestoredEvent,[&minimized](MidnightEvent event){
+		TERMINAL_DEBUG("Window Restored");
+		minimized = false;
+	});
+
+
 
 	//Create application
 	MidnightApp * app = MidnightApp::createApp();
@@ -49,10 +63,12 @@ int main(){
 		EventDispatcher::dispatcher().update();
 		windowPtr->update();
 		
-	    app->run();
+		//Does not run app if window minimized
+		if(!minimized)
+	    	app->run();
 
 		Debug::TerminalLog::instance().flush();
-		std::this_thread::sleep_for (std::chrono::milliseconds(50));
+		std::this_thread::sleep_for (std::chrono::milliseconds(20));
 	}
 
 

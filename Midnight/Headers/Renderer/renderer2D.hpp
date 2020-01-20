@@ -40,10 +40,9 @@ namespace MN{
 		static void endScene();
 		static void drawQuad(const Transform2D& transform, const vec4& color = {1.0f,0.0f,0.0f,1.0f});
 
-		static void windowResizeUpdate(MidnightEvent event);
-
-
 	private:
+
+		static void windowResizeUpdate(MidnightEvent event);
 
 		static Render2DInfo renderInfo;
 

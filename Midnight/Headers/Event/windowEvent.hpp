@@ -34,6 +34,25 @@ namespace MN{
 		private:
 			unsigned int width, height;
 	};
+
+	class WindowMinimizedEvent : public EventBase{
+		public:
+			WindowMinimizedEvent(timeStamp time = 0) : EventBase{time}{};
+
+			EventType type() const override{ return EventType::WindowMinimizedEvent; } 
+			std::string getName() const override{ return "WindowMinimizedEvent";}
+			std::string to_string() const override { return "Window Minimized Event";}
+	};
+
+	class WindowRestoredEvent : public EventBase{
+		public:
+			WindowRestoredEvent(timeStamp time = 0) : EventBase{time}{};
+
+			EventType type() const override{ return EventType::WindowRestoredEvent; } 
+			std::string getName() const override{ return "WindowRestoredEvent";}
+			std::string to_string() const override { return "Window Restored Event";}
+	};
+
 		
 
 }

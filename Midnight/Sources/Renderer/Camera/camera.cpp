@@ -20,8 +20,8 @@ namespace MN{
 
 		_viewProjMatrix = _projMatrix * _viewMatrix;
 
-		TERMINAL_DEBUG(_projMatrix.to_string());
-		TERMINAL_DEBUG(_viewMatrix.to_string());
-		TERMINAL_DEBUG(_viewProjMatrix.to_string());
+		// TERMINAL_DEBUG(_projMatrix.to_string());
+		// TERMINAL_DEBUG(_viewMatrix.to_string());
+		// TERMINAL_DEBUG(_viewProjMatrix.to_string());
 	}
 }

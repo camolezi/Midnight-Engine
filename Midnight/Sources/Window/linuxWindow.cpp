@@ -17,7 +17,6 @@ Window::pointer Window::create(const WindowData& data){
 	
 //Initi glfw, glad and setup callbacks
 void LinuxWindow::initialize(){
-
 	//Glfw Error callback
 	glfwSetErrorCallback([](int error, const char* description){
 		TERMINAL_LOG(Log::Error,description);
@@ -61,6 +60,13 @@ void LinuxWindow::initialize(){
 		EventDispatcher::dispatcher().queueEvent(event);
 	});
 
+	glfwSetWindowIconifyCallback(glfwWindow, [](GLFWwindow* window, int iconified){
+		if(iconified)
+			EventDispatcher::dispatcher().queueEvent(newEvent<WindowMinimizedEvent>());
+		else
+			EventDispatcher::dispatcher().queueEvent(newEvent<WindowRestoredEvent>());
+	});
+
 	//Mouse moved envent
 	glfwSetCursorPosCallback(glfwWindow, [](GLFWwindow* window, double xpos, double ypos){
 		EventDispatcher::dispatcher().queueEvent(newEvent<MouseMovedEvent>(xpos,ypos));
@@ -100,6 +106,11 @@ void LinuxWindow::initialize(){
 		};
 
 	});
+
+	//Icon
+	// GLFWimage image;
+	// image = load_icon("/home/Camolezi/Desktop/Midnight/Logos/logo.png"); 
+	// glfwSetWindowIcon(glfwWindow, 1, &image);
 
 }
 
