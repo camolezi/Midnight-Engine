@@ -75,8 +75,6 @@ namespace MN{
 	    renderInfo.vertexArray->setIndexBuffer(EBO);
 
 
-
-
 	    //Events subscription
 	    EventSubscribe(WindowResizedEvent,Renderer2D::windowResizeUpdate);
 

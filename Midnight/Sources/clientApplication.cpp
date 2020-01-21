@@ -6,7 +6,7 @@
 class clientApp : public MN::MidnightApp{
 
 	public:	
-		void run() override;
+		void run(double deltaTime) override;
 		void start() override;
 		~clientApp(){};
 	private:
@@ -31,11 +31,13 @@ void clientApp::start(){
 }
 
 
-void clientApp::run(){
+void clientApp::run(double deltaTime){
 
 	static float x = 0;
 	static float y = 0;
-	static float velocity = 0.3f;
+	float velocity = 5.0f * deltaTime;
+
+	//TERMINAL_DEBUG(deltaTime);
 
 	//Testing quad movment 
 	if(MN::Input::isKeyPressed(MN_KEY_W)){

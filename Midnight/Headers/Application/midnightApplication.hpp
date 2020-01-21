@@ -9,7 +9,7 @@ namespace MN{
 	class MidnightApp{
 
 		public:
-			virtual void run() = 0;
+			virtual void run(double deltaTime) = 0;
 			virtual void start() = 0;
 			virtual ~MidnightApp(){};
 

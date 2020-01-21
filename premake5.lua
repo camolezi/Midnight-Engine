@@ -10,7 +10,7 @@ workspace "Midnight"
 	--GlFW
 	include "Midnight/Vendor/Libraries/GLFW"
 	include "Midnight/Vendor/Libraries/GLAD"
-
+	
 project "MNCore"
 	--just for now a console app (dynamic lib after?)
 	kind "ConsoleApp"
@@ -31,8 +31,8 @@ project "MNCore"
 
 	filter{"system:linux"}
 		links{ "X11", "dl", "pthread", "Xrandr", "m", "z", "GL", "Xext", "Xfixes"}
-		--buildoptions { "-lX11" }
-
+		--buildoptions { " -I\"../../include\" -L\"/usr/lib\" Midnight/Vendor/Libraries/libSound/bin/linux-gcc-64/libIrrKlang.so" }
+		--																 bin/linux-gcc-64/libIrrKlang.so
 	filter {}
 
 	targetdir ("Build/Bin/%{prj.name}/%{cfg.longname}")
@@ -40,7 +40,7 @@ project "MNCore"
 
 	files{"Midnight/Headers/**" , "Midnight/Sources/**" }
 
-	libdirs "Midnight/Vendor/Libraries/GLFW/Build/Bin/GLFW/Debug/linux"
+	libdirs {"Midnight/Vendor/Libraries/GLFW/Build/Bin/GLFW/Debug/linux"}
 
 	includedirs {"Midnight/Headers/**",
 				 "Midnight/Headers",	 
@@ -48,7 +48,9 @@ project "MNCore"
 				 "Midnight/Vendor/Libraries/GLAD/include/**"}
 
 	links{"GLFW","GLAD", "GL"}
-	
+	 --"Midnight/Vendor/Libraries/libSound/bin/linux-gcc-64/libIrrKlang"}
+	--../Midnight/Vendor/Libraries/IrrKlang/bin/linux-gcc-64/libIrrKlang.so
+	filter {}
 
 
 

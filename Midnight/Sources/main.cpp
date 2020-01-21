@@ -14,6 +14,7 @@
 #include <chrono>         // std::chrono::seconds
 
 
+#include <time.hpp>
 
 int main(){
 
@@ -59,16 +60,23 @@ int main(){
 	app->start();
 
 
+	Timer gameLoopTimer;
+	double deltaTime = 0;
 	while(run){
-		EventDispatcher::dispatcher().update();
+
+		gameLoopTimer.start();
 		windowPtr->update();
+		EventDispatcher::dispatcher().update();
 		
 		//Does not run app if window minimized
 		if(!minimized)
-	    	app->run();
+	    	app->run(deltaTime);
 
 		Debug::TerminalLog::instance().flush();
 		std::this_thread::sleep_for (std::chrono::milliseconds(20));
+
+		gameLoopTimer.stop();
+		deltaTime = gameLoopTimer.getDuration();
 	}
 
 
