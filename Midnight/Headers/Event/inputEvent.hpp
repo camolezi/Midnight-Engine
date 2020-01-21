@@ -9,11 +9,9 @@ namespace MN{
 
 
 	//Mouse cursor event
-	class MouseMovedEvent : public EventBase{
-
-		using pixelType = int;
+	class MouseMovedEvent : public EventBase{		
 		public:
-			MouseMovedEvent(pixelType xPos, pixelType yPos,timeStamp time = 0) : 
+			MouseMovedEvent(PixelType xPos, PixelType yPos,timeStamp time = 0) : 
 				EventBase{time},
 				xPos{xPos},
 				yPos{yPos} {};
@@ -24,8 +22,10 @@ namespace MN{
 			std::string to_string() const override { 
 				return "MouseMovedEvent: XPOS{" + std::to_string(xPos) + "} YPOS{" +  std::to_string(yPos) +"}";}
 
+			PixelType getX() const{return xPos;}
+			PixelType getY() const{return yPos;}
 		private:
-			pixelType xPos,yPos;
+			PixelType xPos,yPos;
 	};
 
 

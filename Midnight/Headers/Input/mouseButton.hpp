@@ -4,6 +4,7 @@
 
 namespace MN{
 	using MouseButton = int;
+	using PixelType = int;
 }
 
 //From glfw mouse button code. Midnight will use the same mouse button code as GLFW

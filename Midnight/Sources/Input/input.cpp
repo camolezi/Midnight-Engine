@@ -5,6 +5,8 @@ namespace MN{
 
 	//Static variable init
 	std::unordered_map<Key,bool> Input::keyStatus;
+	PixelType Input::mouseX;
+	PixelType Input::mouseY;
 
 	void Input::start(){
 
@@ -31,6 +33,12 @@ namespace MN{
 		EventSubscribe(MouseButtonReleasedEvent,[](MidnightEvent event){
 			auto pressEvent = downcast_event_ptr<MouseButtonReleasedEvent>(event);
 			keyStatus[pressEvent->pressed()] = false;
+		});
+
+		EventSubscribe(MouseMovedEvent,[](MidnightEvent event){
+			auto moveEvent = downcast_event_ptr<MouseMovedEvent>(event);
+			mouseX = moveEvent->getX();
+			mouseY = moveEvent->getY();
 		});
 		
 	}

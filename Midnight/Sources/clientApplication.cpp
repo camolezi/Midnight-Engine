@@ -37,7 +37,7 @@ void clientApp::run(double deltaTime){
 	static float y = 0;
 	float velocity = 5.0f * deltaTime;
 
-	//TERMINAL_DEBUG(deltaTime);
+	TERMINAL_DEBUG(MN::Input::getMouseX() << " " << MN::Input::getMouseY() );
 
 	//Testing quad movment 
 	if(MN::Input::isKeyPressed(MN_KEY_W)){

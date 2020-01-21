@@ -72,7 +72,6 @@ void LinuxWindow::initialize(){
 		EventDispatcher::dispatcher().queueEvent(newEvent<MouseMovedEvent>(xpos,ypos));
 	});
 
-
     //input Key press and release events
 	glfwSetKeyCallback(glfwWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods){
 		switch(action){
