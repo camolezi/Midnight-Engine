@@ -45,8 +45,8 @@ namespace MN{
 				MN::Math::Matrix<T,4> ret;
 				ret.clear();
 
-                T cosO = cos( (angle * PI) / 180.0);
-                T senO = sin((angle * PI) / 180.0);
+                T cosO = static_cast<T>( cos( (angle * PI) / 180.0) );
+                T senO = static_cast<T>(sin((angle * PI) / 180.0));
 
 				
 		    	ret.data[0][0] = cosO;

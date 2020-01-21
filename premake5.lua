@@ -15,6 +15,7 @@ project "MNCore"
 	--just for now a console app (dynamic lib after?)
 	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++17"
 	systemversion "latest"
 
 	filter {"configurations:Debug"}
@@ -31,8 +32,11 @@ project "MNCore"
 
 	filter{"system:linux"}
 		links{ "X11", "dl", "pthread", "Xrandr", "m", "z", "GL", "Xext", "Xfixes"}
-		--buildoptions { " -I\"../../include\" -L\"/usr/lib\" Midnight/Vendor/Libraries/libSound/bin/linux-gcc-64/libIrrKlang.so" }
-		--																 bin/linux-gcc-64/libIrrKlang.so
+		links{"GL"}
+	
+	filter{"system:windows"}
+		links{"opengl32.lib"}
+
 	filter {}
 
 	targetdir ("Build/Bin/%{prj.name}/%{cfg.longname}")
@@ -47,9 +51,8 @@ project "MNCore"
 				 "Midnight/Vendor/Libraries/GLFW/include",
 				 "Midnight/Vendor/Libraries/GLAD/include/**"}
 
-	links{"GLFW","GLAD", "GL"}
-	 --"Midnight/Vendor/Libraries/libSound/bin/linux-gcc-64/libIrrKlang"}
-	--../Midnight/Vendor/Libraries/IrrKlang/bin/linux-gcc-64/libIrrKlang.so
+	links{"GLFW","GLAD"}
+
 	filter {}
 
 
