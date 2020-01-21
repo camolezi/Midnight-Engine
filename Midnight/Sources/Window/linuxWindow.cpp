@@ -47,6 +47,8 @@ void LinuxWindow::initialize(){
     TERMINAL_DEBUG("Using Glad-OpenGL Version: " << glGetString(GL_VERSION));
     TERMINAL_DEBUG("OpenGL Driver: " << glGetString(GL_RENDERER));
 
+    glfwSwapInterval(0);
+    //glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 	//Set callBacks
 	glfwSetWindowCloseCallback(glfwWindow, [](GLFWwindow* window){
 		//Generate a window close Event
@@ -71,6 +73,7 @@ void LinuxWindow::initialize(){
 	glfwSetCursorPosCallback(glfwWindow, [](GLFWwindow* window, double xpos, double ypos){
 		EventDispatcher::dispatcher().queueEvent(newEvent<MouseMovedEvent>(xpos,ypos));
 	});
+
 
     //input Key press and release events
 	glfwSetKeyCallback(glfwWindow, [](GLFWwindow* window, int key, int scancode, int action, int mods){
@@ -127,7 +130,7 @@ LinuxWindow::~LinuxWindow(){
 
 void LinuxWindow::update(){
 	glfwSwapBuffers(glfwWindow);
-    glfwPollEvents();
+   	glfwPollEvents();
 }
 
 

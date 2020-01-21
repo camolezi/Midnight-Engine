@@ -65,15 +65,16 @@ int main(){
 	while(run){
 
 		gameLoopTimer.start();
-		windowPtr->update();
 		EventDispatcher::dispatcher().update();
 		
 		//Does not run app if window minimized
 		if(!minimized)
 	    	app->run(deltaTime);
 
+
+		windowPtr->update();
 		Debug::TerminalLog::instance().flush();
-		std::this_thread::sleep_for (std::chrono::milliseconds(20));
+		std::this_thread::sleep_for (std::chrono::milliseconds(1));
 
 		gameLoopTimer.stop();
 		deltaTime = gameLoopTimer.getDuration();

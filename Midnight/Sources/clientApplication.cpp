@@ -37,7 +37,8 @@ void clientApp::run(double deltaTime){
 	static float y = 0;
 	float velocity = 5.0f * deltaTime;
 
-	TERMINAL_DEBUG(MN::Input::getMouseX() << " " << MN::Input::getMouseY() );
+	int mouseX = MN::Input::getMouseX();
+	int mouseY = MN::Input::getMouseY();
 
 	//Testing quad movment 
 	if(MN::Input::isKeyPressed(MN_KEY_W)){
@@ -66,7 +67,8 @@ void clientApp::run(double deltaTime){
     
     MN::Renderer2D::drawQuad({ {5,5,0} , 30 , {1,6} } , {1.0f,0,0,1.0f}); //Red
     MN::Renderer2D::drawQuad({ {-2,-3,0} , -67 , {5,3} } , {0,1.0f,0,1.0f}); //Green
-    MN::Renderer2D::drawQuad({ {x,y,-1.0f} , 0 , {3,3} } , {0,0,1.0f,1.0f});	//Blue
+    MN::Renderer2D::drawQuad({ { (((float)mouseX-1280.0f)/40.0f)+16, -((((float)mouseY-720.0f)/40.0f)+5),1.0f} , 0 , {0.6f,0.6f} } , {0.3f,1.0f,0.6f,1.0f});	//Blue
+    MN::Renderer2D::drawQuad({ {x,y,0.5f} , 0 , {3,3} } , {0.0f,0,1,1.0f});
 
     MN::Renderer2D::endScene();
 

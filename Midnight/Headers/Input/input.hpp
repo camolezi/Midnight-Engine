@@ -15,6 +15,7 @@ namespace MN{
 		static bool isKeyPressed (Key code);
 		static bool isMousePressed (MouseButton code);
 
+		//Maybe to slow, because event only happens when mouse move
 		static PixelType getMouseX(){return mouseX;};
 		static PixelType getMouseY(){return mouseY;};
 
