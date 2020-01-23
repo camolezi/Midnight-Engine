@@ -10,6 +10,7 @@ workspace "Midnight"
 	--GlFW
 	include "Midnight/Vendor/Libraries/GLFW"
 	include "Midnight/Vendor/Libraries/GLAD"
+	include "Midnight/Vendor/Libraries/iamGui"
 	
 project "MNCore"
 	--just for now a console app (dynamic lib after?)
@@ -20,10 +21,12 @@ project "MNCore"
 
 	filter {"configurations:Debug"}
 		defines {"debug"}
+		runtime "Debug"
 		symbols "On"
 
 	filter {"configurations:Release"}
 		defines {"release"}
+		runtime "Release"
 		optimize "On"
 
 	filter {"configurations:Deploy"}
@@ -46,16 +49,20 @@ project "MNCore"
 
 	--External
 	files{"Midnight/Vendor/Libraries/STB/**"}
+		 --Iam gui plataform specific
+	files{"Midnight/Vendor/Libraries/iamGui/plataform/**"}	
 
-	libdirs {"Midnight/Vendor/Libraries/GLFW/Build/Bin/GLFW/Debug/linux"}
+	libdirs {"Midnight/Vendor/Libraries/GLFW/Build/Bin/GLFW/Debug"}
 
 	includedirs {"Midnight/Headers/**",
 				 "Midnight/Headers",	 
 				 "Midnight/Vendor/Libraries/GLFW/include",
 				 "Midnight/Vendor/Libraries/GLAD/include/**",
-				 "Midnight/Vendor/Libraries/STB"}
+				 "Midnight/Vendor/Libraries/STB",
+				 "Midnight/Vendor/Libraries/iamGui",
+				 "Midnight/Vendor/Libraries/iamGui/plataform"}
 
-	links{"GLFW","GLAD"}
+	links{"GLFW","GLAD","iamGui"}
 
 	files{"Midnight/Assets/**"}
 	--filter {"files:**.png"}
