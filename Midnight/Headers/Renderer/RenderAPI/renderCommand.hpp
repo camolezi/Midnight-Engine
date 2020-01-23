@@ -17,6 +17,7 @@ namespace MN{
 		virtual void clear() = 0;
 		virtual void drawIndexed(std::shared_ptr<VertexArray> VAO) =0;
 		virtual void enableDepthTest() = 0;
+		virtual void enableBlending() = 0;
 		virtual void setViewPort( unsigned int x,  unsigned int y, unsigned int width,  unsigned int height) = 0;
 
 		//utility
@@ -36,6 +37,7 @@ namespace MN{
 		void drawIndexed(std::shared_ptr<VertexArray> VAO) override;
 		void enableDepthTest() override;
 		void setViewPort( unsigned int x,  unsigned int y,  unsigned int width,  unsigned int height) override;
+		void enableBlending() override;
 
 		~RenderCommandOpenGL(){}
 

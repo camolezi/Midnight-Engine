@@ -1,33 +1,8 @@
 #include <renderer2D.hpp>
-
 #include <debug.hpp>
-#include <coreMath.hpp>
 
 
 //Shader as static for now, need to make a asset system.
-static std::string vertexShaderSource = R"(
-	#version 330 core
-	layout (location = 0) in vec3 aPos;
-
-	uniform mat4 model = mat4(1);
-	uniform mat4 viewProj = mat4(1);
-
-	void main(){
-		gl_Position = viewProj * model * vec4(aPos.x, aPos.y, aPos.z, 1.0);
-	}
-)";
-
-static std::string fragmentShaderSource = R"(
-	#version 330 core
-
-	out vec4 finalColor;
-
-	uniform vec4 uniformColor;
-	void main(){
-		finalColor = uniformColor;
-	}
-)";
-
 static std::string TextureVertexShaderSource = R"(
 	#version 330 core
 	layout (location = 0) in vec3 aPos;
@@ -74,6 +49,7 @@ namespace MN{
 
  		//Configs
  		renderCommand->enableDepthTest();
+		renderCommand->enableBlending();
 
 		renderInfo.shader = Shader::create(TextureVertexShaderSource,TextureFragmentShaderSource);
 	    float vertices[] = {
@@ -132,12 +108,12 @@ namespace MN{
 
 	//Imediate render for now.
 	void Renderer2D::drawQuad(const Transform2D& tr,const vec4& color){
-		//This bind may be unnecessary
 		drawQuad(tr, whiteTexture, color);
 	}
 
 	void Renderer2D::drawQuad(const Transform2D& transform, std::shared_ptr<Texture2D> texture, const vec4& color)
-	{
+	{	
+		//This bind may be unnecessary
 		renderInfo.shader->bind();
 		renderInfo.shader->uniformVec4("uniformColor", color);
 		renderInfo.shader->uniformMat4("viewProj", camera->viewProjMatrix());

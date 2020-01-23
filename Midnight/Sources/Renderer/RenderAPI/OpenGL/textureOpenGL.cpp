@@ -43,9 +43,18 @@ namespace MN {
 		ASSERT(width * height > 0, "Invalid size texture error");
 
 		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		//OpenGL config
 
+		if (channels == 3) {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		}
+		else if (channels == 4) {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		}
+		else {
+			ASSERT(false, "Texture with invalid number of channels");
+		}
+
+		//OpenGL configs
 		//Wrapping
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

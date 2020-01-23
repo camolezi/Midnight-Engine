@@ -11,6 +11,11 @@ namespace MN{
 
 	void RenderCommandOpenGL::enableDepthTest(){ glEnable(GL_DEPTH_TEST); }
 
+	void RenderCommandOpenGL::enableBlending() {
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+
 	void RenderCommandOpenGL::setClearColor(const vec3& color) {
 		glClearColor(color.at(0), color.at(1), color.at(2), 1.0f);
 	}

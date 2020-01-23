@@ -38,7 +38,7 @@ void clientApp::run(double deltaTime){
 
 	static float x = 0;
 	static float y = 0;
-	float velocity = 5.0f * deltaTime;
+	float velocity = 7.0f * deltaTime;
 
 	int mouseX = MN::Input::getMouseX();
 	int mouseY = MN::Input::getMouseY();
@@ -68,12 +68,10 @@ void clientApp::run(double deltaTime){
     //Render
     //MN::Renderer2D::drawQuad(MN::Transform2D{vec3{0,0,0}, 0, vec2{0,0} });
     
-	MN::Renderer2D::drawQuad({ {0,0,-1} , 0 , {20,20} }, texture, {x/16.0f,y/9.0f,(x*y)/(16.0f*9.0f),1.0f}); //texture
+	MN::Renderer2D::drawQuad({ {0,0,-1} , 0 , {20,20} }, texture, { (x*x)/(16*10.0f),(y*y)/(9*5.0f),(x*y)/(10.0f*8.0f),1.0f}); //texture
 
-
-    MN::Renderer2D::drawQuad({ {-2,-3,0} , -67 , {5,3} } , {0,1.0f,0,1.0f}); //Green
     MN::Renderer2D::drawQuad({ { (((float)mouseX-1280.0f)/40.0f)+16, -((((float)mouseY-720.0f)/40.0f)+9),1.0f} , 0 , {0.6f,0.6f} } , {0.3f,1.0f,0.6f,1.0f});	//Blue
-    MN::Renderer2D::drawQuad({ {x,y,0.5f} , 0 , {3,3} } , {0.0f,0,1,1.0f});
+    MN::Renderer2D::drawQuad({ {x,y,0.5f} , 0 , {1.5f,1.5f} } , {0.0f,0,1,0.5f});
 
     MN::Renderer2D::endScene();
 

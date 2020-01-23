@@ -1,9 +1,13 @@
 #ifndef RENDERER2D_HPP
 #define RENDERER2D_HPP
 
-#include <coreMath.hpp>
-#include <renderCommand.hpp>
 #include <memory>
+
+#include <eventMacro.hpp>
+
+#include <coreMath.hpp>
+
+#include <renderCommand.hpp>
 #include <shader.hpp>
 #include <vertexArray.hpp>
 #include <vertexBuffer.hpp>
@@ -11,11 +15,6 @@
 #include <texture.hpp>
 #include <camera.hpp>
 #include <transform.hpp>
-#include <eventMacro.hpp>
-
-
-
-
 
 namespace MN{
 
