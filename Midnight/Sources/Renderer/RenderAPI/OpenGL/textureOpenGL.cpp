@@ -65,7 +65,8 @@ namespace MN {
 	}
 
 	void Texture2DOpenGL::bind() {
-		glBindTextureUnit(0, textureID);
+		glActiveTexture(0);
+		glBindTexture(GL_TEXTURE_2D, textureID);
 	}
 
 	

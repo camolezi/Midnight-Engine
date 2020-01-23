@@ -17,9 +17,10 @@ namespace MN {
 
 		Texture2DOpenGL() : width{ 0 }, height{ 0 }, channels{ 0 } {generateTexture(); };
 		Texture2DOpenGL(const std::string& path) { generateTexture();load(path); };
-		Texture2DOpenGL(unsigned int width,unsigned int height, void * data = nullptr) : width{ width }, 
-												 height{ height }, 
-												 channels{ 4 } {generateTexture(); setData(data);};
+		Texture2DOpenGL(unsigned int width,unsigned int height, void * data = nullptr) : 
+						width{ width }, 
+						height{ height }, 
+						channels{ 4 } {generateTexture(); setData(data);};
 
 	private:
 		unsigned int width, height;

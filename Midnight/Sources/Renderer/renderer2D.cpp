@@ -51,10 +51,10 @@ static std::string TextureFragmentShaderSource = R"(
 	out vec4 finalColor;
 
 	uniform sampler2D tex;
-	uniform vec4 uniformColor;
+	uniform vec4 uniformColor = vec4(1.0f,1.0f,1.0f,1.0f);
+
 	void main(){
-		finalColor = uniformColor;
-		finalColor = texture(tex,textureCoord);
+		finalColor = texture(tex,textureCoord) * uniformColor;
 	}
 )";
 
@@ -65,6 +65,8 @@ namespace MN{
 	std::unique_ptr<RenderCommand> Renderer2D::renderCommand;
 	Render2DInfo Renderer2D::renderInfo;
 	std::shared_ptr<Camera> Renderer2D::camera;
+	std::shared_ptr<Texture2D> Renderer2D::whiteTexture;
+
 
 	//Shoud only be called once at the start of the engine
  	void Renderer2D::start(){
@@ -104,6 +106,10 @@ namespace MN{
 	    renderInfo.vertexArray->setVertexBuffer(VBO);
 	    renderInfo.vertexArray->setIndexBuffer(EBO);
 
+		//Textures
+		unsigned char whiteTextureData[] = { 255,255,255,255 };
+		whiteTexture = Texture2D::create(1, 1, whiteTextureData);
+
 
 	    //Events subscription
 	    EventSubscribe(WindowResizedEvent,Renderer2D::windowResizeUpdate);
@@ -127,14 +133,7 @@ namespace MN{
 	//Imediate render for now.
 	void Renderer2D::drawQuad(const Transform2D& tr,const vec4& color){
 		//This bind may be unnecessary
-
-		renderInfo.shader->bind();
-  		renderInfo.shader->uniformVec4("uniformColor",color);
-  		renderInfo.shader->uniformMat4("viewProj",camera->viewProjMatrix());
-  		renderInfo.shader->uniformMat4("model",tr.modelMatrix());
-
-		renderInfo.vertexArray->bind();
-		renderCommand->drawIndexed(renderInfo.vertexArray);
+		drawQuad(tr, whiteTexture, color);
 	}
 
 	void Renderer2D::drawQuad(const Transform2D& transform, std::shared_ptr<Texture2D> texture, const vec4& color)
@@ -144,6 +143,8 @@ namespace MN{
 		renderInfo.shader->uniformMat4("viewProj", camera->viewProjMatrix());
 		renderInfo.shader->uniformMat4("model", transform.modelMatrix());
 		renderInfo.shader->uniformInt("tex", 0);
+
+		texture->bind();
 
 		renderInfo.vertexArray->bind();
 		renderCommand->drawIndexed(renderInfo.vertexArray);

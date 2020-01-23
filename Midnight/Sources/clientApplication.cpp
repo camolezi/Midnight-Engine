@@ -30,10 +30,6 @@ void clientApp::start(){
 	camera = std::make_shared<OrthographicCamera>( -16.0f,16.0f,9.0f,-9.0f,0.1f,20.0f);
 	texture = Texture2D::create("../Midnight/Assets/Textures/test.png");
 
-	//Creating a texture from code (trying a white texture)
-	unsigned char whiteTextureData[] = { 255,255,255,255 };
-	texture = Texture2D::create(1,1,whiteTextureData);
-
 	MN::Renderer2D::setClearColor({0.2f,0.3f,0.3f});
 }
 
@@ -72,7 +68,7 @@ void clientApp::run(double deltaTime){
     //Render
     //MN::Renderer2D::drawQuad(MN::Transform2D{vec3{0,0,0}, 0, vec2{0,0} });
     
-    MN::Renderer2D::drawQuad({ {0,0,0} , 0 , {20,20} } , texture); //texture
+	MN::Renderer2D::drawQuad({ {0,0,-1} , 0 , {20,20} }, texture, {x/16.0f,y/9.0f,(x*y)/(16.0f*9.0f),1.0f}); //texture
 
 
     MN::Renderer2D::drawQuad({ {-2,-3,0} , -67 , {5,3} } , {0,1.0f,0,1.0f}); //Green
