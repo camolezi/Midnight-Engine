@@ -15,8 +15,6 @@
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
 
-
-
 int main(){
 
 	TERMINAL_LOG_LEVEL(Log::Debug);
@@ -71,10 +69,9 @@ int main(){
 		if(!minimized)
 	    	app->run(deltaTime);
 
-
 		windowPtr->update();
 		Debug::TerminalLog::instance().flush();
-		std::this_thread::sleep_for (std::chrono::milliseconds(1));
+		std::this_thread::sleep_for (std::chrono::milliseconds(10));
 
 		gameLoopTimer.stop();
 		deltaTime = gameLoopTimer.getDuration();

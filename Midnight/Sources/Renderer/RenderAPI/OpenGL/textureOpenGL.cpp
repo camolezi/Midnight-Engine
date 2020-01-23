@@ -23,7 +23,8 @@ namespace MN {
 
 		int x, y, n;
 		unsigned char* data = stbi_load(path.c_str() , &x, &y, &n, 0);
-		ASSERT(data != nullptr, "Error loading texture in: " << path);
+		if (data == nullptr)
+			TERMINAL_LOG(Log::Warning, "Error loading texture in: " << path);
 
 		width = x;
 		height = y;

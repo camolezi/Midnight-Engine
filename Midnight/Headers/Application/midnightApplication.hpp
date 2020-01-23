@@ -2,7 +2,6 @@
 #define MIDNIGHTAPPLICATION
 
 
-
 namespace MN{
 
 
@@ -18,10 +17,6 @@ namespace MN{
 	};
 
 }
-
-
-
-
 
 
 
