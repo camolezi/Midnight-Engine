@@ -11,6 +11,7 @@ class clientApp : public MN::MidnightApp{
 		~clientApp(){};
 	private:
 		std::shared_ptr<MN::Camera> camera;
+		std::shared_ptr<MN::Texture2D> texture;
 };
 
 void clientApp::start(){
@@ -27,6 +28,8 @@ void clientApp::start(){
 	});
 	//Camera
 	camera = std::make_shared<OrthographicCamera>( -16.0f,16.0f,9.0f,-9.0f,0.1f,20.0f);
+	texture = Texture2D::create("../Midnight/Assets/Textures/test.png");
+
 	MN::Renderer2D::setClearColor({0.2f,0.3f,0.3f});
 }
 
@@ -57,7 +60,7 @@ void clientApp::run(double deltaTime){
 		x = x + velocity;
 	}
 
-	camera->setPosition({0,4.0f,2.0f});
+	camera->setPosition({0,0,2.0f});
 
 	MN::Renderer2D::beginScene(camera);
     MN::Renderer2D::clear();
@@ -65,9 +68,11 @@ void clientApp::run(double deltaTime){
     //Render
     //MN::Renderer2D::drawQuad(MN::Transform2D{vec3{0,0,0}, 0, vec2{0,0} });
     
-    MN::Renderer2D::drawQuad({ {5,5,0} , 30 , {1,6} } , {1.0f,0,0,1.0f}); //Red
+    MN::Renderer2D::drawQuad({ {0,0,0} , 0 , {20,20} } , texture); //texture
+
+
     MN::Renderer2D::drawQuad({ {-2,-3,0} , -67 , {5,3} } , {0,1.0f,0,1.0f}); //Green
-    MN::Renderer2D::drawQuad({ { (((float)mouseX-1280.0f)/40.0f)+16, -((((float)mouseY-720.0f)/40.0f)+5),1.0f} , 0 , {0.6f,0.6f} } , {0.3f,1.0f,0.6f,1.0f});	//Blue
+    MN::Renderer2D::drawQuad({ { (((float)mouseX-1280.0f)/40.0f)+16, -((((float)mouseY-720.0f)/40.0f)+9),1.0f} , 0 , {0.6f,0.6f} } , {0.3f,1.0f,0.6f,1.0f});	//Blue
     MN::Renderer2D::drawQuad({ {x,y,0.5f} , 0 , {3,3} } , {0.0f,0,1,1.0f});
 
     MN::Renderer2D::endScene();

@@ -28,6 +28,35 @@ static std::string fragmentShaderSource = R"(
 	}
 )";
 
+static std::string TextureVertexShaderSource = R"(
+	#version 330 core
+	layout (location = 0) in vec3 aPos;
+	layout (location = 1) in vec2 textureCoordData;
+
+	out vec2 textureCoord;
+
+	uniform mat4 model = mat4(1);
+	uniform mat4 viewProj = mat4(1);
+
+	void main(){
+		textureCoord = textureCoordData;
+		gl_Position = viewProj * model * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+	}
+)";
+
+static std::string TextureFragmentShaderSource = R"(
+	#version 330 core
+	
+	in vec2 textureCoord; 	
+	out vec4 finalColor;
+
+	uniform sampler2D tex;
+	uniform vec4 uniformColor;
+	void main(){
+		finalColor = uniformColor;
+		finalColor = texture(tex,textureCoord);
+	}
+)";
 
 
 namespace MN{
@@ -44,13 +73,13 @@ namespace MN{
  		//Configs
  		renderCommand->enableDepthTest();
 
-		renderInfo.shader = Shader::create(vertexShaderSource,fragmentShaderSource);
+		renderInfo.shader = Shader::create(TextureVertexShaderSource,TextureFragmentShaderSource);
 	    float vertices[] = {
-	    	//Position  
-	         0.5f,  0.5f, 0.0f,   // top right
-	         0.5f, -0.5f, 0.0f,  // bottom right
-	        -0.5f, -0.5f, 0.0f,  // bottom left
-	        -0.5f,  0.5f, 0.0f // top left 
+	    	//Position  - UV
+	         0.5f,  0.5f, 0.0f,  1.0f, 1.0f, // top right
+	         0.5f, -0.5f, 0.0f,  1.0f, 0.0f, // bottom right
+	        -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, // bottom left
+	        -0.5f,  0.5f, 0.0f,  0.0f, 1.0f  // top left 
 	    };
 	    unsigned int indices[] = {  // note that we start from 0!
 	        0, 1, 3,  // first Triangle
@@ -65,7 +94,8 @@ namespace MN{
 	    EBO->bind();
 
 	    BufferLayout layout{
-	    	{ShaderDataType::FLOAT3, "Position"}
+	    	{ShaderDataType::FLOAT3, "Position"},
+			{ShaderDataType::FLOAT2, "textureCoord"}
 	    };
 
 	    VBO->setLayout(layout);
@@ -102,6 +132,18 @@ namespace MN{
   		renderInfo.shader->uniformVec4("uniformColor",color);
   		renderInfo.shader->uniformMat4("viewProj",camera->viewProjMatrix());
   		renderInfo.shader->uniformMat4("model",tr.modelMatrix());
+
+		renderInfo.vertexArray->bind();
+		renderCommand->drawIndexed(renderInfo.vertexArray);
+	}
+
+	void Renderer2D::drawQuad(const Transform2D& transform, std::shared_ptr<Texture2D> texture, const vec4& color)
+	{
+		renderInfo.shader->bind();
+		renderInfo.shader->uniformVec4("uniformColor", color);
+		renderInfo.shader->uniformMat4("viewProj", camera->viewProjMatrix());
+		renderInfo.shader->uniformMat4("model", transform.modelMatrix());
+		renderInfo.shader->uniformInt("tex", 0);
 
 		renderInfo.vertexArray->bind();
 		renderCommand->drawIndexed(renderInfo.vertexArray);

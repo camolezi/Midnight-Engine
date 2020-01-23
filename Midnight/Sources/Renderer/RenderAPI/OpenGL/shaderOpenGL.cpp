@@ -87,5 +87,11 @@ namespace MN{
 		glUniformMatrix4fv(uniformLocation,1,true,static_cast<const float *>(data.getData()) );
 	}
 
+	void ShaderOpenGL::uniformInt(const std::string& name, int data) const{
+		int uniformLocation = glGetUniformLocation(shaderProgram, name.c_str());
+		ASSERT(uniformLocation != -1, "Shader Uniform not found int: " << name);
+		glUniform1i(uniformLocation, data);
+	}
+
 
 }

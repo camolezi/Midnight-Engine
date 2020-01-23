@@ -10,11 +10,10 @@
 #include <renderer2D.hpp>
 #include <eventMacro.hpp>
 
+#include <time.hpp>
+
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
-
-
-#include <time.hpp>
 
 int main(){
 
@@ -51,7 +50,6 @@ int main(){
 		TERMINAL_DEBUG("Window Restored");
 		minimized = false;
 	});
-
 
 
 	//Create application

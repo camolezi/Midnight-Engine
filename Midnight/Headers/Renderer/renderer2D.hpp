@@ -8,6 +8,7 @@
 #include <vertexArray.hpp>
 #include <vertexBuffer.hpp>
 #include <indexBuffer.hpp>
+#include <texture.hpp>
 #include <camera.hpp>
 #include <transform.hpp>
 #include <eventMacro.hpp>
@@ -39,7 +40,9 @@ namespace MN{
 		static void beginScene(std::shared_ptr<Camera> camera);
 		static void endScene();
 		static void drawQuad(const Transform2D& transform, const vec4& color = {1.0f,0.0f,0.0f,1.0f});
-
+		static void drawQuad(const Transform2D& transform,
+							std::shared_ptr<Texture2D> texture, 
+							const vec4& color = { 1.0f,0.0f,0.0f,1.0f });
 	private:
 
 		static void windowResizeUpdate(MidnightEvent event);

@@ -44,14 +44,22 @@ project "MNCore"
 
 	files{"Midnight/Headers/**" , "Midnight/Sources/**" }
 
+	--External
+	files{"Midnight/Vendor/Libraries/STB/**"}
+
 	libdirs {"Midnight/Vendor/Libraries/GLFW/Build/Bin/GLFW/Debug/linux"}
 
 	includedirs {"Midnight/Headers/**",
 				 "Midnight/Headers",	 
 				 "Midnight/Vendor/Libraries/GLFW/include",
-				 "Midnight/Vendor/Libraries/GLAD/include/**"}
+				 "Midnight/Vendor/Libraries/GLAD/include/**",
+				 "Midnight/Vendor/Libraries/STB"}
 
 	links{"GLFW","GLAD"}
+
+	files{"Midnight/Assets/**"}
+	--filter {"files:**.png"}
+  	--	buildaction "Copy"
 
 	filter {}
 
