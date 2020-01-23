@@ -10,7 +10,12 @@ namespace MN {
 		return std::make_unique<Texture2DOpenGL>(path);
 	}
 
-
+	std::unique_ptr<Texture2D> Texture2D::create(unsigned int widht,unsigned int height, unsigned char* data) {
+		return std::make_unique<Texture2DOpenGL>(widht,height,data);
+	}
+	std::unique_ptr<Texture2D> Texture2D::create() {
+		return std::make_unique<Texture2DOpenGL>();
+	}
 
 	void Texture2DOpenGL::load(const std::string& path){
 
@@ -18,16 +23,27 @@ namespace MN {
 
 		int x, y, n;
 		unsigned char* data = stbi_load(path.c_str() , &x, &y, &n, 0);
-		//ASSERT(data != nullptr, "Error loading texture in: " << path);
+		ASSERT(data != nullptr, "Error loading texture in: " << path);
 
 		width = x;
 		height = y;
 		channels = n;
+		
+		setData(data);
+		stbi_image_free(data);
+	}
+
+	void Texture2DOpenGL::setData(void* data){
+
+		if (data == nullptr) {
+			TERMINAL_LOG(Log::Warning, "Setting a texture with null data pointer");
+			return;
+		}
+
+		ASSERT(width * height > 0, "Invalid size texture error");
 
 		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8	, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-		
-		stbi_image_free(data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		//OpenGL config
 
 		//Wrapping
@@ -37,6 +53,7 @@ namespace MN {
 		//Filter
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
 	}
 
 	Texture2DOpenGL::~Texture2DOpenGL(){

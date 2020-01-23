@@ -30,6 +30,10 @@ void clientApp::start(){
 	camera = std::make_shared<OrthographicCamera>( -16.0f,16.0f,9.0f,-9.0f,0.1f,20.0f);
 	texture = Texture2D::create("../Midnight/Assets/Textures/test.png");
 
+	//Creating a texture from code (trying a white texture)
+	unsigned char whiteTextureData[] = { 255,255,255,255 };
+	texture = Texture2D::create(1,1,whiteTextureData);
+
 	MN::Renderer2D::setClearColor({0.2f,0.3f,0.3f});
 }
 
