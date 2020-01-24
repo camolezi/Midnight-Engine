@@ -137,6 +137,8 @@ namespace MN{
 		renderCommand->setViewPort(0,0,resizedEvent->getWidth(),resizedEvent->getHeight());
 	}
 
-
+	void Renderer2D::end() {
+		renderCommand.release();
+	}
 
 }

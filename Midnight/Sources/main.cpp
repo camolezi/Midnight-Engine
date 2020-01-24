@@ -70,11 +70,12 @@ int main(){
 
 	//Testing sound API
 	std::shared_ptr<Sound> testSound = Sound::createFromFile("../Midnight/Assets/Audio/sampleEffect.wav");
+	std::shared_ptr<Sound> testMusic = Sound::createFromFile("../Midnight/Assets/Audio/sampleMusic.wav");
 
 	Timer gameLoopTimer;
 	double deltaTime = 0;
 
-	AudioEngine::playSound(testSound);
+	//AudioEngine::playSound(testSound);
 
 	while(run){
 
@@ -86,13 +87,14 @@ int main(){
 	    	app->run(deltaTime);
 
 		if (Input::isKeyPressed(MN_KEY_C)) {
-			//audioTest.play();
-			//musicTest.play();
+			AudioEngine::playSound(testSound);
+			AudioEngine::playSound(testMusic);
 		}
 			
 
 		windowPtr->update();
 		AudioEngine::update();
+		//Flush Logs
 		Debug::TerminalLog::instance().flush();
 		std::this_thread::sleep_for (std::chrono::milliseconds(10));
 		
@@ -100,11 +102,10 @@ int main(){
 		deltaTime = gameLoopTimer.getDuration();
 	}
 
-	
-
 	delete app;
-
-
+	AudioEngine::end();
+	Renderer2D::end();
+	windowPtr.reset();
 	return 0;
 }
 

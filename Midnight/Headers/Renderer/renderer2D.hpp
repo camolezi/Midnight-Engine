@@ -32,7 +32,7 @@ namespace MN{
 	public:
 
 		static void start();
-		//static void end();
+		static void end();
 
 		static void clear();
 		static void setClearColor(const vec3& color);

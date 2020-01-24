@@ -16,6 +16,7 @@ using namespace MN;
 	#include <GLFW/glfw3native.h>
 #endif
 
+//Only windows need a native window for now
 void* LinuxWindow::getNativeWindow() {
 	#ifdef MNWindows
 		return glfwGetWin32Window(glfwWindow);

@@ -37,6 +37,7 @@ namespace MN {
 		static void update();
 
 	private:
+		AudioEngine();
 		static std::unique_ptr<AudioEngineInterface> audioEngine;
 	};
 }
