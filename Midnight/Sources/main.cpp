@@ -41,6 +41,7 @@ int main(){
 	Window::pointer windowPtr= Window::create();
 	MN::Renderer2D::start();
 	MN::Input::start();
+	MN::AudioEngine::start(windowPtr);
 
 	bool run = true;
 	bool minimized = false;
@@ -66,14 +67,15 @@ int main(){
 	ASSERT(app, "Failed to initialize application");
 	app->start();
 
-//	SoundMiniAudio audioTest("../Midnight/Assets/Audio/sampleEffect.wav");
-	//SoundMiniAudio musicTest("../Midnight/Assets/Audio/sampleMusic.mp3");
-	
-	SoundCute audioTeste;
-	audioTeste.loadSound("../Midnight/Assets/Audio/sampleEffect.wav", windowPtr);
+
+	//Testing sound API
+	std::shared_ptr<Sound> testSound = Sound::createFromFile("../Midnight/Assets/Audio/sampleEffect.wav");
 
 	Timer gameLoopTimer;
 	double deltaTime = 0;
+
+	AudioEngine::playSound(testSound);
+
 	while(run){
 
 		gameLoopTimer.start();
@@ -90,8 +92,8 @@ int main(){
 			
 
 		windowPtr->update();
+		AudioEngine::update();
 		Debug::TerminalLog::instance().flush();
-		audioTeste.mix();
 		std::this_thread::sleep_for (std::chrono::milliseconds(10));
 		
 		gameLoopTimer.stop();

@@ -4,26 +4,22 @@
 #include <audioEngine.hpp>
 #include <string>
 #include <cute_sound.h>
-#include <window.hpp>
+
 
 namespace MN {
 
-	class SoundCute{
-
+	class SoundCute : public Sound{
 	public:
-
-		void loadSound(const std::string& path , Window::pointer windowPtr);
-
+		void loadSound(const std::string& path) override;
 		SoundCute() = default;
-		//SoundCute(const std::string& path) { loadSound(path); }
+		SoundCute(const std::string& path) { loadSound(path); }
+		void* getSoundData() override;
 
-		void mix();
-
+		~SoundCute();
 	private:
-		cs_context_t* ctx;
 		cs_loaded_sound_t audioFile;
 		cs_play_sound_def_t def;
-		cs_playing_sound_t* sound;
+		
 	};
 
 }
