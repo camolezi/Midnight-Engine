@@ -7,6 +7,7 @@ namespace MN {
 	class Layer {
 	public:
 
+		virtual ~Layer() = default;
 		virtual void update() = 0;
 		virtual void start() = 0;
 

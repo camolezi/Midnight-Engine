@@ -15,6 +15,10 @@
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>         // std::chrono::seconds
 
+
+//Testing audio library
+#include <soundMiniAudio.hpp>
+
 int main(){
 
 	TERMINAL_LOG_LEVEL(Log::Debug);
@@ -57,9 +61,12 @@ int main(){
 	ASSERT(app, "Failed to initialize application");
 	app->start();
 
+	SoundMiniAudio audioTest("../Midnight/Assets/Audio/sampleEffect.wav");
+	//SoundMiniAudio musicTest("../Midnight/Assets/Audio/sampleMusic.mp3");
 
 	Timer gameLoopTimer;
 	double deltaTime = 0;
+	audioTest.play();
 	while(run){
 
 		gameLoopTimer.start();
@@ -69,16 +76,26 @@ int main(){
 		if(!minimized)
 	    	app->run(deltaTime);
 
+		if (Input::isKeyPressed(MN_KEY_C)) {
+			audioTest.play();
+			//musicTest.play();
+		}
+			
+
 		windowPtr->update();
 		Debug::TerminalLog::instance().flush();
-		std::this_thread::sleep_for (std::chrono::milliseconds(10));
+		std::this_thread::sleep_for (std::chrono::milliseconds(10000));
+		
 
 		gameLoopTimer.stop();
 		deltaTime = gameLoopTimer.getDuration();
 	}
 
+	
 
 	delete app;
+
+
 	return 0;
 }
 

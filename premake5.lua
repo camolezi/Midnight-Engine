@@ -34,7 +34,7 @@ project "MNCore"
 		optimize "On"
 
 	filter{"system:linux"}
-		links{ "X11", "dl", "pthread", "Xrandr", "m", "z", "GL", "Xext", "Xfixes"}
+		links{ "X11", "dl", "pthread", "Xrandr", "m", "z", "GL", "Xext", "Xfixes", "dl"}
 		links{"GL"}
 	
 	filter{"system:windows"}
@@ -47,10 +47,13 @@ project "MNCore"
 
 	files{"Midnight/Headers/**" , "Midnight/Sources/**" }
 
-	--External
-	files{"Midnight/Vendor/Libraries/STB/**"}
-		 --Iam gui plataform specific
-	files{"Midnight/Vendor/Libraries/iamGui/plataform/**"}	
+	--External Vendor Files
+		files{"Midnight/Vendor/Libraries/STB/**"}
+		--Iam gui plataform specific
+		files{"Midnight/Vendor/Libraries/iamGui/plataform/**"}
+		--Miniaudio
+		files{"Midnight/Vendor/Libraries/miniaudio/include/**"}
+
 
 	libdirs {"Midnight/Vendor/Libraries/GLFW/Build/Bin/GLFW/Debug"}
 
@@ -60,7 +63,8 @@ project "MNCore"
 				 "Midnight/Vendor/Libraries/GLAD/include/**",
 				 "Midnight/Vendor/Libraries/STB",
 				 "Midnight/Vendor/Libraries/iamGui",
-				 "Midnight/Vendor/Libraries/iamGui/plataform"}
+				 "Midnight/Vendor/Libraries/iamGui/plataform",
+				 "Midnight/Vendor/Libraries/miniaudio/include"}
 
 	links{"GLFW","GLAD","iamGui"}
 
