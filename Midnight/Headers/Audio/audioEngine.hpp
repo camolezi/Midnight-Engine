@@ -34,6 +34,10 @@ namespace MN {
 		static void end();
 		static void playSound(std::shared_ptr<Sound> sound);
 
+		//TODO
+		//playSoundLoop
+		//playSound (,Volume)
+		//
 		static void update();
 
 	private:

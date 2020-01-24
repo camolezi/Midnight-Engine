@@ -16,11 +16,7 @@
 #include <chrono>         // std::chrono::seconds
 
 
-//Testing audio library
-#include <soundMiniAudio.hpp>
-
-//Testing other audio library
-#include <soundCute.hpp>
+#include <audioEngine.hpp>
 
 int main(){
 
@@ -36,8 +32,8 @@ int main(){
 		std::cout << "Hello deploy Mode" << std::endl;
 	#endif
 
+	//Engine systems init
 	//Window also create a open GL context, should be created before renderer and sound engine
-		//Engine systems init
 	Window::pointer windowPtr= Window::create();
 	MN::Renderer2D::start();
 	MN::Input::start();
@@ -101,10 +97,10 @@ int main(){
 		gameLoopTimer.stop();
 		deltaTime = gameLoopTimer.getDuration();
 	}
-
-	delete app;
+	
 	AudioEngine::end();
 	Renderer2D::end();
+	delete app;
 	windowPtr.reset();
 	return 0;
 }

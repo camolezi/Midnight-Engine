@@ -24,8 +24,8 @@ namespace MN {
 			cs_free_sound(&audioFile);
 		}
 		else {
-			TERMINAL_LOG(Log::Warning, "Trying to delete a sound file while it is still playing. File was not delete");
-		}
-		
+			TERMINAL_LOG(Log::Warning, "Trying to delete a sound file while it is still playing. File was not delete from memory");
+		}	
 	}
+
 }

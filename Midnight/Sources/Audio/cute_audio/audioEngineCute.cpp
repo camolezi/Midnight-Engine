@@ -14,15 +14,17 @@ namespace MN {
 	}
 
 	void AudioEngineCute::createContext(Window::pointer win) {
+		//TODO:Make function to config this parameters
 		ctx = cs_make_context(win->getNativeWindow(), 44100, 8192, 0, NULL);
 	}
 
-	AudioEngineCute::AudioEngineCute() {
+	AudioEngineCute::AudioEngineCute() {}
 
-	}
 	AudioEngineCute::~AudioEngineCute() {
 		cs_shutdown_context(ctx);
 	}
+
+	//Save or not save the file? Maybe exclude this function from API
 	void AudioEngineCute::playSound(const std::string& path) {
 		TERMINAL_DEBUG("Not yet supported, create a sound first");
 	}
@@ -42,6 +44,7 @@ namespace MN {
 	}
 
 	void AudioEngineCute::update() {
+		//TODO: Move this to another thread. The sound API alredy has support, should be easy
 		cs_mix(ctx);
 	}
 
