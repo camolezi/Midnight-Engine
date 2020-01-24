@@ -19,6 +19,9 @@
 //Testing audio library
 #include <soundMiniAudio.hpp>
 
+//Testing other audio library
+#include <soundCute.hpp>
+
 int main(){
 
 	TERMINAL_LOG_LEVEL(Log::Debug);
@@ -33,6 +36,8 @@ int main(){
 		std::cout << "Hello deploy Mode" << std::endl;
 	#endif
 
+	//Window also create a open GL context, should be created before renderer and sound engine
+		//Engine systems init
 	Window::pointer windowPtr= Window::create();
 	MN::Renderer2D::start();
 	MN::Input::start();
@@ -61,12 +66,14 @@ int main(){
 	ASSERT(app, "Failed to initialize application");
 	app->start();
 
-	SoundMiniAudio audioTest("../Midnight/Assets/Audio/sampleEffect.wav");
+//	SoundMiniAudio audioTest("../Midnight/Assets/Audio/sampleEffect.wav");
 	//SoundMiniAudio musicTest("../Midnight/Assets/Audio/sampleMusic.mp3");
+	
+	SoundCute audioTeste;
+	audioTeste.loadSound("../Midnight/Assets/Audio/sampleEffect.wav", windowPtr);
 
 	Timer gameLoopTimer;
 	double deltaTime = 0;
-	audioTest.play();
 	while(run){
 
 		gameLoopTimer.start();
@@ -77,16 +84,16 @@ int main(){
 	    	app->run(deltaTime);
 
 		if (Input::isKeyPressed(MN_KEY_C)) {
-			audioTest.play();
+			//audioTest.play();
 			//musicTest.play();
 		}
 			
 
 		windowPtr->update();
 		Debug::TerminalLog::instance().flush();
-		std::this_thread::sleep_for (std::chrono::milliseconds(10000));
+		audioTeste.mix();
+		std::this_thread::sleep_for (std::chrono::milliseconds(10));
 		
-
 		gameLoopTimer.stop();
 		deltaTime = gameLoopTimer.getDuration();
 	}

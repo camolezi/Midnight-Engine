@@ -36,9 +36,11 @@ project "MNCore"
 	filter{"system:linux"}
 		links{ "X11", "dl", "pthread", "Xrandr", "m", "z", "GL", "Xext", "Xfixes", "dl"}
 		links{"GL"}
+		defines {"MNLinux"}
 	
 	filter{"system:windows"}
-		links{"opengl32.lib"}
+		links{"opengl32.lib", "dsound.lib"}
+		defines {"MNWindows"}
 
 	filter {}
 
@@ -53,18 +55,21 @@ project "MNCore"
 		files{"Midnight/Vendor/Libraries/iamGui/plataform/**"}
 		--Miniaudio
 		files{"Midnight/Vendor/Libraries/miniaudio/include/**"}
+		--cute_sound
+		files{"Midnight/Vendor/Libraries/cute_sound/**"}
 
 
 	libdirs {"Midnight/Vendor/Libraries/GLFW/Build/Bin/GLFW/Debug"}
 
 	includedirs {"Midnight/Headers/**",
 				 "Midnight/Headers",	 
-				 "Midnight/Vendor/Libraries/GLFW/include",
+				 "Midnight/Vendor/Libraries/GLFW/include/",
 				 "Midnight/Vendor/Libraries/GLAD/include/**",
 				 "Midnight/Vendor/Libraries/STB",
 				 "Midnight/Vendor/Libraries/iamGui",
 				 "Midnight/Vendor/Libraries/iamGui/plataform",
-				 "Midnight/Vendor/Libraries/miniaudio/include"}
+				 "Midnight/Vendor/Libraries/miniaudio/include",
+				 "Midnight/Vendor/Libraries/cute_sound"}
 
 	links{"GLFW","GLAD","iamGui"}
 

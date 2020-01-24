@@ -14,7 +14,7 @@ namespace MN {
 		~SoundMiniAudio();
 
 		void loadSound(const std::string& path) override;
-		void play() override;
+		void play();
 
 		static void data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount);
 	private:

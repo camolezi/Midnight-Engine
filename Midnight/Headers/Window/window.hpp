@@ -29,16 +29,18 @@ namespace MN{
 
 		public:
 
-			using pointer = std::unique_ptr<Window>;
+			using pointer = std::shared_ptr<Window>;
 
 			virtual ~Window(){};
 			virtual void update() = 0;
-
+			
 			virtual void setVSync(const bool vsy) =0;
 			virtual bool getVSync() const = 0;
 
 			virtual unsigned int getWidth() const = 0;
 			virtual unsigned int getHeight() const = 0;	
+
+			virtual void* getNativeWindow() = 0;
 
 			static pointer create(const WindowData& data = WindowData());
 

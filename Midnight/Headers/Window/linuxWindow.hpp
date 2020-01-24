@@ -11,6 +11,7 @@
 namespace MN{
 
 	//Window using GLFW and OpenGL
+	//Change this class name to GLFW_Window
 	class LinuxWindow : public Window{
 
 		public:
@@ -21,10 +22,12 @@ namespace MN{
 			void setVSync(const bool vsy) override;
 			bool getVSync() const override{return data.vsync;};
 
-			virtual void update() override;
+			void update() override;
 
 			unsigned int getWidth() const override{return data.width;}
-			unsigned int getHeight() const override{return data.height;}	
+			unsigned int getHeight() const override{return data.height;}
+
+			void* getNativeWindow() override;
 
 		private:
 			void initialize();

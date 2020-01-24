@@ -11,6 +11,20 @@
 
 using namespace MN;
 
+#ifdef MNWindows
+	#define GLFW_EXPOSE_NATIVE_WIN32
+	#include <GLFW/glfw3native.h>
+#endif
+
+void* LinuxWindow::getNativeWindow() {
+	#ifdef MNWindows
+		return glfwGetWin32Window(glfwWindow);
+	#endif
+		return nullptr;
+}
+
+
+
 // window Factory
 Window::pointer Window::create(const WindowData& data){
 	//For now just return a linux window

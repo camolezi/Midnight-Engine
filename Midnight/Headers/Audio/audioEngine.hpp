@@ -8,7 +8,7 @@ namespace MN {
 
 	class Sound {
 		virtual void loadSound(const std::string& path) = 0;
-		virtual void play() = 0;
+		//virtual void play() = 0;
 	};
 
 	class AudioEngine {

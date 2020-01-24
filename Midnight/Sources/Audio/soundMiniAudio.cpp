@@ -42,7 +42,7 @@ namespace MN {
 			playing = false;	
 		}
 
-		if (true) {
+		if (!playing) {
 			TERMINAL_DEBUG("STARTING TO PLAY");
 			
 			if (ma_device_start(&device) != MA_SUCCESS) {

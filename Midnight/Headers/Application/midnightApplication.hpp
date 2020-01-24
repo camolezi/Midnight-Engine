@@ -4,7 +4,6 @@
 
 namespace MN{
 
-
 	class MidnightApp{
 
 		public:
