@@ -18,12 +18,17 @@ void clientApp::start(){
 
 	//Can subscribe with lambda expression or functions
 	//When ESC is pressed close the app
-	EventSubscribe(KeyPressedEvent,[](MidnightEvent event){
+	KeyPressedSubscribe([](MidnightEvent event) {
 		auto pressEvent = downcast_event_ptr<KeyPressedEvent>(event);
-		if(pressEvent->pressed() == MN_KEY_ESCAPE){
+		if (pressEvent->pressed() == MN_KEY_ESCAPE) {
 			EventDispatche(newEvent<WindowCloseEvent>());
-		} 
+		}
 	});
+
+	//New interface for subscribign in key press evetn
+	SubscribeKeyPress(MN_KEY_M, []() {TERMINAL_DEBUG("Test"); });
+	SubscribeLeftMouseClick([]() {TERMINAL_DEBUG("Test2"); } );
+		
 	//Camera
 	camera = std::make_shared<OrthographicCamera>( -16.0f,16.0f,9.0f,-9.0f,0.1f,20.0f);
 	texture = Texture2D::create("../Midnight/Assets/Textures/midnightLogo.png");

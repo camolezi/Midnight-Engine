@@ -16,9 +16,12 @@ namespace MN {
 	void AudioEngineCute::createContext(Window::pointer win) {
 		//TODO:Make function to config this parameters
 		ctx = cs_make_context(win->getNativeWindow(), 44100, 8192, 0, NULL);
+		if (ctx == nullptr) {
+			ASSERT(false, "Error in creating sound context");
+		}
 	}
 
-	AudioEngineCute::AudioEngineCute() {}
+	AudioEngineCute::AudioEngineCute() { ctx == nullptr; }
 
 	AudioEngineCute::~AudioEngineCute() {
 		cs_shutdown_context(ctx);

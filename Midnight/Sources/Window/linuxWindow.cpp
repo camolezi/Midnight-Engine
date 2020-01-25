@@ -128,9 +128,9 @@ void LinuxWindow::initialize(){
 	});
 
 	//Icon
-	// GLFWimage image;
-	// image = load_icon("/home/Camolezi/Desktop/Midnight/Logos/logo.png"); 
-	// glfwSetWindowIcon(glfwWindow, 1, &image);
+	//GLFWimage image;
+	//image = load_icon("../Midnight/Assets/Textures/midnightLogo.png"); 
+	//glfwSetWindowIcon(glfwWindow, 1, &image);
 
 	{
 		//Just for testing iam gui 

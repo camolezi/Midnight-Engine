@@ -13,7 +13,7 @@
 #include <time.hpp>
 
 #include <thread>         // std::this_thread::sleep_for
-#include <chrono>         // std::chrono::seconds
+#include <chrono>        
 
 
 #include <audioEngine.hpp>
@@ -117,24 +117,7 @@ int main(){
 
 	// //Just for testing events in member functions right now
 	// class audioSystem{
-
-	// public:
-	// 	audioSystem(){
-
 	// 		EventDispatcher::dispatcher().subscribe(Event::EventType::message,&audioSystem::handleEvent,this);
 	// 		EventDispatcher::dispatcher().subscribe(Event::EventType::message,&audioSystem::handleEvent2,this);
 	// 	}
 
-	// 	void handleEvent(Event::pointer event){
-	// 		//Api for event handle
-	// 		auto test = downcast_event_ptr<MessageEvent>(event);
-	// 		TERMINAL_DEBUG(test->getMessage() << " In function 1");
-	// 	}
-
-	// 	void handleEvent2(Event::pointer event){
-
-	// 		auto test = downcast_event_ptr<MessageEvent>(event);
-	// 		TERMINAL_DEBUG(test->getMessage() << " In function 2");
-	// 	}
-
-	// };
