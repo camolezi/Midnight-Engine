@@ -15,12 +15,21 @@ namespace MN {
 		def = cs_make_playing_sound(&audioFile);		
 	}
 
+	void SoundCute::reContext() {
+		def = cs_make_playing_sound(&audioFile);
+	}
+
+	void SoundCute::setVolume(float volume){
+		cs_set_volume(&def, volume, volume);
+	}
+
 	void* SoundCute::getSoundData() {
 		return &def;
 	}
 
 	SoundCute::~SoundCute() {
 		if (audioFile.playing_count == 0) {
+			cs_stop_sound(&def);
 			cs_free_sound(&audioFile);
 		}
 		else {

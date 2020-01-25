@@ -67,6 +67,7 @@ int main(){
 	//Testing sound API
 	std::shared_ptr<Sound> testSound = Sound::createFromFile("../Midnight/Assets/Audio/sampleEffect.wav");
 	std::shared_ptr<Sound> testMusic = Sound::createFromFile("../Midnight/Assets/Audio/sampleMusic.wav");
+	testSound->setVolume(1.0f);
 
 	Timer gameLoopTimer;
 	double deltaTime = 0;
@@ -83,8 +84,16 @@ int main(){
 	    	app->run(deltaTime);
 
 		if (Input::isKeyPressed(MN_KEY_C)) {
-			AudioEngine::playSound(testSound);
+			AudioEngine::playSoundLooped(testSound);
 			AudioEngine::playSound(testMusic);
+		}
+
+		if (Input::isKeyPressed(MN_KEY_V)) {
+			AudioEngine::stopSound(testSound);
+		}
+
+		if (Input::isKeyPressed(MN_KEY_P)) {
+			AudioEngine::pauseSound(testSound);
 		}
 			
 

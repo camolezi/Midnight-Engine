@@ -31,16 +31,48 @@ namespace MN {
 
 	void AudioEngineCute::playSound(std::shared_ptr<Sound> sound) {
 
-		auto covertedSound = convertSoundFormat(sound->getSoundData());
-		/*
-		THis check is not working fow now. There is a ASSERT in the file load side
-		if (covertedSound->loaded_sound->channels[0] != nullptr) {
-			TERMINAL_LOG(Log::Warning, "Trying to play a sound no loaded, or missing a sound file");
-			return;
+		auto convertedSound = convertSoundFormat(sound->getSoundData());
+	
+		//Sound after a stop 
+		if (convertedSound->loaded_sound == nullptr) {
+			sound->reContext();
+			cs_insert_sound(ctx, convertSoundFormat(sound->getSoundData()));
 		}
-		*/
-		cs_insert_sound(ctx, covertedSound);
+		//Sound paused
+		if (convertedSound->paused) {
+			cs_pause_sound(convertedSound, 0);
+		}
+		else {
+			//Normal insert, if sound is already inserted this function does nothing(based on tests);
+			cs_insert_sound(ctx, convertedSound);
+		}
 		
+	}
+
+	void AudioEngineCute::stopSound(std::shared_ptr<Sound> sound) {
+		auto convertedSound = convertSoundFormat(sound->getSoundData());
+		if (cs_is_active(convertedSound) == 1) {
+			cs_stop_sound(convertedSound);
+			cs_loop_sound(convertedSound, 1);
+		}else {
+			TERMINAL_DEBUG("Trying to stop a sound that is not being played");
+		}
+	}
+
+	void AudioEngineCute::pauseSound(std::shared_ptr<Sound> sound) {
+		auto convertedSound = convertSoundFormat(sound->getSoundData());
+		if (cs_is_active(convertedSound) == 1) {
+			cs_pause_sound(convertedSound,1);
+		}
+		else {
+			TERMINAL_DEBUG("Trying to pause a sound that is not being played");
+		}
+	}
+
+	void AudioEngineCute::playSoundLooped(std::shared_ptr<Sound> sound){
+		auto convertedSound = convertSoundFormat(sound->getSoundData());
+		cs_loop_sound(convertedSound, 1);
+		playSound(sound);
 	}
 
 	void AudioEngineCute::update() {
@@ -48,4 +80,5 @@ namespace MN {
 		cs_mix(ctx);
 	}
 
+	
 }

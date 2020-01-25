@@ -14,6 +14,9 @@ namespace MN {
 		void createContext(Window::pointer win) override;
 		void playSound(const std::string& path) override;
 		void playSound(std::shared_ptr<Sound> sound) override;
+		void stopSound(std::shared_ptr<Sound> sound) override;
+		void pauseSound(std::shared_ptr<Sound> sound) override;
+		void playSoundLooped(std::shared_ptr<Sound> sound) override;
 
 		void update() override;
 	private:

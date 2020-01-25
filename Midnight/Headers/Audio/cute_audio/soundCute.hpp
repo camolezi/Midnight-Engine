@@ -13,6 +13,8 @@ namespace MN {
 		void loadSound(const std::string& path) override;
 		SoundCute(const std::string& path) { loadSound(path); }
 		void* getSoundData() override;
+		void reContext() override;
+		void setVolume(float volume) override;
 
 		~SoundCute();
 	private:
