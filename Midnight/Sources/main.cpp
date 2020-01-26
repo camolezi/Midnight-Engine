@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include <eventDispatcher.hpp>
 #include <debug.hpp>
 #include <window.hpp>
@@ -9,14 +7,15 @@
 #include <input.hpp>
 #include <renderer2D.hpp>
 #include <eventMacro.hpp>
-
+#include <layer.hpp>
 #include <time.hpp>
+#include <audioEngine.hpp>
+#include <uiLayer.hpp>
 
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>        
 
-
-#include <audioEngine.hpp>
+#include <imgui.h>
 
 int main(){
 
@@ -57,46 +56,43 @@ int main(){
 		minimized = false;
 	});
 
+	//Create engine layerStack
+	LayerStack layerStack;
 
-	//Create application
-	MidnightApp * app = MidnightApp::createApp();
-	ASSERT(app, "Failed to initialize application");
-	app->start();
+	//Create Layers
+		//Application
+	Layer::ptr applicationLayer(MidnightApp::createApp());
+	layerStack.addLayer(applicationLayer);
+		
 
+	//Engine UI - will not be created in deploy
+	#ifndef deploy
+		Layer::ptr uiLayer = std::make_shared<UILayer>();
+		layerStack.addLayer(uiLayer);
+	#endif
 
-	//Testing sound API
-	std::shared_ptr<Sound> testSound = Sound::createFromFile("../Midnight/Assets/Audio/sampleEffect.wav");
-	std::shared_ptr<Sound> testMusic = Sound::createFromFile("../Midnight/Assets/Audio/sampleMusic.wav");
-	testSound->setVolume(1.0f);
+	//Call start in all layers
+	for (auto layer : layerStack) {
+		layer->start();
+	}
 
 	Timer gameLoopTimer;
-	double deltaTime = 0;
-
-	//AudioEngine::playSound(testSound);
+	double deltaTime = 1.0/60.0;
 
 	while(run){
 
 		gameLoopTimer.start();
 		EventDispatcher::dispatcher().update();
-		
-		//Does not run app if window minimized
-		if(!minimized)
-	    	app->run(deltaTime);
 
-		if (Input::isKeyPressed(MN_KEY_C)) {
-			AudioEngine::playSoundLooped(testSound);
-			AudioEngine::playSound(testMusic);
+		//bool show_demo_window = true;
+		//ImGui::ShowDemoWindow(&show_demo_window);
+
+		if (!minimized) {
+			//Update all layers in order, the first inserted is the first to be updated
+			for (auto layer : layerStack) {
+				layer->update(deltaTime);
+			}
 		}
-
-		if (Input::isKeyPressed(MN_KEY_V)) {
-			AudioEngine::stopSound(testSound);
-		}
-
-		if (Input::isKeyPressed(MN_KEY_P)) {
-			AudioEngine::pauseSound(testSound);
-		}
-			
-
 		windowPtr->update();
 		AudioEngine::update();
 		//Flush Logs
@@ -105,11 +101,19 @@ int main(){
 		
 		gameLoopTimer.stop();
 		deltaTime = gameLoopTimer.getDuration();
+
 	}
 	
+	
+	layerStack.clear();
+	applicationLayer.reset();
+
+	#ifndef deploy
+		uiLayer.reset();
+	#endif // !deploy
+
 	AudioEngine::end();
 	Renderer2D::end();
-	delete app;
 	windowPtr.reset();
 	return 0;
 }

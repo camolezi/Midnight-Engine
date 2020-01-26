@@ -20,6 +20,9 @@ namespace MN {
 	}
 
 	void SoundCute::setVolume(float volume){
+		if (volume > 1.5f) {
+			TERMINAL_LOG(Log::Warning, "Maybe the sound of one of the files is to high");
+		}
 		cs_set_volume(&def, volume, volume);
 	}
 

@@ -133,8 +133,8 @@ void LinuxWindow::initialize(){
 	//glfwSetWindowIcon(glfwWindow, 1, &image);
 
 	{
-		//Just for testing iam gui 
-		// move this from here
+		//IamGui context initialization
+		//When another window class is created this code needs to go to
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -159,28 +159,7 @@ LinuxWindow::~LinuxWindow(){
 	glfwTerminate();
 }
 
-static void iamguiTest() {
-
-	static bool show_demo_window = true;
-	
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplGlfw_NewFrame();
-	ImGui::NewFrame();
-
-	{
-		ImGui::ShowDemoWindow(&show_demo_window);
-	}
-
-}
-
 void LinuxWindow::update(){
-	iamguiTest();
-
-	#ifndef deploy
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	#endif
-
 	glfwSwapBuffers(glfwWindow);
    	glfwPollEvents();
 }

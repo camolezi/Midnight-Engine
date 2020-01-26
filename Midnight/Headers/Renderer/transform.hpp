@@ -1,6 +1,7 @@
 #ifndef TRANSFORM_HPP
 #define TRANSFORM_HPP
 
+#include <coreMath.hpp>
 
 namespace MN{
 	
@@ -14,7 +15,7 @@ namespace MN{
 
 	class Transform2D{
 	public:
-		Transform2D(const vec3& Position, float Rotation, const vec2& Scale):
+		Transform2D(const vec3& Position = { 0,0,0 }, float Rotation = 0, const vec2& Scale = {1,1}) :
 					Position{Position},Rotation{Rotation},Scale{Scale}{};
 
 		vec3 Position;

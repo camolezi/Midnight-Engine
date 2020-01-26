@@ -34,7 +34,7 @@ namespace MN{
 					return data[index];
 				}
 
-
+				float * getData() { return data.data(); }
 			protected:
 				std::array<T,N> data;
 		
