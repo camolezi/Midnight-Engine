@@ -13,6 +13,9 @@ class clientApp : public MN::MidnightApp{
 
 		std::shared_ptr<MN::Sound> testMusic;
 		std::shared_ptr<MN::Sound> testSound;
+
+		MN::CountDownTimer timer = 4.0;
+
 };
 
 void clientApp::startApp(){
@@ -44,6 +47,7 @@ void clientApp::startApp(){
 	texture = Texture2D::create("../Midnight/Assets/Textures/midnightLogo.png");
 
 	MN::Renderer2D::setClearColor({0.2f,0.3f,0.3f});
+
 }
 
 
@@ -56,6 +60,10 @@ void clientApp::run(double deltaTime){
 	if (Input::isKeyPressed(MN_KEY_C)) {
 		AudioEngine::playSoundLooped(testSound);
 		AudioEngine::playSound(testMusic);
+	}
+
+	if (timer.countTime(deltaTime) == true) {
+		AudioEngine::playSoundLooped(testSound);
 	}
 
 	if (Input::isKeyPressed(MN_KEY_V)) {
@@ -135,8 +143,6 @@ void clientApp::run(double deltaTime){
 
 	MN::Renderer2D::drawQuad({ {0,0,-1} , 0 , {20,20} }, texture, { (x*x)/(16*10.0f),(y*y)/(9*5.0f),(x*y)/(10.0f*8.0f),1.0f}); //texture
     MN::Renderer2D::drawQuad({ { (((float)mouseX-1280.0f)/40.0f)+16, -((((float)mouseY-720.0f)/40.0f)+9),1.0f} , 0 , {0.6f,0.6f} } , {0.3f,1.0f,0.6f,1.0f});	//Blue
-
-
 
     MN::Renderer2D::endScene();
 

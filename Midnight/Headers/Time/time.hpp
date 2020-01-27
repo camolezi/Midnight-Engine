@@ -29,6 +29,29 @@ namespace MN{
 			TimePoint startTime;
 			TimePoint endTime;
 	};
+
+	//Utility class for counting time
+	class CountDownTimer {
+	public:
+		CountDownTimer(double secondsToCount) : secondsToCount{ secondsToCount } { timeAccumulated = 0; };
+		bool countTime(double deltaTime) {
+			timeAccumulated += deltaTime;
+			if (timeAccumulated >= secondsToCount) {
+				timeAccumulated = 0;
+				return true;
+			}
+			else {
+				return false;
+			}
+		};
+
+		void setTimeCount(double newCount) { secondsToCount = newCount; timeAccumulated = 0; }
+
+	private:
+		double secondsToCount;
+		double timeAccumulated;
+
+	};
 }
 
 
