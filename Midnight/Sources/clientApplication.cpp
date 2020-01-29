@@ -46,7 +46,7 @@ void clientApp::startApp(){
 	camera = std::make_shared<OrthographicCamera>( -16.0f,16.0f,9.0f,-9.0f,0.1f,20.0f);
 	texture = Texture2D::create("../Midnight/Assets/Textures/midnightLogo.png");
 
-	MN::Renderer2D::setClearColor({0.2f,0.3f,0.3f});
+	MN::Renderer2D::setClearColor({0.8f,0.8f,0.8f});
 
 }
 
@@ -63,7 +63,7 @@ void clientApp::run(double deltaTime){
 	}
 
 	if (timer.countTime(deltaTime) == true) {
-		AudioEngine::playSoundLooped(testSound);
+		//AudioEngine::playSoundLooped(testSound);
 	}
 
 	if (Input::isKeyPressed(MN_KEY_V)) {
@@ -131,18 +131,52 @@ void clientApp::run(double deltaTime){
 	static Transform2D simpleObjectTransform;
 	static vec4 simpleObjectcolor = 1.0f;
 	MidnightWidget(simpleObjectTransform, simpleObjectcolor);
-	MN::Renderer2D::drawQuad(simpleObjectTransform, simpleObjectcolor);
+	//MN::Renderer2D::drawQuad(simpleObjectTransform, simpleObjectcolor);
 
-	x = simpleObjectTransform.Position.x();
-	y = simpleObjectTransform.Position.y();
+	//x = simpleObjectTransform.Position.x();
+	//y = simpleObjectTransform.Position.y();
     
     //MN::Renderer2D::drawQuad(MN::Transform2D{vec3{0,0,0}, 0, vec2{0,0} });
 	if (MN::Input::isMousePressed(MN_MOUSE_BUTTON_1)) {
 		//MN::Renderer2D::drawQuad({ {0,0,0.8f} , 0 , {1.5f,1.5f} }, { 1.0f,1.0f,0,1.0f });
 	}
 
-	MN::Renderer2D::drawQuad({ {0,0,-1} , 0 , {20,20} }, texture, { (x*x)/(16*10.0f),(y*y)/(9*5.0f),(x*y)/(10.0f*8.0f),1.0f}); //texture
-    MN::Renderer2D::drawQuad({ { (((float)mouseX-1280.0f)/40.0f)+16, -((((float)mouseY-720.0f)/40.0f)+9),1.0f} , 0 , {0.6f,0.6f} } , {0.3f,1.0f,0.6f,1.0f});	//Blue
+//	MN::Renderer2D::drawQuad({ {0,0,-1} , 0 , {20,20} }, texture, { (x*x)/(16*10.0f),(y*y)/(9*5.0f),(x*y)/(10.0f*8.0f),1.0f}); //texture
+  //  MN::Renderer2D::drawQuad({ { (((float)mouseX-1280.0f)/40.0f)+16, -((((float)mouseY-720.0f)/40.0f)+9),1.0f} , 0 , {0.6f,0.6f} } , {0.3f,1.0f,0.6f,1.0f});	//Blue
+
+
+	//For testing batch renderer; Performance intensive task
+	//The engine can now render 1000 quads per frame at a decent frame rate
+	//Compare with bath renderer after implemented
+	int numberOfRec = 0;
+	for (int posx = -16; posx <= 16; posx++) {
+		for (int posy = -9; posy <= 9; posy++) {
+			simpleObjectTransform.Position = { (float)posx,(float)posy,1.0f };
+			MN::Renderer2D::drawQuad(simpleObjectTransform, simpleObjectcolor);
+			numberOfRec++;
+
+			simpleObjectTransform.Position = { (float)posx + 0.25f,(float)posy + 0.25f,1.0f };
+			MN::Renderer2D::drawQuad(simpleObjectTransform, simpleObjectcolor);
+			numberOfRec++;
+
+			simpleObjectTransform.Position = { (float)posx + 0.5f,(float)posy + 0.5f,1.0f };
+			MN::Renderer2D::drawQuad(simpleObjectTransform, simpleObjectcolor);
+			numberOfRec++;
+
+			simpleObjectTransform.Position = { (float)posx + 0.75f,(float)posy + 0.75f,1.0f };
+			MN::Renderer2D::drawQuad(simpleObjectTransform, simpleObjectcolor);
+			numberOfRec++;
+
+
+		}
+	}
+
+	ImGui::Begin("FPS");
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::Text("Number of quads: %d", numberOfRec);
+	ImGui::End();
+
+
 
     MN::Renderer2D::endScene();
 

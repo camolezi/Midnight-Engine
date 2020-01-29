@@ -30,7 +30,7 @@ namespace MN{
 			TimePoint endTime;
 	};
 
-	//Utility class for counting time
+	//Utility class for timed actions and behavior
 	class CountDownTimer {
 	public:
 		CountDownTimer(double secondsToCount) : secondsToCount{ secondsToCount } { timeAccumulated = 0; };

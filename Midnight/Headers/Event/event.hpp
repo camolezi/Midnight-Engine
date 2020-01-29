@@ -12,9 +12,7 @@ namespace MN{
 
 	//Event interface
 	class Event{
-
 		public:
-
 			//Check another solution later
 			enum class EventType{
 				WindowCloseEvent,

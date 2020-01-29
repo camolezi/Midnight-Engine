@@ -20,7 +20,7 @@ namespace MN{
 	}
 
 	uint32_t IndexBufferOpenGL::getIndexNumber() const{
-		return size;
+		return (size/sizeof(unsigned int));
 	}
 
 	IndexBufferOpenGL::~IndexBufferOpenGL(){

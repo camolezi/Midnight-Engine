@@ -12,10 +12,13 @@ namespace MN{
 
 
 	//Represent one type of element
-	enum class ShaderDataType{
+	enum class ShaderDataType {
+		INT,
+		FLOAT,
 		FLOAT2,
 		FLOAT3,
-		FLOAT4
+		FLOAT4,
+		MAT4
 	};
 
 	class LayoutElement{
@@ -80,13 +83,20 @@ namespace MN{
 	class VertexBuffer{
 		public:
 
+			enum class type{
+				StaticDraw = 0x88E4,
+				DynamicDraw = 0x88E8
+			};
+
 			virtual void bind() const= 0;
 			virtual void unbind() const = 0;
+
+			virtual void updateData(uint32_t size, void* data) = 0;
 
 			virtual void setLayout(BufferLayout layout) = 0;
 			virtual const BufferLayout& getLayout() const = 0;	
 
-			static std::unique_ptr<VertexBuffer> create(uint32_t size, float * data);
+			static std::unique_ptr<VertexBuffer> create(uint32_t size, void * data, VertexBuffer::type ty = VertexBuffer::type::StaticDraw);
 
 			virtual ~VertexBuffer(){}
 

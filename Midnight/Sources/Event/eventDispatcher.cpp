@@ -19,8 +19,10 @@ namespace MN{
 
 
 	void EventDispatcher::fastEvent(Event::unique_ptr& event){
-		for (auto& ptrAux : callbacksMap[event->type()]){
-				//ptrAux(std::move(event));
+		Event::shared_ptr sharedPointer = std::move(event);
+
+		for (auto& ptrAux : callbacksMap[sharedPointer->type()]) {
+			ptrAux(sharedPointer);
 		}
 	}
 

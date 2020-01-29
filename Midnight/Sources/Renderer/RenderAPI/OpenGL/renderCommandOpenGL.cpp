@@ -29,6 +29,10 @@ namespace MN{
 		glDrawElements(GL_TRIANGLES, VAO->getIndexNumber(), GL_UNSIGNED_INT, 0);
 	}
 
+	void RenderCommandOpenGL::drawIndexedInstanced(std::shared_ptr<VertexArray> VAO, uint32_t number) {
+		glDrawElementsInstanced(GL_TRIANGLES, VAO->getIndexNumber(), GL_UNSIGNED_INT, 0, number);
+	}
+
 	void RenderCommandOpenGL::setViewPort(
 	 unsigned int x, 
 	 unsigned int y, 

@@ -10,7 +10,7 @@ namespace MN {
 	public:
 		virtual ~Texture() = default;
 
-		virtual void bind() = 0;
+		virtual void bind(int number = 0) = 0;
 		virtual void load(const std::string& path) = 0;
 		virtual void setData(void * data) = 0;
 	};

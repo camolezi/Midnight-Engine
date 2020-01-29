@@ -74,8 +74,8 @@ namespace MN {
 		glGenTextures(1, &textureID);
 	}
 
-	void Texture2DOpenGL::bind() {
-		glActiveTexture(0);
+	void Texture2DOpenGL::bind(int number) {
+		glActiveTexture(number);
 		glBindTexture(GL_TEXTURE_2D, textureID);
 	}
 

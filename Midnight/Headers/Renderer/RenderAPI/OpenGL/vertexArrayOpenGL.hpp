@@ -2,6 +2,7 @@
 #define VERTEXARRAYOPENGL_H
 
 #include <vertexArray.hpp>
+#include <vector>
 
 namespace MN{
 
@@ -22,8 +23,9 @@ namespace MN{
 		 VertexArrayOpenGL();
 	private:
 		unsigned int id;
+		int attribPosition = 0;
 
-		std::shared_ptr<VertexBuffer> vertexBuffer;
+		std::vector<std::shared_ptr<VertexBuffer>> vertexBuffers;
 		std::shared_ptr<IndexBuffer> indexBuffer;
 	};
 }

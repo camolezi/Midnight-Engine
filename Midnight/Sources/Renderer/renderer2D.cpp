@@ -8,28 +8,42 @@ static std::string TextureVertexShaderSource = R"(
 	layout (location = 0) in vec3 aPos;
 	layout (location = 1) in vec2 textureCoordData;
 
+	layout (location = 2) in vec4 ModelMatrix1;
+	layout (location = 3) in vec4 ModelMatrix2;
+	layout (location = 4) in vec4 ModelMatrix3;
+	layout (location = 5) in vec4 ModelMatrix4;
+	
+	layout (location = 6) in vec4 Color;
+	layout (location = 7) in float TextureNumber;
+
 	out vec2 textureCoord;
+	out vec4 FragmentColor;
 
 	uniform mat4 model = mat4(1);
 	uniform mat4 viewProj = mat4(1);
 
 	void main(){
 		textureCoord = textureCoordData;
-		gl_Position = viewProj * model * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+		FragmentColor = Color;
+		//gl_Position = viewProj * model * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+		
+		mat4 modelMatrixComplete = mat4(ModelMatrix1,ModelMatrix2,ModelMatrix3,ModelMatrix4);
+		gl_Position = viewProj * transpose(modelMatrixComplete) * vec4(aPos.x, aPos.y, aPos.z, 1.0);
 	}
 )";
 
 static std::string TextureFragmentShaderSource = R"(
 	#version 330 core
 	
-	in vec2 textureCoord; 	
+	in vec2 textureCoord;
+	in vec4 FragmentColor; 	
 	out vec4 finalColor;
 
 	uniform sampler2D tex;
-	uniform vec4 uniformColor = vec4(1.0f,1.0f,1.0f,1.0f);
+	
 
 	void main(){
-		finalColor = texture(tex,textureCoord) * uniformColor;
+		finalColor = texture(tex,textureCoord) * FragmentColor;
 	}
 )";
 
@@ -38,10 +52,13 @@ namespace MN{
 
 	//Static varible init
 	std::unique_ptr<RenderCommand> Renderer2D::renderCommand;
-	Render2DInfo Renderer2D::renderInfo;
+	Renderer2D::Render2DInfo Renderer2D::renderInfo;
 	std::shared_ptr<Camera> Renderer2D::camera;
 	std::shared_ptr<Texture2D> Renderer2D::whiteTexture;
+	std::vector<Renderer2D::DrawQuadCommand> Renderer2D::drawCommandList;
 
+
+	std::shared_ptr<VertexBuffer> Renderer2D::InstanceVBO;
 
 	//Shoud only be called once at the start of the engine
  	void Renderer2D::start(){
@@ -64,6 +81,7 @@ namespace MN{
 	        1, 2, 3   // second Triangle
 	    };
 
+		
 
 	    std::shared_ptr<VertexBuffer> VBO = VertexBuffer::create(sizeof(vertices), vertices);
 	    VBO->bind();
@@ -78,9 +96,25 @@ namespace MN{
 
 	    VBO->setLayout(layout);
 
-	    renderInfo.vertexArray = VertexArray::create();
+		renderInfo.vertexArray = VertexArray::create();
 	    renderInfo.vertexArray->setVertexBuffer(VBO);
 	    renderInfo.vertexArray->setIndexBuffer(EBO);
+
+		
+		//Start with 1000 quads allocated
+		InstanceVBO = VertexBuffer::create(84 * 2508,NULL,VertexBuffer::type::DynamicDraw);
+		InstanceVBO->bind();
+		BufferLayout layoutInstanced{
+		   {ShaderDataType::FLOAT4, "ModelMatrix1"},
+		   {ShaderDataType::FLOAT4, "ModelMatrix2"},
+		   {ShaderDataType::FLOAT4, "ModelMatrix3"},
+		   {ShaderDataType::FLOAT4, "ModelMatrix4"},
+		   {ShaderDataType::FLOAT4, "Color"},
+		   {ShaderDataType::FLOAT, "TextureNumber"}
+		};
+		InstanceVBO->setLayout(layoutInstanced);
+		renderInfo.vertexArray->setVertexBuffer(InstanceVBO);
+		
 
 		//Textures
 		unsigned char whiteTextureData[] = { 255,255,255,255 };
@@ -104,6 +138,7 @@ namespace MN{
 
 	void  Renderer2D::beginScene(std::shared_ptr<Camera> cam){
 		camera = cam;
+		drawCommandList.clear();
 	}
 
 	//Imediate render for now.
@@ -111,24 +146,50 @@ namespace MN{
 		drawQuad(tr, whiteTexture, color);
 	}
 
+
 	void Renderer2D::drawQuad(const Transform2D& transform, std::shared_ptr<Texture2D> texture, const vec4& color)
 	{	
 		//This bind may be unnecessary
+		//renderInfo.shader->bind();
+		//renderInfo.shader->uniformVec4("uniformColor", color);
+		//renderInfo.shader->uniformMat4("viewProj", camera->viewProjMatrix());
+		//renderInfo.shader->uniformMat4("model", transform.modelMatrix());
+		//
+
+		//texture->bind();
+
+		//renderInfo.vertexArray->bind();
+//		renderCommand->drawIndexed(renderInfo.vertexArray);
+
+		//return;
+
+		//Instanced version
+		//renderInfo.shader->bind();
+		//renderInfo.shader->uniformMat4("viewProj", camera->viewProjMatrix());
+		drawCommandList.push_back(DrawQuadCommand{ transform, texture, color });
+	}
+
+	void drawQuadIntanced() {
+
+
+	}
+
+	void Renderer2D::createInstaceVertexArrayData() {
+		InstanceVBO->updateData(drawCommandList.size() * sizeof(DrawQuadCommand), drawCommandList.data());
+
+		//Draw scene istanced after
 		renderInfo.shader->bind();
-		renderInfo.shader->uniformVec4("uniformColor", color);
 		renderInfo.shader->uniformMat4("viewProj", camera->viewProjMatrix());
-		renderInfo.shader->uniformMat4("model", transform.modelMatrix());
 		renderInfo.shader->uniformInt("tex", 0);
-
-		texture->bind();
-
+		whiteTexture->bind();
 		renderInfo.vertexArray->bind();
-		renderCommand->drawIndexed(renderInfo.vertexArray);
+		renderCommand->drawIndexedInstanced(renderInfo.vertexArray, drawCommandList.size());
 	}
 	
-
 	void Renderer2D::endScene(){
-
+		//TERMINAL_DEBUG("Drawing " << drawCommandList.size() << " Quads!");
+		//TERMINAL_DEBUG("Size of: " << sizeof(DrawQuadCommand));
+		createInstaceVertexArrayData();
 	}
 
 	void Renderer2D::windowResizeUpdate(MidnightEvent event){
@@ -137,6 +198,8 @@ namespace MN{
 		renderCommand->setViewPort(0,0,resizedEvent->getWidth(),resizedEvent->getHeight());
 	}
 
+
+	
 	void Renderer2D::end() {
 		renderCommand.release();
 	}

@@ -7,7 +7,7 @@ namespace MN {
 
 	class Texture2DOpenGL : public Texture2D {
 	public:
-		void bind() override;
+		void bind(int number = 0) override;
 		void load(const std::string& path) override;
 		void setData(void* data) override;
 

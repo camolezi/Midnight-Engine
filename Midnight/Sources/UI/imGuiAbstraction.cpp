@@ -11,13 +11,13 @@ namespace MN {
 		ImGui::Begin("Transform 2D", &win);
 		ImGui::DragFloat2("Position", transform.Position.getData());
 		ImGui::DragFloat("Rotation", &transform.Rotation);
-		ImGui::DragFloat2("Scale", transform.Scale.getData());
+		ImGui::DragFloat2("Scale", transform.Scale.getData(),0.1f);
 		ImGui::ColorEdit4("Color", color.getData());
 		ImGui::DragFloat("Depth", &transform.Position.z() );
 		ImGui::End();
 		
-		//		ImGui::ShowTestWindow()
 
+		
 
 	}
 

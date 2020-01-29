@@ -57,14 +57,14 @@ namespace MN{
 					return ret;
 				}
 
-				std::size_t size() const{
-					return _size;
-				}
+			//	std::size_t size() const{
+				//	return _size;
+				//}
 
 				const void * getData() const{return data;}
 
 			private:
-				std::size_t _size = N;
+				//std::size_t _size = N;
 		};
 
 		//Operators

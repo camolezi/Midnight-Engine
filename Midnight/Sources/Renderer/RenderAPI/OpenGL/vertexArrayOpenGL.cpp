@@ -9,6 +9,8 @@ namespace MN{
 
 	static GLenum ShaderDataTypeToOpenGL(ShaderDataType type){
 		switch(type){
+			case ShaderDataType::MAT4:
+			case ShaderDataType::FLOAT:
 			case ShaderDataType::FLOAT2: 
 			case ShaderDataType::FLOAT3: 
 			case ShaderDataType::FLOAT4: 
@@ -37,6 +39,7 @@ namespace MN{
 	}
 
 	VertexArrayOpenGL::~VertexArrayOpenGL(){
+		vertexBuffers.clear();
 		glDeleteVertexArrays(1, &id);
 	}
 
@@ -46,32 +49,40 @@ namespace MN{
 
 
 	void VertexArrayOpenGL::setVertexBuffer(const std::shared_ptr<VertexBuffer>& buffer ) {
-		vertexBuffer = buffer;
+		vertexBuffers.push_back(buffer);
 		glBindVertexArray(id);
-		vertexBuffer->bind();
+		buffer->bind();
 
 		BufferLayout layout = buffer->getLayout();
 
+		//For testing
+		
+		glVertexAttribDivisor(2, 1);
+		glVertexAttribDivisor(3, 1);
+		glVertexAttribDivisor(4, 1);
+		glVertexAttribDivisor(5, 1);
+		glVertexAttribDivisor(6, 1);
+		glVertexAttribDivisor(7, 1);
+		
 		ASSERT(layout.getElements().size() != 0, "Vertex Buffer layout invalido");
-		TERMINAL_DEBUG(layout.getElements().size());
+		//TERMINAL_DEBUG(layout.getElements().size());
 
-		int position = 0;
 		for(auto& element : (layout) ){
-			glEnableVertexAttribArray(position);  
-	    	glVertexAttribPointer(position, element.getCount(),
+			glEnableVertexAttribArray(attribPosition);
+	    	glVertexAttribPointer(attribPosition, element.getCount(),
 		    	ShaderDataTypeToOpenGL(element.getType()),
 		    	element.getNormalize(), 
 		    	layout.getStride(), 
 		    	(void*)element.getOffset());
 
-	    	TERMINAL_DEBUG( "Attrib:" << position <<
+	    	TERMINAL_DEBUG( "Attrib:" << attribPosition <<
 	    					" Count:" << element.getCount() <<
 	    					" Type:" << (int)element.getType() <<
 	    					" Normalize:" << element.getNormalize()<<
 	    					" Stride: " << layout.getStride() <<
 	    					" Offset: " << element.getOffset());
 
-	    	position++;
+			attribPosition++;
     	}
 		
 	}
