@@ -93,5 +93,14 @@ namespace MN{
 		glUniform1i(uniformLocation, data);
 	}
 
+	void ShaderOpenGL::uniformIntArray(const std::string& name, int* data, int size) const
+	{
+		int uniformLocation = glGetUniformLocation(shaderProgram, name.c_str());
+		ASSERT(uniformLocation != -1, "Shader Uniform not found int: " << name);
+		glUniform1iv(uniformLocation, size, data);
+
+	}
+
+
 
 }

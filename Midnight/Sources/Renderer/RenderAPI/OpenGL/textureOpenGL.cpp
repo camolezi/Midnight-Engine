@@ -6,6 +6,8 @@
 
 namespace MN {
 
+	//--------------------TEXTURE 2D OPENGL -------------------------------------
+
 	std::unique_ptr<Texture2D> Texture2D::create(const std::string& path) {
 		return std::make_unique<Texture2DOpenGL>(path);
 	}
@@ -64,6 +66,8 @@ namespace MN {
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
+		glGenerateMipmap(GL_TEXTURE_2D);
+
 	}
 
 	Texture2DOpenGL::~Texture2DOpenGL(){
@@ -75,10 +79,24 @@ namespace MN {
 	}
 
 	void Texture2DOpenGL::bind(int number) {
-		glActiveTexture(number);
+		glActiveTexture(GL_TEXTURE0 + number);
 		glBindTexture(GL_TEXTURE_2D, textureID);
 	}
 
 	
+	int Texture::maxNumberOfTexturesSlots() {
+		//Only open GL for now
+		return GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS - 5;
+	}
+
+
+	//-------------------TEXTURE ARRAY 2D OPEN GL-------------------------
+
+
+	void Texture2DArrayOpenGL::bind() {
+
+	}
+
+
 
 }

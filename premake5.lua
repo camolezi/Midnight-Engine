@@ -25,12 +25,13 @@ project "MNCore"
 		symbols "On"
 
 	filter {"configurations:Release"}
-		defines {"release"}
+		defines {"MNRelease"}
 		runtime "Release"
 		optimize "On"
 
 	filter {"configurations:Deploy"}
 		defines {"deploy"}
+		runtime "Release"
 		optimize "On"
 
 	filter{"system:linux"}

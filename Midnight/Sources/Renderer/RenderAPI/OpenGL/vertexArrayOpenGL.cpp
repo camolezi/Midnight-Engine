@@ -15,6 +15,8 @@ namespace MN{
 			case ShaderDataType::FLOAT3: 
 			case ShaderDataType::FLOAT4: 
 				return GL_FLOAT;
+			case ShaderDataType::INT:
+				return GL_INT;
 			default:
 				ASSERT(false, "Invalid shader data type");
 				return -1;
@@ -69,11 +71,22 @@ namespace MN{
 
 		for(auto& element : (layout) ){
 			glEnableVertexAttribArray(attribPosition);
-	    	glVertexAttribPointer(attribPosition, element.getCount(),
-		    	ShaderDataTypeToOpenGL(element.getType()),
-		    	element.getNormalize(), 
-		    	layout.getStride(), 
-		    	(void*)element.getOffset());
+
+			if (element.getType() == ShaderDataType::INT) {
+				glVertexAttribIPointer(attribPosition,
+					element.getCount(), 
+					ShaderDataTypeToOpenGL(element.getType()),
+					layout.getStride(), 
+					(void*)element.getOffset());
+			}
+			else {
+				glVertexAttribPointer(attribPosition, element.getCount(),
+					ShaderDataTypeToOpenGL(element.getType()),
+					element.getNormalize(),
+					layout.getStride(),
+					(void*)element.getOffset());
+			}
+	    	
 
 	    	TERMINAL_DEBUG( "Attrib:" << attribPosition <<
 	    					" Count:" << element.getCount() <<

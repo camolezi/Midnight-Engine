@@ -141,35 +141,50 @@ void clientApp::run(double deltaTime){
 		//MN::Renderer2D::drawQuad({ {0,0,0.8f} , 0 , {1.5f,1.5f} }, { 1.0f,1.0f,0,1.0f });
 	}
 
-//	MN::Renderer2D::drawQuad({ {0,0,-1} , 0 , {20,20} }, texture, { (x*x)/(16*10.0f),(y*y)/(9*5.0f),(x*y)/(10.0f*8.0f),1.0f}); //texture
+	//MN::Renderer2D::drawQuad({ {0,0,-1} , 0 , {20,20} }, texture, { 1.0f,1.0f,1.0f,1.0f}); //texture
   //  MN::Renderer2D::drawQuad({ { (((float)mouseX-1280.0f)/40.0f)+16, -((((float)mouseY-720.0f)/40.0f)+9),1.0f} , 0 , {0.6f,0.6f} } , {0.3f,1.0f,0.6f,1.0f});	//Blue
 
 
 	//For testing batch renderer; Performance intensive task
 	//The engine can now render 1000 quads per frame at a decent frame rate
 	//Compare with bath renderer after implemented
+
 	int numberOfRec = 0;
 	for (int posx = -16; posx <= 16; posx++) {
 		for (int posy = -9; posy <= 9; posy++) {
+
+
 			simpleObjectTransform.Position = { (float)posx,(float)posy,1.0f };
-			MN::Renderer2D::drawQuad(simpleObjectTransform, simpleObjectcolor);
+			MN::Renderer2D::drawQuad(simpleObjectTransform, texture,simpleObjectcolor);
 			numberOfRec++;
 
-			simpleObjectTransform.Position = { (float)posx + 0.25f,(float)posy + 0.25f,1.0f };
+			simpleObjectTransform.Position = { (float)posx + 0.5f,(float)posy + 0.5f ,1.0f };
 			MN::Renderer2D::drawQuad(simpleObjectTransform, simpleObjectcolor);
 			numberOfRec++;
-
-			simpleObjectTransform.Position = { (float)posx + 0.5f,(float)posy + 0.5f,1.0f };
-			MN::Renderer2D::drawQuad(simpleObjectTransform, simpleObjectcolor);
-			numberOfRec++;
-
-			simpleObjectTransform.Position = { (float)posx + 0.75f,(float)posy + 0.75f,1.0f };
-			MN::Renderer2D::drawQuad(simpleObjectTransform, simpleObjectcolor);
-			numberOfRec++;
-
-
+				
+			
 		}
 	}
+	/*
+	int numberOfRec = 0;
+	for (int posx = -16; posx <= 16; posx++) {
+		for (int posy = -9; posy <= 9; posy++) {
+
+			for (int add = 1; add < 10; add++) {
+
+				for (int add2 = 1; add2 < 10; add2++) {
+					simpleObjectTransform.Position = { (float)posx + (add / 10.0f),(float)posy + (add2 / 10.0f),1.0f };
+					MN::Renderer2D::drawQuad(simpleObjectTransform, simpleObjectcolor);
+					numberOfRec++;
+
+					simpleObjectTransform.Position = { (float)posx + (add2 / 10.0f),(float)posy + (add / 10.0f),1.0f };
+					MN::Renderer2D::drawQuad(simpleObjectTransform, simpleObjectcolor);
+					numberOfRec++;
+				}
+			}
+		}
+	}
+	*/
 
 	ImGui::Begin("FPS");
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);

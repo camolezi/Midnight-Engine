@@ -18,6 +18,7 @@ namespace MN{
 		virtual void uniformVec4( const std::string& name, const vec4& data) const = 0;
 		virtual void uniformMat4( const std::string& name, const mat4& data) const = 0;
 		virtual void uniformInt(const std::string& name, int data) const = 0;
+		virtual void uniformIntArray(const std::string& name, int* data, int size) const = 0;
 
 		virtual ~Shader(){}
 		static std::unique_ptr<Shader> create(const std::string& vertexShaderSource, 

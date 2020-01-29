@@ -1,10 +1,10 @@
 #include <renderer2D.hpp>
 #include <debug.hpp>
-
+#include <algorithm>
 
 //Shader as static for now, need to make a asset system.
 static std::string TextureVertexShaderSource = R"(
-	#version 330 core
+	#version 410 core
 	layout (location = 0) in vec3 aPos;
 	layout (location = 1) in vec2 textureCoordData;
 
@@ -14,36 +14,37 @@ static std::string TextureVertexShaderSource = R"(
 	layout (location = 5) in vec4 ModelMatrix4;
 	
 	layout (location = 6) in vec4 Color;
-	layout (location = 7) in float TextureNumber;
+	layout (location = 7) in int inTextureNumber;
 
 	out vec2 textureCoord;
 	out vec4 FragmentColor;
+	flat out int textureNumber;
 
-	uniform mat4 model = mat4(1);
 	uniform mat4 viewProj = mat4(1);
 
 	void main(){
 		textureCoord = textureCoordData;
 		FragmentColor = Color;
-		//gl_Position = viewProj * model * vec4(aPos.x, aPos.y, aPos.z, 1.0);
-		
-		mat4 modelMatrixComplete = mat4(ModelMatrix1,ModelMatrix2,ModelMatrix3,ModelMatrix4);
-		gl_Position = viewProj * transpose(modelMatrixComplete) * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+		textureNumber = inTextureNumber;
+
+		gl_Position = viewProj * transpose(mat4(ModelMatrix1,ModelMatrix2,ModelMatrix3,ModelMatrix4)) 
+							   * vec4(aPos.x, aPos.y, aPos.z, 1.0);
 	}
 )";
 
 static std::string TextureFragmentShaderSource = R"(
-	#version 330 core
+	#version 410 core
 	
 	in vec2 textureCoord;
-	in vec4 FragmentColor; 	
+	in vec4 FragmentColor; 
+	flat in int textureNumber;
+	
 	out vec4 finalColor;
 
-	uniform sampler2D tex;
-	
+	uniform sampler2D uniformTextures[8];
 
 	void main(){
-		finalColor = texture(tex,textureCoord) * FragmentColor;
+		finalColor = texture(uniformTextures[textureNumber],textureCoord) * FragmentColor;
 	}
 )";
 
@@ -59,6 +60,7 @@ namespace MN{
 
 
 	std::shared_ptr<VertexBuffer> Renderer2D::InstanceVBO;
+	std::vector<std::shared_ptr<Texture2D>> Renderer2D::BatchTextures;
 
 	//Shoud only be called once at the start of the engine
  	void Renderer2D::start(){
@@ -110,7 +112,7 @@ namespace MN{
 		   {ShaderDataType::FLOAT4, "ModelMatrix3"},
 		   {ShaderDataType::FLOAT4, "ModelMatrix4"},
 		   {ShaderDataType::FLOAT4, "Color"},
-		   {ShaderDataType::FLOAT, "TextureNumber"}
+		   {ShaderDataType::INT,    "TextureNumber"}
 		};
 		InstanceVBO->setLayout(layoutInstanced);
 		renderInfo.vertexArray->setVertexBuffer(InstanceVBO);
@@ -166,24 +168,51 @@ namespace MN{
 		//Instanced version
 		//renderInfo.shader->bind();
 		//renderInfo.shader->uniformMat4("viewProj", camera->viewProjMatrix());
-		drawCommandList.push_back(DrawQuadCommand{ transform, texture, color });
+		auto it = std::find(BatchTextures.begin(), BatchTextures.end(), texture);
+		if (it != BatchTextures.end()) {
+			//in the list
+			int index = static_cast<int>(it - BatchTextures.begin());
+			drawCommandList.push_back(DrawQuadCommand{ transform, color,index });
+			//drawCommandList.push_back(DrawQuadCommand{ transform, color, 0});
+			//TERMINAL_DEBUG("Ja tem :" <<static_cast<int>(it - BatchTextures.begin()));
+		}
+		else {
+			BatchTextures.push_back(texture);
+			int index = static_cast<int>(BatchTextures.size() - 1);
+			drawCommandList.push_back(DrawQuadCommand{ transform, color,index});
+			//TERMINAL_DEBUG("NAO TEM :" << static_cast<int>(BatchTextures.size() - 1));
+
+		}
+
+	
 	}
 
-	void drawQuadIntanced() {
-
-
-	}
 
 	void Renderer2D::createInstaceVertexArrayData() {
 		InstanceVBO->updateData(drawCommandList.size() * sizeof(DrawQuadCommand), drawCommandList.data());
 
 		//Draw scene istanced after
+		
 		renderInfo.shader->bind();
 		renderInfo.shader->uniformMat4("viewProj", camera->viewProjMatrix());
-		renderInfo.shader->uniformInt("tex", 0);
-		whiteTexture->bind();
 		renderInfo.vertexArray->bind();
+		
+		//int * textureNumberData = new int[BatchTextures.size()];
+		int* textureNumberData = new int[8];
+		for (int aux = 0; aux < BatchTextures.size(); aux++) {
+			textureNumberData[aux] = aux;
+			BatchTextures[aux]->bind(aux);
+
+			//TERMINAL_DEBUG(textureNumberData[aux]);
+		}
+
+		
+
+		renderInfo.shader->uniformIntArray("uniformTextures", textureNumberData, BatchTextures.size());
+		//renderInfo.shader->uniformInt("tex", textureNumber);
+		//whiteTexture->bind();
 		renderCommand->drawIndexedInstanced(renderInfo.vertexArray, drawCommandList.size());
+		delete[] textureNumberData;
 	}
 	
 	void Renderer2D::endScene(){

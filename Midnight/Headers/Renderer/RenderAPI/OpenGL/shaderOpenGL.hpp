@@ -16,7 +16,7 @@ namespace MN{
 		void uniformVec4(const std::string& name,const vec4& data) const override;
 		void uniformMat4(const std::string& name,const mat4& data) const override;
 		void uniformInt(const std::string& name, int data) const override;
-
+		void uniformIntArray(const std::string& name, int* data, int size) const override;
 
 
 		~ShaderOpenGL();

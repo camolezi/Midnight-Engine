@@ -31,6 +31,11 @@ namespace MN {
 	};
 
 
+	class Texture2DArrayOpenGL : public Texture2DArray {
+		void bind() override;
+	};
+
+
 
 }
 

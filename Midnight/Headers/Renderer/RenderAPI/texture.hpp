@@ -13,6 +13,8 @@ namespace MN {
 		virtual void bind(int number = 0) = 0;
 		virtual void load(const std::string& path) = 0;
 		virtual void setData(void * data) = 0;
+
+		static int maxNumberOfTexturesSlots();
 	};
 
 	class Texture2D : public Texture {
@@ -24,6 +26,14 @@ namespace MN {
 		static std::unique_ptr<Texture2D> create(unsigned int widht,unsigned int height, unsigned char* data);
 		static std::unique_ptr<Texture2D> create();
 
+	};
+
+	class Texture2DArray {
+	public:
+		virtual ~Texture2DArray() = default;
+		virtual void bind() = 0;
+
+		static std::unique_ptr<Texture2DArray> create();
 	};
 }
 

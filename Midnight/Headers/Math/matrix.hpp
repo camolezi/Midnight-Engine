@@ -19,7 +19,7 @@ namespace MN{
 
 				Matrix(){zero();}
 
-				T at(const std::size_t index1,const std::size_t index2) const{
+				inline T at(const std::size_t index1,const std::size_t index2) const{
 					ASSERT(index1 >= 0 && index1 < N,"Index of Matrix out of range: " << index1 << " " << index2);
 					ASSERT(index2 >= 0 && index2 < N,"Index of Matrix out of range: " << index1 << " " << index2);
 					

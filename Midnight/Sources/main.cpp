@@ -78,7 +78,8 @@ int main(){
 
 	Timer gameLoopTimer;
 	double deltaTime = 1.0/60.0;
-
+	CountDownTimer fps = 1.0f;
+	int frameCount = 0;
 	while(run){
 
 		gameLoopTimer.start();
@@ -100,7 +101,12 @@ int main(){
 		//std::this_thread::sleep_for (std::chrono::milliseconds(10));
 		
 		gameLoopTimer.stop();
+		frameCount++;
 		deltaTime = gameLoopTimer.getDuration();
+		if (fps.countTime(deltaTime) == true) {
+			//std::cout << "\n FPS: " << frameCount;
+			frameCount = 0;
+		}
 
 	}
 	

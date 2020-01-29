@@ -40,12 +40,14 @@ namespace MN{
 		};
 
 		struct DrawQuadCommand {
-			DrawQuadCommand(const Transform2D& transform, std::shared_ptr<Texture2D> texture,const vec4& color) :
-				modelMatrix{ transform.modelMatrix() }, color{ color }{}
+			DrawQuadCommand(const Transform2D& transform,const vec4& color, int textureNumberInput) :
+				modelMatrix{ transform.modelMatrix() }, 
+				color{ color },
+				textureNumber{ textureNumberInput } {}
+
 			mat4 modelMatrix;
 			vec4 color;
-			float textureNumber = 0;
-			//std::shared_ptr<Texture2D> texture;
+			int textureNumber;
 		};
 
 		//Function
@@ -74,6 +76,7 @@ namespace MN{
 		static std::shared_ptr<Texture2D> whiteTexture;
 
 		//Batch render
+		static std::vector<std::shared_ptr<Texture2D> > BatchTextures;
 		static std::vector<DrawQuadCommand> drawCommandList;
 		static std::shared_ptr<VertexBuffer> InstanceVBO;
 
