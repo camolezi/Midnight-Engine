@@ -40,8 +40,9 @@ static std::string TextureFragmentShaderSource = R"(
 	flat in int textureNumber;
 	
 	out vec4 finalColor;
-
-	uniform sampler2D uniformTextures[8];
+	
+	//Will be removed soon
+	uniform sampler2D uniformTextures[16];
 
 	void main(){
 		finalColor = texture(uniformTextures[textureNumber],textureCoord) * FragmentColor;
@@ -103,8 +104,8 @@ namespace MN{
 	    renderInfo.vertexArray->setIndexBuffer(EBO);
 
 		
-		//Start with 1000 quads allocated
-		InstanceVBO = VertexBuffer::create(84 * 2508,NULL,VertexBuffer::type::DynamicDraw);
+		//Start with 1000 quads allocated (just a random value)
+		InstanceVBO = VertexBuffer::create(84 * 1000,NULL,VertexBuffer::type::DynamicDraw);
 		InstanceVBO->bind();
 		BufferLayout layoutInstanced{
 		   {ShaderDataType::FLOAT4, "ModelMatrix1"},
@@ -121,7 +122,6 @@ namespace MN{
 		//Textures
 		unsigned char whiteTextureData[] = { 255,255,255,255 };
 		whiteTexture = Texture2D::create(1, 1, whiteTextureData);
-
 
 	    //Events subscription
 	    EventSubscribe(WindowResizedEvent,Renderer2D::windowResizeUpdate);
@@ -143,82 +143,50 @@ namespace MN{
 		drawCommandList.clear();
 	}
 
-	//Imediate render for now.
 	void Renderer2D::drawQuad(const Transform2D& tr,const vec4& color){
 		drawQuad(tr, whiteTexture, color);
 	}
 
 
-	void Renderer2D::drawQuad(const Transform2D& transform, std::shared_ptr<Texture2D> texture, const vec4& color)
-	{	
-		//This bind may be unnecessary
-		//renderInfo.shader->bind();
-		//renderInfo.shader->uniformVec4("uniformColor", color);
-		//renderInfo.shader->uniformMat4("viewProj", camera->viewProjMatrix());
-		//renderInfo.shader->uniformMat4("model", transform.modelMatrix());
-		//
+	void Renderer2D::drawQuad(const Transform2D& transform, std::shared_ptr<Texture2D> texture, const vec4& color){	
 
-		//texture->bind();
-
-		//renderInfo.vertexArray->bind();
-//		renderCommand->drawIndexed(renderInfo.vertexArray);
-
-		//return;
-
-		//Instanced version
-		//renderInfo.shader->bind();
-		//renderInfo.shader->uniformMat4("viewProj", camera->viewProjMatrix());
 		auto it = std::find(BatchTextures.begin(), BatchTextures.end(), texture);
 		if (it != BatchTextures.end()) {
 			//in the list
-			int index = static_cast<int>(it - BatchTextures.begin());
-			drawCommandList.push_back(DrawQuadCommand{ transform, color,index });
-			//drawCommandList.push_back(DrawQuadCommand{ transform, color, 0});
-			//TERMINAL_DEBUG("Ja tem :" <<static_cast<int>(it - BatchTextures.begin()));
+			drawCommandList.push_back(DrawQuadCommand{ transform, color,static_cast<int>(it - BatchTextures.begin()) });
 		}
 		else {
 			BatchTextures.push_back(texture);
-			int index = static_cast<int>(BatchTextures.size() - 1);
-			drawCommandList.push_back(DrawQuadCommand{ transform, color,index});
-			//TERMINAL_DEBUG("NAO TEM :" << static_cast<int>(BatchTextures.size() - 1));
-
+			drawCommandList.push_back(DrawQuadCommand{ transform, color,static_cast<int>(BatchTextures.size() - 1) });
 		}
-
 	
 	}
 
 
-	void Renderer2D::createInstaceVertexArrayData() {
-		InstanceVBO->updateData(drawCommandList.size() * sizeof(DrawQuadCommand), drawCommandList.data());
+	void Renderer2D::drawSceneBatchRenderer() {
 
-		//Draw scene istanced after
+		//Update instance buffer with new data from the current frame 
+		InstanceVBO->updateData(drawCommandList.size() * sizeof(DrawQuadCommand), drawCommandList.data());
 		
 		renderInfo.shader->bind();
 		renderInfo.shader->uniformMat4("viewProj", camera->viewProjMatrix());
 		renderInfo.vertexArray->bind();
 		
-		//int * textureNumberData = new int[BatchTextures.size()];
-		int* textureNumberData = new int[8];
+
+		//Remove this array of samplers (Use a texture atlas or a texture array)
+		int* textureNumberData = new int[BatchTextures.size()];
 		for (int aux = 0; aux < BatchTextures.size(); aux++) {
 			textureNumberData[aux] = aux;
 			BatchTextures[aux]->bind(aux);
-
-			//TERMINAL_DEBUG(textureNumberData[aux]);
 		}
-
-		
-
 		renderInfo.shader->uniformIntArray("uniformTextures", textureNumberData, BatchTextures.size());
-		//renderInfo.shader->uniformInt("tex", textureNumber);
-		//whiteTexture->bind();
+
 		renderCommand->drawIndexedInstanced(renderInfo.vertexArray, drawCommandList.size());
 		delete[] textureNumberData;
 	}
 	
 	void Renderer2D::endScene(){
-		//TERMINAL_DEBUG("Drawing " << drawCommandList.size() << " Quads!");
-		//TERMINAL_DEBUG("Size of: " << sizeof(DrawQuadCommand));
-		createInstaceVertexArrayData();
+		drawSceneBatchRenderer();
 	}
 
 	void Renderer2D::windowResizeUpdate(MidnightEvent event){

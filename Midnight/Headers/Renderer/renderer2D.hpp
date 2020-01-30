@@ -66,7 +66,7 @@ namespace MN{
 	private:
 
 		static void windowResizeUpdate(MidnightEvent event);
-		static void createInstaceVertexArrayData();
+		static void drawSceneBatchRenderer();
 
 		static Render2DInfo renderInfo;
 		static std::shared_ptr<Camera> camera;

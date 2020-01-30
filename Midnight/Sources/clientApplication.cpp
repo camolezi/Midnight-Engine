@@ -149,23 +149,7 @@ void clientApp::run(double deltaTime){
 	//The engine can now render 1000 quads per frame at a decent frame rate
 	//Compare with bath renderer after implemented
 
-	int numberOfRec = 0;
-	for (int posx = -16; posx <= 16; posx++) {
-		for (int posy = -9; posy <= 9; posy++) {
-
-
-			simpleObjectTransform.Position = { (float)posx,(float)posy,1.0f };
-			MN::Renderer2D::drawQuad(simpleObjectTransform, texture,simpleObjectcolor);
-			numberOfRec++;
-
-			simpleObjectTransform.Position = { (float)posx + 0.5f,(float)posy + 0.5f ,1.0f };
-			MN::Renderer2D::drawQuad(simpleObjectTransform, simpleObjectcolor);
-			numberOfRec++;
-				
-			
-		}
-	}
-	/*
+	
 	int numberOfRec = 0;
 	for (int posx = -16; posx <= 16; posx++) {
 		for (int posy = -9; posy <= 9; posy++) {
@@ -184,7 +168,7 @@ void clientApp::run(double deltaTime){
 			}
 		}
 	}
-	*/
+	
 
 	ImGui::Begin("FPS");
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
