@@ -1,4 +1,4 @@
-
+	
 --Premake5 lua Script
 workspace "Midnight"
 	configurations{"Debug" , "Release" , "Deploy"}

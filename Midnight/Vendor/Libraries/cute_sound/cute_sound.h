@@ -1596,7 +1596,7 @@ cs_context_t* cs_make_context(void* unused, unsigned play_frequency_in_Hz, int b
 #define snd_pcm_sw_params_sizeof fns.snd_pcm_sw_params_sizeof
 
 	void* alsa_so = cs_load_alsa_functions(&fns);
-	CUTE_SOUND_CHECK(alsa_so, "Unable to load ALSA functions from shared library.");
+	//CUTE_SOUND_CHECK(alsa_so, "Unable to load ALSA functions from shared library.");
     printf("%p\n", fns.snd_pcm_open);
 	int res = fns.snd_pcm_open(&pcm_handle, default_device, SND_PCM_STREAM_PLAYBACK, SND_PCM_NONBLOCK);
 	CUTE_SOUND_CHECK(res >= 0, "Failed to open default audio device.");
@@ -1686,6 +1686,7 @@ ts_err:
 	if (ctx) CUTE_SOUND_FREE(ctx, ctx->mem_ctx);
 	return 0;
 }
+
 
 void cs_spawn_mix_thread(cs_context_t* ctx)
 {
@@ -2226,9 +2227,10 @@ void cs_mix(cs_context_t* ctx)
 #elif CUTE_SOUND_PLATFORM == CUTE_SOUND_LINUX
 
 	snd_pcm_sframes_t frames = ctx->fns.snd_pcm_avail(ctx->pcm_handle);
-	if (frames == -EAGAIN) goto unlock; // No data yet.
+
+	if (frames == -EAGAIN){	cs_unlock(ctx);return;}// No data yet.
 	else if (frames < 0) { /* Fatal error... How should this be handled? */ }
-	else if (frames == 0) goto unlock;
+	else if (frames == 0) {cs_unlock(ctx);return;}
 	int samples_to_write = (int)frames;
 	if (samples_to_write > ctx->latency_samples) samples_to_write = ctx->latency_samples;
 
