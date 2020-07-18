@@ -10,6 +10,9 @@ sudo apt-get install xorg-dev
 echo "installing libsound2"
 sudo apt-get install libasound2-dev
 
+echo "installing mesa-dev"
+sudo apt-get install libgl1-mesa-dev
+
 #remove build folder
 cd ..
 rm -r -f Build/
