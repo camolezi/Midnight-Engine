@@ -2,6 +2,10 @@
 
 namespace MN{
 
+	std::shared_ptr<Camera> Camera::createOrthographic(float left, float right, float top, float bottom, float near, float far){
+		return std::make_shared<OrthographicCamera>(left,right,top,bottom,near,far);
+	}
+
 	void OrthographicCamera::setPosition(const vec3& pos){
 		position = pos;
 		calculateViewMatrix();

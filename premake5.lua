@@ -35,6 +35,7 @@ project "MNCore"
 		optimize "On"
 
 	filter{"system:linux"}
+		--on linux you need xorg-dev to build from source
 		links{ "X11", "dl", "pthread", "Xrandr", "m", "z", "GL", "Xext", "Xfixes", "dl"}
 		links{"GL"}
 		defines {"MNLinux"}

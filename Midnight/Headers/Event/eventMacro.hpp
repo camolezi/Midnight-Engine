@@ -22,11 +22,15 @@
 
 
 //------------------- to be used by client application -----------------------------------------
+namespace MN{
+	using MidnightEvent = MN::Event::pointer;  
+}
+
 
 //Subscribe for input Key (most used)
 #define SubscribeKeyPress(key, function) \
-	KeyPressedSubscribe([](MidnightEvent event) { \
-		auto pressEvent = downcast_event_ptr<KeyPressedEvent>(event); \
+	KeyPressedSubscribe([](MN::MidnightEvent event) { \
+		auto pressEvent = MN::downcast_event_ptr<MN::KeyPressedEvent>(event); \
 		if (pressEvent->pressed() == key) { \
 			function(); \
 		} \
@@ -34,8 +38,8 @@
 
 //Subscribe for mouse right button
 #define SubscribeRightMouseClick(function) \
-	EventSubscribe(MouseButtonPressedEvent, [](MidnightEvent event) {   \
-		auto pressEvent = downcast_event_ptr<MouseButtonPressedEvent>(event); \
+	EventSubscribe(MouseButtonPressedEvent, [](MN::MidnightEvent event) {   \
+		auto pressEvent = MN::downcast_event_ptr<MN::MouseButtonPressedEvent>(event); \
 		if (pressEvent->pressed() == MN_MOUSE_BUTTON_1) { \
 			function(); \
 		} \
@@ -43,8 +47,8 @@
 
 //Subscribe for mouse left button
 #define SubscribeLeftMouseClick(function) \
-	EventSubscribe(MouseButtonPressedEvent, [](MidnightEvent event) {   \
-		auto pressEvent = downcast_event_ptr<MouseButtonPressedEvent>(event); \
+	EventSubscribe(MouseButtonPressedEvent, [](MN::MidnightEvent event) {   \
+		auto pressEvent = MN::downcast_event_ptr<MN::MouseButtonPressedEvent>(event); \
 		if (pressEvent->pressed() == MN_MOUSE_BUTTON_2) { \
 			function(); \
 		} \
@@ -52,6 +56,5 @@
 
 
 
-using MidnightEvent = MN::Event::pointer;  
 
 #endif

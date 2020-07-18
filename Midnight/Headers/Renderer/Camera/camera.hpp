@@ -2,6 +2,7 @@
 #define CAMERA_H
 
 #include <coreMath.hpp>
+#include <memory>
 
 namespace MN{
 
@@ -20,6 +21,7 @@ namespace MN{
 		virtual const mat4& projMatrix() const =0;
 		virtual const mat4& viewMatrix() const =0;
 
+		static std::shared_ptr<Camera> createOrthographic(float left, float right, float top, float bottom, float near, float far);
 	};
 
 

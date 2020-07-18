@@ -8,11 +8,11 @@ class clientApp : public MN::MidnightApp{
 		void startApp() override;
 		~clientApp(){};
 	private:
-		std::shared_ptr<MN::Camera> camera;
-		std::shared_ptr<MN::Texture2D> texture;
+		MN::Var<MN::Camera> camera;
+		MN::Var<MN::Texture2D> texture;
 
-		std::shared_ptr<MN::Sound> testMusic;
-		std::shared_ptr<MN::Sound> testSound;
+		MN::Var<MN::Sound> testMusic;
+		MN::Var<MN::Sound> testSound;
 
 		MN::CountDownTimer timer = 4.0;
 
@@ -20,14 +20,12 @@ class clientApp : public MN::MidnightApp{
 
 void clientApp::startApp(){
 	//Testing client side API
-	using namespace MN;
-
 	//Can subscribe with lambda expression or functions
 	//When ESC is pressed close the app
-	KeyPressedSubscribe([](MidnightEvent event) {
-		auto pressEvent = downcast_event_ptr<KeyPressedEvent>(event);
+	KeyPressedSubscribe([](MN::MidnightEvent event) {
+		auto pressEvent = MN::downcast_event_ptr<MN::KeyPressedEvent>(event);
 		if (pressEvent->pressed() == MN_KEY_ESCAPE) {
-			EventDispatche(newEvent<WindowCloseEvent>());
+			EventDispatche(MN::newEvent<MN::WindowCloseEvent>());
 		}
 	});
 
@@ -37,14 +35,15 @@ void clientApp::startApp(){
 
 
 	//Testing sound API
-	testSound = Sound::createFromFile("../Midnight/Assets/Audio/sampleEffect.wav");
-	testMusic = Sound::createFromFile("../Midnight/Assets/Audio/sampleMusic.wav");
+	testSound = MN::Sound::createFromFile("../Midnight/Assets/Audio/sampleEffect.wav");
+	testMusic = MN::Sound::createFromFile("../Midnight/Assets/Audio/sampleMusic.wav");
 	testSound->setVolume(1.0f);
 
 		
 	//Camera
-	camera = std::make_shared<OrthographicCamera>( -16.0f,16.0f,9.0f,-9.0f,0.1f,20.0f);
-	texture = Texture2D::create("../Midnight/Assets/Textures/midnightLogo.png");
+	camera = MN::Camera::createOrthographic(-16.0f,16.0f,9.0f,-9.0f,0.1f,20.0f);
+
+	texture = MN::Texture2D::create("../Midnight/Assets/Textures/midnightLogo.png");
 
 	MN::Renderer2D::setClearColor({0.8f,0.8f,0.8f});
 

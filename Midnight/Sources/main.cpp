@@ -124,10 +124,3 @@ int main(){
 	return 0;
 }
 
-
-	// //Just for testing events in member functions right now
-	// class audioSystem{
-	// 		EventDispatcher::dispatcher().subscribe(Event::EventType::message,&audioSystem::handleEvent,this);
-	// 		EventDispatcher::dispatcher().subscribe(Event::EventType::message,&audioSystem::handleEvent2,this);
-	// 	}
-

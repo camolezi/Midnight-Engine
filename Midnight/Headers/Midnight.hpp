@@ -34,6 +34,13 @@
 #include <imgui.h>
 #include <imGuiAbstraction.hpp>
 
+#include <memory>
 
+//using Camera = std::shared_ptr<MN::Sound>;
+
+namespace MN{
+    template<typename T>
+    using Var = std::shared_ptr<T>;
+}
 
 #endif
