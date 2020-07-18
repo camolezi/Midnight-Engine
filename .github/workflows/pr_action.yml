@@ -1,20 +1,13 @@
-# This is a basic workflow to help you get started with Actions
-
 name: pr_action
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
 on:
-  #push:
-  #  branches: [ master ]
   pull_request:
     branches: [ master ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  Testing:
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -22,12 +15,10 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
-    - name: hello CI
-      run: echo Hello, world!
-
-    # Runs a set of commands using the runners shell
+    # Build
     - name: Build
       run: |
         cd Scripts/
         sudo sh install_ubuntu.sh
+
+    #tests (we dont have those yet :/)
