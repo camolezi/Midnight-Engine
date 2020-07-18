@@ -49,7 +49,7 @@ project "MNCore"
 	targetdir ("Build/Bin/%{prj.name}/%{cfg.longname}")
 	objdir ("Build/Obj/%{prj.name}/%{cfg.longname}")
 
-	files{"Midnight/Headers/**" , "Midnight/Sources/**" }
+	files{"Midnight/Src/**"}
 
 	--External Vendor Files
 		files{"Midnight/Vendor/Libraries/STB/**"}
@@ -63,8 +63,8 @@ project "MNCore"
 
 	libdirs {"Midnight/Vendor/Libraries/GLFW/Build/Bin/GLFW/Debug"}
 
-	includedirs {"Midnight/Headers/**",
-				 "Midnight/Headers",	 
+	includedirs {"Midnight/Src/**",
+				 "Midnight/Src",	 
 				 "Midnight/Vendor/Libraries/GLFW/include/",
 				 "Midnight/Vendor/Libraries/GLAD/include/**",
 				 "Midnight/Vendor/Libraries/STB",
