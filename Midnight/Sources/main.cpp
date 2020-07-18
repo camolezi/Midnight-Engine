@@ -28,7 +28,7 @@ int main(){
 
 	#ifdef deploy
 		//Remove 
-		std::cout << "Hello deploy Mode" << std::endl;
+		//std::cout << "Hello deploy Mode" << std::endl;
 	#endif
 
 	//Engine systems init
