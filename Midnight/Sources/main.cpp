@@ -19,6 +19,8 @@
 
 //Testing github actions . V4
 
+if i break what happens with the tests?
+
 int main(){
 
 	TERMINAL_LOG_LEVEL(Log::Debug);
