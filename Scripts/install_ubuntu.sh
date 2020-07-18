@@ -2,6 +2,7 @@
 
 #assuming starts at scripts folder
 echo "installing dependencies:"
+sudo apt-get update
 
 echo "installing xorg-dev"
 sudo apt-get install xorg-dev
